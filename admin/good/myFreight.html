@@ -126,6 +126,7 @@
         function queryParams(params) {
 //        console.log(params.order)
             params.code = $('#goodcode').val();
+            params.session=sessionStorage.getItem('session');
             return params
         }
     </script>

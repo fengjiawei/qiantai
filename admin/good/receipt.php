@@ -7,4 +7,8 @@
  * describe:我的回单
  */
 require_once "function.php";
-returnJson("http://101.200.172.223:8080/unite/finishedGoodsList.json",$_GET);
+
+$result = http_post_json("http://101.200.172.223:8080/unite/finishedGoodsList.json",json_encode($_GET));
+if (json_decode($result)->result == 'success') {
+    echo $result;
+}

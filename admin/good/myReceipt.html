@@ -2,12 +2,6 @@
     <link rel="stylesheet" href="../style/css/star/star-rating.css" type="text/css"/>
     <js href="../style/js//star/star-rating.js"/>
     <script>
-        $(function () {
-            var session = sessionStorage.getItem('session');
-            $('#session').val(session);
-        })
-    </script>
-    <script>
         function sum(){
             alert($('#input-21e').val()+"---"+$('#con').val())
         }
@@ -31,7 +25,7 @@
         }
         window.operateEvents = {
             'click .picture': function (e, value, row, index) {
-                $.post('lookImage.php', {goodsId: row.goodsId}, function (data) {
+                $.post('lookImage.php', {goodsId: row.goodsId,session:sessionStorage.session}, function (data) {
 //                console.log(data)
                     if (data.result == 'success') {
                         $('#img').attr('src', 'data:image/png;base64,' + data.image);
@@ -142,6 +136,7 @@
         function queryParams(params) {
 //        console.log(params.order)
             params.code = $('#goodcode').val();
+            params.session=sessionStorage.getItem('session');
             return params
         }
     </script>
