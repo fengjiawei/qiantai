@@ -1,9 +1,3 @@
-<script>
-    $(function () {
-        var session = sessionStorage.getItem('session');
-        $('#session').val(session);
-    })
-</script>
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
@@ -287,10 +281,10 @@
                                         } else {
                                             $('#declarePrice').removeAttr("readonly")
                                         }
-                                    })
+                                    });
 
                                     function cost() {
-                                        $('#goodsLoadSize').val($('#good_types').val() + " " + $('#good_volume').val() + "立方/" + $('#good_weight').val() + "吨")
+                                        $('#goodsLoadSize').val($('#good_types').val() + " " + $('#good_volume').val() + "立方/" + $('#good_weight').val() + "吨");
                                         $.post(
                                                 'costGoods.php',
                                                 $('#realInfo').serialize(),
@@ -303,7 +297,7 @@
                                                             width: 300,
                                                             msg: '录入成功，等待车主确认'
                                                         });
-                                                        $('#info').modal('hide')
+                                                        $('#info').modal('hide');
                                                         $('#table').bootstrapTable('refresh')
                                                     } else if (data.result == 'error') {
                                                         Lobibox.notify('warning', {
@@ -311,7 +305,7 @@
                                                             width: 300,
                                                             msg: data.describe
                                                         });
-                                                        $('#info').modal('hide')
+                                                        $('#info').modal('hide');
                                                         $('#table').bootstrapTable('refresh')
                                                     } else {
                                                         Lobibox.notify('error', {
@@ -319,7 +313,7 @@
                                                             width: 300,
                                                             msg: '操作失败'
                                                         });
-                                                        $('#info').modal('hide')
+                                                        $('#info').modal('hide');
                                                         $('#table').bootstrapTable('refresh')
                                                     }
                                                 },
@@ -466,12 +460,12 @@
         showLocation4();
         $('#serch').on('click', function () {
             $('#table').bootstrapTable('refresh')
-        })
+        });
 
         $('#reset').on('click', function () {
             $("input[name='res']").click();
             $('#table').bootstrapTable('refresh')
-        })
+        });
         function detailFormatter(index, row) {
             var html = [];
             $.each(row, function (key, value) {
@@ -482,7 +476,7 @@
         window.operateEvents = {
             'click .cost': function (e, value, row, index) {
 //            alert(row.orderId)
-                loadData(row)
+                loadData(row);
                 openCost(row)
             },
             'click .deliver': function (e, value, row, index) {
@@ -668,8 +662,8 @@
             var str = row.goodsLoadSize;
 //        alert(str.substring(str.indexOf('货 ')+2,str.indexOf('立方')))
 //        alert(str.substring(str.indexOf('/')+1,str.indexOf('吨')))
-            $('#good_volume').val(str.substring(str.indexOf('货 ') + 2, str.indexOf('立方')))
-            $('#good_weight').val(str.substring(str.indexOf('/') + 1, str.indexOf('吨')))
+            $('#good_volume').val(str.substring(str.indexOf('货 ') + 2, str.indexOf('立方')));
+            $('#good_weight').val(str.substring(str.indexOf('/') + 1, str.indexOf('吨')));
             $('#info').modal('show');
         }
 
