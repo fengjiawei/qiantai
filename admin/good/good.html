@@ -40,12 +40,17 @@
 </head>
 <script>
     $(function () {
-        $.get("authentication.html", function (data) {
+        $.get("manage.html", function (data) {
             $('#goodChildView').html(data);
         })
     });
+    function active(id){
+        $('.nav-sidebar>li').removeAttr('class');
+        $('#'+id).attr('class','active');
+    }
     function change(name) {
         var id = $(name).attr('id');
+        active(id);
         switch (id) {
             case ('invoiceGood'):
                 $.get("goodcenter.html", function (data) {
@@ -143,25 +148,25 @@
                 <h3>我要发货</h3>
             </div>
             <ul class="nav nav-sidebar">
-                <li><a href="javascript:void(0)" id="invoiceGood" onclick="change(this)">发布货源</a></li>
-                <li><a href="javascript:void(0)" id="newGood" onclick="change(this)">已发布货源</a></li>
+                <li id="invoiceGood" onclick="change(this)"><a href="javascript:void(0)" >发布货源</a></li>
+                <li id="newGood" onclick="change(this)"><a href="javascript:void(0)" >已发布货源</a></li>
             </ul>
             <div class="page-header">
                 <h3>我的订单</h3>
             </div>
             <ul class="nav nav-sidebar">
-                <li><a href="javascript:void(0)" id="lookGoodOrder" onclick="change(this)">订单查看</a></li>
-                <li><a href="javascript:void(0)" id="track" onclick="change(this)">订单跟踪</a></li>
-                <li><a href="javascript:void(0)" id="goodReceipt" onclick="change(this)">我的回单</a></li>
-                <li><a href="javascript:void(0)" id="myFreight" onclick="change(this)">我的运费</a></li>
+                <li id="lookGoodOrder" onclick="change(this)"><a href="javascript:void(0)" >订单查看</a></li>
+                <li id="track" onclick="change(this)"><a href="javascript:void(0)" >订单跟踪</a></li>
+                <li id="goodReceipt" onclick="change(this)"><a href="javascript:void(0)" >我的回单</a></li>
+                <li id="myFreight" onclick="change(this)"><a href="javascript:void(0)" >我的运费</a></li>
             </ul>
             <div class="page-header">
               <h3>个人中心</h3>
             </div>
             <ul class="nav nav-sidebar">
-                <li><a href="javascript:void(0)" id="account" onclick="change(this)">账户管理中心</a></li>
-                <li><a href="javascript:void(0)" id="authentication" onclick="change(this)">会员认证</a></li>
-                <li><a href="javascript:void(0)" id="safety" onclick="change(this)">安全设置</a></li>
+                <li class="active" id="account" onclick="change(this)"><a href="javascript:void(0)">账户管理中心</a></li>
+                <li id="authentication" onclick="change(this)"><a href="javascript:void(0)" >会员认证</a></li>
+                <li id="safety" onclick="change(this)"><a href="javascript:void(0)">安全设置</a></li>
             </ul>
             </ul>
         </div>
