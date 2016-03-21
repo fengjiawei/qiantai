@@ -7,4 +7,9 @@
  * describe:编辑联系人信息
  * */
 require_once "function.php";
-returnJson("http://101.200.172.223:8080/updateContactInfo.json",$_POST);
+$result=returnJson("http://101.200.172.223:8080/unite/companyAuthentication.json",$_POST);
+if (json_decode($result)->result == 'success') {
+//            //将子对象转化为数组
+    $list = json_decode($result, true);
+    $this->assign('list', $list);
+}

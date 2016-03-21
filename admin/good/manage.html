@@ -1,10 +1,6 @@
-<script>
-    $(function () {
-        var session = sessionStorage.getItem('session');
-        $('#session').val(session);
-    })
-</script>
+
     <script>
+        $('#id').val(sessionStorage.getItem('session'));
         function save() {
             $.post("updateContract.php",
                     $('#contract').serialize(),
@@ -70,7 +66,7 @@
                         </if>
                         <script>
                             function auth() {
-                                $.get('{:U("authentication")}', function (data) {
+                                $.get('authentication.php', function (data) {
                                     $('#goodChildView').html(data)
                                 })
                             }
@@ -97,6 +93,7 @@
         <div>
             <h3>账号资料</h3></div>
         <form id="contract" action="" method="post">
+            <input name="session" id="id" type="text" style="display: none">
             <ul class="list-group" style="width: 60%">
 
                 <li class="list-group-item">
