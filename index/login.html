@@ -113,7 +113,7 @@
             //表单验证login
             $('#logbtn').bind('click', function () {
                 $('#log-form').submit();
-            });
+            })
             $(document).keydown(function (event) {
                 var key = window.event ? event.keyCode : event.which;
                 if (key == 13) {
@@ -179,7 +179,7 @@
                             'login.php',
                             $("#log-form").serialize(),
                             function (data) {
-                                console.log(data);
+                                console.log(data)
                                 if (data.result == 'success') {
                                     sessionStorage.setItem("name", data.name);
                                     sessionStorage.setItem("type", data.type);
@@ -199,7 +199,7 @@
             //表单验证车主注册
             $('#reg1btn').bind('click', function () {
                 $('#reg1-from').submit();
-            });
+            })
             $('#reg1-from').validate({
                 errorElement: 'div',
                 errorClass: 'help-block',
@@ -291,7 +291,7 @@
 
                                     },
                                     function (data) {
-                                        console.log(data);
+                                        console.log(data)
                                         if (data.result == 'success') {
 
                                             window.location.replace("index.html");
@@ -314,7 +314,7 @@
             //表单验证货主注册
             $('#regbtn').bind('click', function () {
                 $('#reg-from').submit();
-            });
+            })
             $('#reg-from').validate({
                 errorElement: 'div',
                 errorClass: 'help-block',
@@ -649,7 +649,7 @@
                                                                     type: 1
                                                                 },
                                                                 function (data) {
-                                                                    wait1 = data.countdown;
+                                                                    wait1 = data.countdown
                                                                     if (wait1 == 0) {
                                                                         alert(data.describe)
                                                                     }
@@ -774,7 +774,7 @@
                                                                 type: 0
                                                             },
                                                             function (data) {
-                                                                wait = data.countdown;
+                                                                wait = data.countdown
                                                                 if (wait == 0) {
                                                                     $('#phoneMsg').html(data.describe)
                                                                 }
@@ -932,7 +932,7 @@
                                                                 type: 0
                                                             },
                                                             function (data) {
-                                                                wait2 = data.countdown;
+                                                                wait2 = data.countdown
                                                                 if (wait2 == 0) {
                                                                     $('#reg1Tip').html(data.describe)
                                                                 }

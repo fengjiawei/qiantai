@@ -14,18 +14,19 @@
             text-align: center;
         }
     </style>
-    <script>
-        $(function () {
-            var session = sessionStorage.getItem('session');
-            $('#session').val(session);
-        })
-    </script>
+    <!--<script>-->
+        <!--$(function () {-->
+            <!--var session = sessionStorage.getItem('session');-->
+            <!--$('#session').val(session);-->
+        <!--})-->
+    <!--</script>-->
     <script>
         function carry(id) {
             $.post(
                     "carry.php",
                     {
-                        orderId: id
+                        orderId: id,session:sessionStorage.session
+
                     },
                     function (data) {
                         if (data.result == 'success') {
@@ -61,7 +62,7 @@
             $.post(
                     "regect.php",
                     {
-                        orderId: id
+                        orderId: id,session:sessionStorage.session
                     },
                     function (data) {
                         if (data.result == 'success') {
@@ -115,13 +116,16 @@
             return html.join('');
         }
         window.operateEvents = {
+            //让他运
             'click .carry': function (e, value, row, index) {
 //            alert(row.orderId)
                 carry(row.orderId)
+
             },
             'click .regect': function (e, value, row, index) {
 //            alert(row.orderId)
                 regect(row.orderId)
+
             }
         };
         $('#tableCompany').bootstrapTable({
@@ -250,7 +254,9 @@
         function queryParams(params) {
             params.session= sessionStorage.getItem('session');
             params.goodsId= sessionStorage.getItem('goodsId');
-            return params;
+            params.indexId = 0;
+            params.direction = "";
+            return params
         }
     </script>
 

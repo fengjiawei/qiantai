@@ -7,4 +7,7 @@
  * * describe:让它运，货主选定车主
  */
 require_once "function.php";
-returnJson("http://101.200.172.223:8080/unite/orderCar.json",$_POST);
+//echo json_encode($_POST);
+//$result = returnJson("http://101.200.172.223:8080/unite/orderCar.json",$_POST);
+//echo $result;
+http_post_json("http://101.200.172.223:8080/unite/orderCar.json", json_encode($_POST));
