@@ -1,31 +1,15 @@
-
-    <script>
-        $('#id').val(sessionStorage.getItem('session'));
-        function save() {
-            $.post("updateContract.php",
-                    $('#contract').serialize(),
-                    function (data) {
-                        if (data.result == 'success') {
-                            Lobibox.notify('success', {
-                                size: 'mini',
-                                width: 300,
-                                msg: '修改成功'
-                            });
-                            $.get("manage.php", function (data) {
-                                $('#carChildView').html(data);
-                            });
-                        } else {
-                            Lobibox.notify('error', {
-                                size: 'mini',
-                                width: 300,
-                                msg: data.describe
-                            });
-                        }
-                    }, 'json'
-            )
+<script>
+    $.post("manage.php", {session: sessionStorage.getItem('session')}, function (data) {
+        $('#name').html(data.name);
+        $('#person').val(data.person);
+        $('#phone').val(data.phone);
+        $('#code').html(data.code);
+        if('authed'==data.authentication){
+            $('#yes').show();
+            $('#no').css('display','none');
         }
-    </script>
-
+    }, 'json')
+</script>
 <div class="container" style="width: 100%;">
     <div>
         <div class="page-header">
@@ -39,17 +23,12 @@
             <div class="media">
                 <div class="media-left media-middle">
                     <a href="#">
-                        <img class="media-object" src="__IMG__/tx.png" alt="你好">
+                        <img class="media-object" src="../style/img/tx.png" alt="你好">
                     </a>
                 </div>
                 <div class="media-body" style="margin-top: 20px;vertical-align: middle">
-                    <h3 class="media-heading">
-                        <if condition="$list.name eq '' ">{$list.account}
-                            <else/>
-                            {$list.name}
-                        </if>
+                    <h3 class="media-heading" id="name">
                     </h3>
-                    <!--<label>手机号码：</label>{$list.phone}-->
                 </div>
             </div>
 
@@ -58,15 +37,11 @@
                     <div class="col-md-4">实名认证</div>
                     <div class="col-md-3"></div>
                     <div class="col-md-5">
-                        <if condition="$list.authentication eq 'authed'">
-                            <a href="javascript:void(0)" class="button button-uppercase button-action">已认证</a>
-                            <!--<a class="btn btn-success" href="###">已认证</a>-->
-                            <else/>
-                            <a class="button button-caution" href="javascript:void(0)" onclick="auth()">立即认证</a>
-                        </if>
+                            <a id="yes" href="javascript:void(0)" class="btn btn-success" style="display: none">通过认证</a>
+                            <a id="no" class="btn btn-danger" href="javascript:void(0)" onclick="auth()">立即认证</a>
                         <script>
                             function auth() {
-                                $.get('authentication.php', function (data) {
+                                $.get('authentication.html', function (data) {
                                     $('#goodChildView').html(data)
                                 })
                             }
@@ -80,9 +55,7 @@
                     <div class="col-md-4">修改密码</div>
                     <div class="col-md-3"></div>
                     <div class="col-md-5">
-                        <a href="#" class="button button-caution">修改密码</a>
-                        <!--<a href="###" class="button button-uppercase button-caution">修改密码</a>-->
-                        <!--<a class="btn btn-danger" href="###">修改密码</a>-->
+                        <a href="#" class="btn btn-primary">修改密码</a>
                     </div>
 
                 </div>
@@ -93,24 +66,23 @@
         <div>
             <h3>账号资料</h3></div>
         <form id="contract" action="" method="post">
-            <input name="session" id="id" type="text" style="display: none">
             <ul class="list-group" style="width: 60%">
 
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-md-4">用户编码</div>
                         <div class="col-md-4">
-                            <label>{$list.code}</label>
+                            <label id="code"></label>
                         </div>
                         <div class="col-md-4"></div>
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div class="row">
-                        <div class="col-md-4">联系人</div>
+                        <div class="col-md-4" >联系人</div>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <input type="text" name="name" class="form-control" value="{$list.person}"/>
+                                <input type="text" name="name" id="person" class="form-control"/>
                             </div>
                         </div>
                         <div class="col-md-4"></div>
@@ -121,7 +93,7 @@
                         <div class="col-md-4">联系电话</div>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <input type="text" name="phone" class="form-control" value="{$list.phone}"/>
+                                <input type="text" name="phone" class="form-control" id="phone"/>
                             </div>
                         </div>
                         <div class="col-md-4"></div>
@@ -141,3 +113,28 @@
         </form>
     </div>
 </div>
+<script>
+    function save() {
+        $.post("updateContract.php",
+                $('#contract').serialize(),
+                function (data) {
+                    if (data.result == 'success') {
+                        Lobibox.notify('success', {
+                            size: 'mini',
+                            width: 300,
+                            msg: '修改成功'
+                        });
+                        $.get("manage.php", function (data) {
+                            $('#carChildView').html(data);
+                        });
+                    } else {
+                        Lobibox.notify('error', {
+                            size: 'mini',
+                            width: 300,
+                            msg: data.describe
+                        });
+                    }
+                }, 'json'
+        )
+    }
+</script>

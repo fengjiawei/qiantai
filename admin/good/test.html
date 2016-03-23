@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,9 +8,9 @@
         $(function ($) {
             $.get("{:U('Good/manage')}", function (data) {
                 $('#goodChildView').html(data);
-            })
+            });
             $('.panel-group a').each(function () {
-                var id = $(this).attr('id')
+                var id = $(this).attr('id');
                 $(this).on('click', function () {
                     switch (id) {
                         case 'invoiceGood':
@@ -24,7 +24,6 @@
                                     $('#goodChildView').html(data);
                                 });
                             }
-                            ;
                             break;
                         case 'newGood':
                             if (userState == 0) {
@@ -37,7 +36,6 @@
                                     $('#goodChildView').html(data);
                                 });
                             }
-                            ;
                             break;
                         case 'lookGoodOrder':
                             if (userState == 0) {
@@ -50,8 +48,6 @@
                                     $('#goodChildView').html(data);
                                 });
                             }
-                            ;
-
                             break;
                         case 'track':
                             if (userState == 0) {
@@ -64,8 +60,6 @@
                                     $('#goodChildView').html(data);
                                 });
                             }
-                            ;
-
                             break;
                         case 'goodReceipt':
                             if (userState == 0) {
@@ -78,8 +72,6 @@
                                     $('#goodChildView').html(data);
                                 });
                             }
-                            ;
-
                             break;
                         case 'authentication':
                             $.get("{:U('Good/authentication')}", function (data) {
@@ -97,8 +89,6 @@
                                     $('#goodChildView').html(data);
                                 });
                             }
-                            ;
-
                             break;
                         case 'account':
                             $.get("{:U('Good/manage')}", function (data) {

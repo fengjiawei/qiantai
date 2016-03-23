@@ -6,4 +6,4 @@
  * Time: 16:38
  */
 require_once "function.php";
-returnJson("http://101.200.172.223:8080/updateContactInfo.json",$_POST);
+returnJson("http://101.200.172.223:8080/unite/companyAuthentication.json",$_POST);
