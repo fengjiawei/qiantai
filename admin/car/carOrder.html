@@ -34,7 +34,7 @@
             }
         }
         $('#table').bootstrapTable({
-            url: '{:U("order")}',
+            url: 'order.php',
             height: 800,
             sidePagination: 'server',
             pagination: true,
@@ -159,13 +159,14 @@
             params.endDate = $('#to_date').val();
             params.code = $('#code').val();
             params.state = $('#state').val();
+            params.session=sessionStorage.getItem("session");
             return params
         }
         function replyCost(id) {
             $.post(
-                    "{:U('Car/replyCost')}",
+                    "replyCost.php",
                     {
-                        orderId: id
+                        orderId: id,reply:"yes",session:sessionStorage.session
                     },
                     function (data) {
                         console.log(data)
@@ -197,9 +198,9 @@
 
         function replyExtras(id) {
             $.post(
-                    "{:U('Car/replyExtras')}",
+                    "replyExtras.php",
                     {
-                        orderId: id
+                        orderId: id,reply:'yes',session:sessionStorage.session
                     },
                     function (data) {
                         console.log(data)

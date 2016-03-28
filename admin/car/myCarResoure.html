@@ -62,6 +62,7 @@
         }
     </script>
     <script>
+        $("#id").val(sessionStorage.getItem('session'));
         function carDetails() {
             var data = $('#table').bootstrapTable('getData');
             var arr = new Array();
@@ -141,7 +142,7 @@
         window.operateEvents = {
             //取消订车
             'click .cancelCar': function (e, value, row, index) {
-                $.post('{:U("cancelCar")}', {rentalId: row.id}, function (data) {
+                $.post('cancelCar.php', {rentalId: row.id}, function (data) {
                     console.log(data)
                     if (data.result == 'success') {
                         $('#tableSocial').bootstrapTable('refresh')
@@ -176,7 +177,7 @@
                     });
                 } else {
                     $.post(
-                            '{:U("deleteCar")}',
+                            'deleteCar.php',
                             {memberId: row.memberId},
                             function (data) {
                                 console.log(data)
@@ -221,7 +222,7 @@
             }
         };
         $('#table').bootstrapTable({
-            url: '{:U("car")}',
+            url: 'car.php',
             height: 800,
 //        sidePagination:'server',
             pagination: true,
@@ -299,88 +300,92 @@
                 events: operateEvents
             }]
         });
-        $('#tableSocial').bootstrapTable({
-            url: '{:U("rentalList")}',
-            height: 800,
-            sidePagination: 'server',
-            pagination: true,
-            pageSize: 10,
-//        pageList: [5,10, 15, 20, 25],
-            search: true,
-            showColumns: true,
-            showRefresh: true,
-            clickToSelect: true,
-            singleSelect: true,
-//        queryParams: queryParams,//参数
-//        onClickRow: function (row) {
-////          console.log(row)
-//            track(row.posY,row.posX)
-//        },
-            columns: [{
-                field: 'state',
-                title: '状态',
-                formatter: function (value) {
-                    if (value == 'wait') {
-                        return '<span class="label label-danger">等待回复</span>'
-                    } else if (value == 'accept') {
-                        return '<span class="label label-success">接受</span>'
-                    } else if (value == 'reject') {
-                        return '<span class="label label-warning">拒绝</span>'
-                    } else if (value == 'order') {
-                        return '<span class="label label-primary">指定货单</span>'
-                    } else if (value == 'over') {
-                        return '<span class="label label-default">结束</span>'
-                    }
-                }
-
-            }, {
-                field: 'date',
-                title: '订车日期'
-
-            }, {
-                field: 'carLicense',
-                title: '车牌'
-
-            }, {
-                field: 'carLoad',
-                title: '载重'
-
-            }, {
-                field: 'carSize',
-                title: '车长'
-
-            }, {
-                field: 'carType',
-                title: '车型'
-
-            }, {
-                field: 'start',
-                title: '起始地'
-
-            }, {
-                field: 'end',
-                title: '目的地'
-
-            }, {
-//            field: 'end',
-                title: '操作',
-                formatter: function (value, row, index) {
-                    return '<a class="cancelCar" href="javascript:void(0)">取消订车</a>'
-
-                },
-                events: operateEvents
-
-            }]
-        });
+//        $('#tableSocial').bootstrapTable({
+//            url: 'rentalList.php',
+//            height: 800,
+//            sidePagination: 'server',
+//            pagination: true,
+//            pageSize: 10,
+////        pageList: [5,10, 15, 20, 25],
+//            search: true,
+//            showColumns: true,
+//            showRefresh: true,
+//            clickToSelect: true,
+//            singleSelect: true,
+////        queryParams: queryParams,//参数
+////        onClickRow: function (row) {
+//////          console.log(row)
+////            track(row.posY,row.posX)
+////        },
+//            columns: [{
+//                field: 'state',
+//                title: '状态',
+//                formatter: function (value) {
+//                    if (value == 'wait') {
+//                        return '<span class="label label-danger">等待回复</span>'
+//                    } else if (value == 'accept') {
+//                        return '<span class="label label-success">接受</span>'
+//                    } else if (value == 'reject') {
+//                        return '<span class="label label-warning">拒绝</span>'
+//                    } else if (value == 'order') {
+//                        return '<span class="label label-primary">指定货单</span>'
+//                    } else if (value == 'over') {
+//                        return '<span class="label label-default">结束</span>'
+//                    }
+//                }
+//
+//            }, {
+//                field: 'date',
+//                title: '订车日期'
+//
+//            }, {
+//                field: 'carLicense',
+//                title: '车牌'
+//
+//            }, {
+//                field: 'carLoad',
+//                title: '载重'
+//
+//            }, {
+//                field: 'carSize',
+//                title: '车长'
+//
+//            }, {
+//                field: 'carType',
+//                title: '车型'
+//
+//            }, {
+//                field: 'start',
+//                title: '起始地'
+//
+//            }, {
+//                field: 'end',
+//                title: '目的地'
+//
+//            }, {
+////            field: 'end',
+//                title: '操作',
+//                formatter: function (value, row, index) {
+//                    return '<a class="cancelCar" href="javascript:void(0)">取消订车</a>'
+//
+//                },
+//                events: operateEvents
+//
+//            }]
+//        });
 
 
         function queryParams(params) {
 //        console.log(params.order)
             params.from_date = $('#from_date').val();
+            params.indexId="";
+            params.direction="";
+            params.session=sessionStorage.getItem("session");
             return params
         }
     </script>
     <script type="text/javascript">
+        $("#id").val(sessionStorage.getItem('session'));
         $(document).ready(function () {
             $(document).ready(function () {
                 // Generate a simple captcha
@@ -485,7 +490,7 @@
 
                             // Use Ajax to submit form data
                             $.post(
-                                    '{:U("createCar")}',
+                                    'createCar.php',
                                     $('#car').serialize(),
                                     function (data) {
                                         console.log(data)
@@ -587,9 +592,10 @@
                 <button type="button" class="btn btn-primary" onclick="edit()">Save changes</button>
             </div>
             <script>
+                $("#id").val(sessionStorage.getItem('session'));
                 function edit() {
                     $.post(
-                            '{:U("updateCar")}',
+                            'updateCar.php',
                             $('#info').serialize(),
                             function (data) {
                                 console.log(data)
@@ -653,6 +659,7 @@
                     <!--<div class="panel-heading"></div>-->
                     <div class="panel-body">
                         <form id="car" method="post" class="form-inline">
+                            <input type="text" style="display: none" id="id" name="session">
 
                             <div class="form-group">
                                 <div class="form-group">
@@ -744,9 +751,10 @@
                                 </button>
                                 <input id="res" name="res" type="reset" style="display:none;"/>
                                 <script>
+                                    $("#id").val(sessionStorage.getItem('session'));
                                     function createCar() {
                                         $.post(
-                                                '{:U("createCar")}',
+                                                'createCar.php',
                                                 $('#car').serialize(),
                                                 function (data) {
                                                     console.log(data)
@@ -817,8 +825,9 @@
 
     </div>
 </div></div>
-<div id="map" title="车辆跟踪(按ESC退出)">
-    <div id="mapContainer"></div></div>
+
+<!--<div id="map" title="车辆跟踪(按ESC退出)">-->
+    <!--<div id="mapContainer"></div></div>-->
 <div id="toolbar">
     <button type="button" class="btn btn-deault" onclick="carDetails()">所有车辆</button>
 </div>

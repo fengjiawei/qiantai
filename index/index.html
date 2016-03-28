@@ -14,6 +14,34 @@
     <link rel="stylesheet" type="text/css" href="../style/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="../style/css/APPqt1.css"/>
     <link rel="stylesheet" type="text/css" href="../style/css/normalize.css"/>
+    <script>
+        $(function () {
+            $.get("show.html", function (data) {
+                $('#view').html(data);
+            });
+            var name = sessionStorage.getItem("name");
+            $('#name').html(name);
+            if (name) {
+                $('#login_status').css('display', 'block');
+                $('#unlog_status').css('display', 'none')
+            }
+        });
+        function myFunction() {
+            sessionStorage.removeItem("name");
+            sessionStorage.removeItem("type");
+            window.location.href = "index.html";
+        }
+        function vip() {
+            var type = sessionStorage.getItem("type");
+            if (type == "" || type == null) {
+                window.location.replace('login.html')
+            } else if (type == 'transport') {
+                window.location.href = "../admin/car/car.html";
+            } else if (type == 'company') {
+                window.location.href = "../admin/good/good.html";
+            }
+        }
+    </script>
     <style>
         #footer2 {
             background-color: black;
@@ -46,52 +74,17 @@
             display: block;
             padding: 0 21px;
         }
-
-
     </style>
-    <title></title>
+    <style>
+        #login_status p, #login_status a ,#unlog_status p,#unlog_status a{
+            float: left;
+            margin-right: 10px;
+            line-height: 32px;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-<script>
-
-    $(function () {
-        $.get("show.html", function (data) {
-            $('#view').html(data);
-        });
-
-        var name = sessionStorage.getItem("name");
-
-        $('#name').html(name);
-
-        if (name) {
-            $('#login_status').css('display', 'block');
-            $('#unlog_status').css('display', 'none')
-        }
-    });
-    function myFunction() {
-        sessionStorage.removeItem("name");
-        sessionStorage.removeItem("type");
-        window.location.href = "index.html";
-    }
-    function vip() {
-        var type = sessionStorage.getItem("type");
-        if (type == "" || type == null) {
-            window.location.replace('login.html')
-        } else if (type == 'car') {
-            window.location.href = "../admin/car/car.html";
-        } else if (type == 'company') {
-            window.location.href = "../admin/good/good.html";
-        }
-    }
-</script>
-<style>
-    #login_status p, #login_status a ,#unlog_status p,#unlog_status a{
-        float: left;
-        margin-right: 10px;
-        line-height: 32px;
-        text-decoration: none;
-    }
-</style>
 <div style=";background-color: #f5f5f5;width: 100%;height: 35px">
     <div class="container">
         <div class="left">
@@ -112,7 +105,6 @@
         </div>
     </div>
 </div>
-
 <div class="main-header">
     <div class="container">
         <div class="row">

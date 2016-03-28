@@ -4,20 +4,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8"/>
     <title>欢迎登录56智配网</title>
-
     <meta name="description" content="User login page"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-
     <!-- bootstrap & fontawesome -->
     <link rel="stylesheet" href="../style/assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../style/assets/css/font-awesome.min.css"/>
-
     <!-- text fonts -->
     <link rel="stylesheet" href="../style/assets/css/ace-fonts.css"/>
-
     <!-- ace styles -->
     <link rel="stylesheet" href="../style/assets/css/ace.min.css"/>
-
     <!--[if lte IE 9]>
     <link rel="stylesheet" href="../style/assets/css/ace-part2.min.css"/>
     <![endif]-->
@@ -27,26 +22,20 @@
     <link rel="stylesheet" href="../style/assets/css/ace-ie.min.css"/>
     <![endif]-->
     <link rel="stylesheet" href="../style/assets/css/ace.onpage-help.css"/>
-
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-
     <!--[if lt IE 9]>
     <script src="../style/assets/js/html5shiv.js"></script>
     <script src="../style/assets/js/respond.min.js"></script>
     <![endif]-->
     <!-- basic scripts -->
-
-
     <!--[if !IE]> -->
     <script type="text/javascript">
         window.jQuery || document.write("<script src='../style/assets/js/jquery.min.js'>" + "<" + "/script>");
     </script>
-
     <!-- <![endif]-->
-
     <!--[if IE]>
     <script type="text/javascript">
-        window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>" + "<" + "/script>");
+        window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>" + "<" + "/script>");//这个JS文件没找到
     </script>
     <![endif]-->
     <script type="text/javascript">
@@ -58,14 +47,11 @@
     <script src="../style/assets/js/bootstrap.min.js"></script>
     <script src="../style/assets/js/jquery.validate.min.js"></script>
     <script src="../style/assets/js/jquery.maskedinput.min.js"></script>
-    <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-
+    <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>//这个JS文件没找到
     <!--ace js-->
     <script src="../style/assets/js/ace.min.js"></script>
     <script src="../style/assets/js/ace-elements.min.js"></script>
     <script src="../style/assets/js/bootbox.min.js"></script>
-
-
     <script type="text/javascript">
         //    var scripts = [null,"./Public/assets/js/jquery-ui.custom.min.js","/Public/assets/js/jquery.ui.touch-punch.min.js","/Public/assets/js/bootbox.min.js","/Public/assets/js/jquery.easypiechart.min.js","/Public/assets/js/jquery.gritter.min.js","/Public/assets/js/spin.min.js", null]
         //    ace.load_ajax_scripts(scripts, function() {
@@ -455,7 +441,145 @@
         });
     </script>
 </head>
+<script>
+    function saveUserInfo() {
+        if ($('#rmbUser').is(':checked') == true) {
+            var userName = $("#account").val();
+            var passWord = $("#password").val();
+            var type = $("#type").val();
+            $.cookie("rmbUser", "true", {expires: 7}); // 存储一个带7天期限的 cookie
+            $.cookie("userName", userName, {expires: 7}); // 存储一个带7天期限的 cookie
+            $.cookie("passWord", passWord, {expires: 7}); // 存储一个带7天期限的 cookie
+            $.cookie("type", type, {expires: 7}); // 存储一个带7天期限的 cookie
+        }
+        else {
+            $.cookie("rmbUser", "false", {expires: -1});        // 删除 cookie
+            $.cookie("userName", '', {expires: -1});
+            $.cookie("passWord", '', {expires: -1});
+            $.cookie("type", '', {expires: -1});
+        }
+    }
+</script>
+<script>
+    function resetpw() {
+        $.post(
+                '/Index/backPw.html',
+                $('#forgot-form').serialize(),
+                function (data) {
+                    if (data.result == 'success') {
+                        alert('密码修改成功，请登录')
+                    }
 
+                },
+                'json'
+        );
+
+    }
+
+    var wait1 = 0;
+    function time1() {
+        $.post(
+                'smsCode.php',
+                {
+                    phone: $('#bindphone').val(),
+                    type: 1
+                },
+                function (data) {
+                    wait1 = data.countdown
+                    if (wait1 == 0) {
+                        alert(data.describe)
+                    }
+                    timeTest1();
+
+                },
+                'json'
+        );
+    }
+    function timeTest1() {
+        if (wait1 == 0) {
+            $('#yzmbtn1').removeAttr("disabled");
+            $('#yzmbtn1').html("获取验证码");
+        } else {
+            $('#yzmbtn1').attr("disabled", true);
+            $('#yzmbtn1').html("重新发送(" + wait1 + ")");
+            wait1--;
+            setTimeout(function () {
+                        timeTest1()
+                    },
+                    1000)
+        }
+    }
+</script>
+<script>
+    var wait = 0;
+    function time() {
+        $.post(
+                'smsCode.php',
+                {
+                    phone: $('#phone').val(),
+                    type: 0
+                },
+                function (data) {
+                    wait = data.countdown
+                    if (wait == 0) {
+                        $('#phoneMsg').html(data.describe)
+                    }
+                    timeTest();
+
+                },
+                'json'
+        );
+    }
+    function timeTest() {
+        if (wait == 0) {
+            $('#yzmbtn').removeAttr("disabled");
+            $('#yzm').html("获取验证码");
+        } else {
+            $('#yzmbtn').attr("disabled", true);
+            $('#yzm').html("重新发送(" + wait + ")");
+            wait--;
+            setTimeout(function () {
+                        timeTest()
+                    },
+                    1000)
+        }
+    }
+</script>
+<script>
+    var wait2 = 0;
+    function time2() {
+        $.post(
+                'smsCode.php',
+                {
+                    phone: $('#phone1').val(),
+                    type: 0
+                },
+                function (data) {
+                    wait2 = data.countdown
+                    if (wait2 == 0) {
+                        $('#reg1Tip').html(data.describe)
+                    }
+                    timeTest2();
+
+                },
+                'json'
+        );
+    }
+    function timeTest2() {
+        if (wait2 == 0) {
+            $('#yzmbtn2').removeAttr("disabled");
+            $('#yzm2').html("获取验证码");
+        } else {
+            $('#yzmbtn2').attr("disabled", true);
+            $('#yzm2').html("重新发送(" + wait2 + ")");
+            wait2--;
+            setTimeout(function () {
+                        timeTest2()
+                    },
+                    1000)
+        }
+    }
+</script>
 <body class="login-layout">
 <div class="main-container">
     <div class="main-content">
@@ -480,9 +604,7 @@
                                         <i class="ace-icon fa fa-coffee green"></i>
                                         请输入您的信息
                                     </h4>
-
                                     <div class="space-6"></div>
-
                                     <form id="log-form" method="post">
                                         <fieldset>
                                             <label class="block clearfix">
@@ -496,7 +618,6 @@
                                                             <!--<i class="ace-icon fa fa-user"></i>-->
 														</span>
                                             </label>
-
                                             <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input type="text" id="account" name="account"
@@ -505,7 +626,6 @@
 															<i class="ace-icon fa fa-user"></i>
 														</span>
                                             </label>
-
                                             <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input id="password" type="password" name="password"
@@ -514,46 +634,23 @@
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
                                             </label>
-
                                             <div class="space"></div>
-
                                             <div class="clearfix">
                                                 <label class="inline">
                                                     <input id="rmbUser" type="checkbox" class="ace"/>
                                                     <span class="lbl"> 记住我</span>
                                                 </label>
-                                                <script>
-                                                    function saveUserInfo() {
-                                                        if ($('#rmbUser').is(':checked') == true) {
-                                                            var userName = $("#account").val();
-                                                            var passWord = $("#password").val();
-                                                            var type = $("#type").val();
-                                                            $.cookie("rmbUser", "true", {expires: 7}); // 存储一个带7天期限的 cookie
-                                                            $.cookie("userName", userName, {expires: 7}); // 存储一个带7天期限的 cookie
-                                                            $.cookie("passWord", passWord, {expires: 7}); // 存储一个带7天期限的 cookie
-                                                            $.cookie("type", type, {expires: 7}); // 存储一个带7天期限的 cookie
-                                                        }
-                                                        else {
-                                                            $.cookie("rmbUser", "false", {expires: -1});        // 删除 cookie
-                                                            $.cookie("userName", '', {expires: -1});
-                                                            $.cookie("passWord", '', {expires: -1});
-                                                            $.cookie("type", '', {expires: -1});
-                                                        }
-                                                    }
-                                                </script>
                                                 <button id="logbtn" type="button"
                                                         class="width-35 pull-right btn btn-sm btn-primary">
                                                     <i class="ace-icon fa fa-key"></i>
                                                     <span class="bigger-110">登录</span>
                                                 </button>
                                             </div>
-
                                             <div class="space-4"></div>
                                         </fieldset>
                                     </form>
                                 </div>
                                 <!-- /.widget-main -->
-
                                 <div class="toolbar clearfix">
                                     <div>
                                         <a href="#" data-target="#forgot-box"
@@ -577,19 +674,16 @@
                             <!-- /.widget-body -->
                         </div>
                         <!-- /.login-box -->
-
                         <div id="forgot-box" class="forgot-box widget-box no-border">
                             <div class="widget-body">
                                 <div class="widget-main">
                                     <h4 class="header red lighter bigger">
                                         <i class="ace-icon fa fa-key"></i>
                                         找回密码 </h4>
-
                                     <div class="space-6"></div>
                                     <p>
                                         输入绑定手机号
                                     </p>
-
                                     <form id="forgot-form">
                                         <fieldset>
                                             <label class="block clearfix">
@@ -617,69 +711,18 @@
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
                                             </label>
-
                                             <div class="clearfix">
                                                 <button onclick="resetpw()" type="button"
                                                         class="width-35 pull-right btn btn-sm btn-danger">
                                                     <i class="ace-icon fa fa-lightbulb-o"></i>
                                                     <span class="bigger-110">重置密码</span>
                                                 </button>
-                                                <script>
-                                                    function resetpw() {
-                                                        $.post(
-                                                                '/Index/backPw.html',
-                                                                $('#forgot-form').serialize(),
-                                                                function (data) {
-                                                                    if (data.result == 'success') {
-                                                                        alert('密码修改成功，请登录')
-                                                                    }
 
-                                                                },
-                                                                'json'
-                                                        );
-
-                                                    }
-
-                                                    var wait1 = 0;
-                                                    function time1() {
-                                                        $.post(
-                                                                '/Index/smsCode.html',
-                                                                {
-                                                                    phone: $('#bindphone').val(),
-                                                                    type: 1
-                                                                },
-                                                                function (data) {
-                                                                    wait1 = data.countdown
-                                                                    if (wait1 == 0) {
-                                                                        alert(data.describe)
-                                                                    }
-                                                                    timeTest1();
-
-                                                                },
-                                                                'json'
-                                                        );
-                                                    }
-                                                    function timeTest1() {
-                                                        if (wait1 == 0) {
-                                                            $('#yzmbtn1').removeAttr("disabled");
-                                                            $('#yzmbtn1').html("获取验证码");
-                                                        } else {
-                                                            $('#yzmbtn1').attr("disabled", true);
-                                                            $('#yzmbtn1').html("重新发送(" + wait1 + ")");
-                                                            wait1--;
-                                                            setTimeout(function () {
-                                                                        timeTest1()
-                                                                    },
-                                                                    1000)
-                                                        }
-                                                    }
-                                                </script>
                                             </div>
                                         </fieldset>
                                     </form>
                                 </div>
                                 <!-- /.widget-main -->
-
                                 <div class="toolbar center">
                                     <a href="#" data-target="#login-box" class="back-to-login-link">
                                         登录
@@ -690,7 +733,6 @@
                             <!-- /.widget-body -->
                         </div>
                         <!-- /.forgot-box -->
-
                         <div id="signup1-box" class="signup-box widget-box no-border">
                             <div class="widget-body">
                                 <div class="widget-main">
@@ -698,10 +740,8 @@
                                         <i class="ace-icon fa fa-users blue"></i>
                                         货主注册
                                     </h4>
-
                                     <div class="space-6"></div>
                                     <p>输入你的详细信息</p>
-
                                     <form id="reg-from">
                                         <fieldset>
                                             <input type="text" name="type" value="company" style="display: none;">
@@ -719,8 +759,6 @@
 															<i class="ace-icon fa fa-envelope"></i>
 														</span>
                                             </label>
-
-
                                             <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input type="text" id="account_2" name="account" class="form-control"
@@ -728,7 +766,6 @@
 															<i class="ace-icon fa fa-user"></i>
 														</span>
                                             </label>
-
                                             <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input type="password" id="password_2" name="password" class="form-control"
@@ -736,7 +773,6 @@
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
                                             </label>
-
                                             <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input type="password" class="form-control"
@@ -764,42 +800,6 @@
                                                 </button>
                                                     </span>
                                             </label>
-                                            <script>
-                                                var wait = 0;
-                                                function time() {
-                                                    $.post(
-                                                            '/Index/smsCode.html',
-                                                            {
-                                                                phone: $('#phone').val(),
-                                                                type: 0
-                                                            },
-                                                            function (data) {
-                                                                wait = data.countdown
-                                                                if (wait == 0) {
-                                                                    $('#phoneMsg').html(data.describe)
-                                                                }
-                                                                timeTest();
-
-                                                            },
-                                                            'json'
-                                                    );
-                                                }
-                                                function timeTest() {
-                                                    if (wait == 0) {
-                                                        $('#yzmbtn').removeAttr("disabled");
-                                                        $('#yzm').html("获取验证码");
-                                                    } else {
-                                                        $('#yzmbtn').attr("disabled", true);
-                                                        $('#yzm').html("重新发送(" + wait + ")");
-                                                        wait--;
-                                                        setTimeout(function () {
-                                                                    timeTest()
-                                                                },
-                                                                1000)
-                                                    }
-                                                }
-                                            </script>
-
                                             <label class="block">
                                                 <span class="block input-icon input-icon-right">
                                                 <input type="checkbox" name="agree" class="ace"/>
@@ -814,32 +814,26 @@
 															<span id="reg2Tip" style="color:#A94442"></span>
 														</span>
                                             </label>
-
                                             <div class="space-24"></div>
-
                                             <div class="clearfix">
                                                 <button type="reset" class="width-30 pull-left btn btn-sm">
                                                     <i class="ace-icon fa fa-refresh"></i>
                                                     <span class="bigger-110">重置</span>
                                                 </button>
-
                                                 <button id="regbtn" type="button"
                                                         class="width-65 pull-right btn btn-sm btn-success">
                                                     <span class="bigger-110">注册</span>
-
                                                     <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                                 </button>
                                             </div>
                                         </fieldset>
                                     </form>
                                 </div>
-
                                 <div class="toolbar center">
                                     我已注册，现在就
                                     <a href="#" data-target="#login-box" class="back-to-login-link">
                                         <i class="ace-icon fa fa-arrow-left"></i>
                                         登录
-
                                     </a>
                                 </div>
                             </div>
@@ -853,13 +847,12 @@
                                         <i class="ace-icon fa fa-users blue"></i>
                                         车主注册
                                     </h4>
-
                                     <div class="space-6"></div>
                                     <p>输入你的详细信息</p>
-
                                     <form id="reg1-from">
                                         <fieldset>
                                             <input type="text" name="type" value="transport" style="display: none;">
+                                            <input type="text" name="session" id="id" style="display: none;">
                                             <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input type="email" name="email" class="form-control"
@@ -874,8 +867,6 @@
 															<i class="ace-icon fa fa-envelope"></i>
 														</span>
                                             </label>
-
-
                                             <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input type="text" id="account_1" name="account"
@@ -884,7 +875,6 @@
 															<i class="ace-icon fa fa-user"></i>
 														</span>
                                             </label>
-
                                             <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input type="password" name="password" id="password_1"
@@ -893,7 +883,6 @@
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
                                             </label>
-
                                             <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input name="password2" type="password" class="form-control"
@@ -920,43 +909,7 @@
                                                         <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                                     </button>
                                                 </span>
-
                                             </label>
-                                            <script>
-                                                var wait2 = 0;
-                                                function time2() {
-                                                    $.post(
-                                                            '/Index/smsCode.html',
-                                                            {
-                                                                phone: $('#phone1').val(),
-                                                                type: 0
-                                                            },
-                                                            function (data) {
-                                                                wait2 = data.countdown
-                                                                if (wait2 == 0) {
-                                                                    $('#reg1Tip').html(data.describe)
-                                                                }
-                                                                timeTest2();
-
-                                                            },
-                                                            'json'
-                                                    );
-                                                }
-                                                function timeTest2() {
-                                                    if (wait2 == 0) {
-                                                        $('#yzmbtn2').removeAttr("disabled");
-                                                        $('#yzm2').html("获取验证码");
-                                                    } else {
-                                                        $('#yzmbtn2').attr("disabled", true);
-                                                        $('#yzm2').html("重新发送(" + wait2 + ")");
-                                                        wait2--;
-                                                        setTimeout(function () {
-                                                                    timeTest2()
-                                                                },
-                                                                1000)
-                                                    }
-                                                }
-                                            </script>
                                             <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input name="agree" type="checkbox" class="ace"/>
@@ -966,36 +919,29 @@
 															</span>
 														</span>
                                             </label>
-
-
                                             <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<span id="reg1Tip" style="color:#A94442"></span>
 														</span>
                                             </label>
-
                                             <div class="space-24"></div>
                                             <div class="clearfix">
                                                 <button type="reset" class="width-30 pull-left btn btn-sm">
                                                     <i class="ace-icon fa fa-refresh"></i>
                                                     <span class="bigger-110">重置</span>
                                                 </button>
-
                                                 <button id="reg1btn" type="button"
                                                         class="width-65 pull-right btn btn-sm btn-success">
                                                     <span class="bigger-110">注册</span>
-
                                                     <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                                 </button>
                                             </div>
                                         </fieldset>
                                     </form>
                                 </div>
-
                                 <div class="toolbar center">
                                     我已注册，现在就
                                     <a href="#" data-target="#login-box" class="back-to-login-link">
-
                                         <i class="ace-icon fa fa-arrow-left"></i>
                                         登录
                                     </a>
@@ -1007,7 +953,6 @@
 
                     </div>
                     <!-- /.position-relative -->
-
                     <div class="navbar-fixed-top align-right">
                         <br/>
                         &nbsp;
@@ -1031,6 +976,5 @@
     <!-- /.main-content -->
 </div>
 <!-- /.main-container -->
-
 </body>
 </html>

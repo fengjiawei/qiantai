@@ -26,10 +26,11 @@
             , 'click .price': function (e, value, row, index) {
                 $('#order_id').val(row.orderId);
                 $('#myModal1').modal('show');
+
             }
         }
         $('#table').bootstrapTable({
-            url: '{:U("price")}',
+            url: 'price.php',
             height: 800,
             sidePagination: 'server',
             pagination: true,
@@ -124,13 +125,14 @@
             }
             params.startDate = $('#from_date').val();
             params.endDate = $('#to_date').val();
+            params.session=sessionStorage.getItem("session");
             return params
         }
         function reply(id) {
             $.post(
-                    "{:U('Car/reply')}",
+                    "reply.php",
                     {
-                        orderId: id
+                        orderId: id,reply:no,session:sessionStorage.session
                     },
                     function (data) {
                         console.log(data)
@@ -270,7 +272,7 @@
                                         <td>{$mcr.type}</td>
                                         <td>{$mcr.load}</td>
                                         <td>{$mcr.len}</td>
-                                        <td><a onclick="order('{$mcr.carId}')">选车</a></td>
+                                        <td><a onclick="order()">选车</a></td>
                                     </tr>
                                 </volist>
                                 </tbody>
@@ -397,10 +399,11 @@
 
                     function order(id) {
                         $.post(
-                                "{:U('orders')}",
+                                "orders.php",
                                 {
                                     orderId: $('#orderId').val(),
-                                    carId: id
+                                    carId: id,
+                                    session:sessionStorage.session
                                 },
                                 function (data) {
                                     if (data.result == 'success') {

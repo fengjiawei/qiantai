@@ -25,7 +25,7 @@
             }
         };
         $('#table').bootstrapTable({
-            url: '{:U("receipt")}',
+            url: 'receipt.php',
             height: 800,
             sidePagination: 'server',
             pagination: true,
@@ -113,6 +113,7 @@
         function queryParams(params) {
 //        console.log(params.order)
             params.code = $('#goodscode').val();
+            params.session=sessionStorage.getItem("session");
             return params
         }
     </script>
