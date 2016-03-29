@@ -14,6 +14,20 @@
     <link rel="stylesheet" type="text/css" href="../style/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="../style/css/APPqt1.css"/>
     <link rel="stylesheet" type="text/css" href="../style/css/normalize.css"/>
+
+    <link rel="stylesheet" href="../style/static/global.css">
+    <link rel="stylesheet"
+          href="../style/static/bootstrap.vertical-tabs.min.css">
+    <link rel="stylesheet" href="../style/static/font-awesome.min.css"
+          media="screen">
+    <link rel="stylesheet" href="../style/static/hover-min.css"
+          media="all">
+    <link rel="stylesheet"
+          href="../style/static/bootstrap-datepicker3.min.css"
+          media="all">
+    <link rel="stylesheet"
+          href="../style/static/jquery.fileupload.css">
+    <link rel="stylesheet" href="../style/static/index.css">
     <script>
         $(function () {
             $.get("show.html", function (data) {
@@ -26,6 +40,21 @@
                 $('#unlog_status').css('display', 'none')
             }
         });
+        function active(id) {
+            $('.menu>li').removeAttr('class');
+            $('#' + id).attr('class', 'nav-current');
+        }
+        function choose(obj){
+            var id = $(obj).attr('id');
+            active(id);
+            switch (id){
+                case ('usedcar'):
+                    $('#view').load('usedCarList.html');
+                    break;
+                case ('index'):
+                    $('#view').load('show.html');
+            }
+        }
         function myFunction() {
             sessionStorage.removeItem("name");
             sessionStorage.removeItem("type");
@@ -76,7 +105,7 @@
         }
     </style>
     <style>
-        #login_status p, #login_status a ,#unlog_status p,#unlog_status a{
+        #login_status p, #login_status a, #unlog_status p, #unlog_status a {
             float: left;
             margin-right: 10px;
             line-height: 32px;
@@ -140,24 +169,27 @@
         <div class="row">
             <div class="collapse navbar-collapse" id="main-menu">
                 <ul id="nav" class="menu">
-                    <li role="presentation" id="index" class="nav-current">
+                    <li role="presentation" id="index" onclick="choose(this)" class="nav-current">
                         <a href="javascript:void(0);">
                             首页</a>
                     </li>
+                    <li role="presentation" id="usedcar" onclick="choose(this)">
+                        <a href="javascript:void(0);">二手车交易</a>
+                    </li>
                     <!--<li role="presentation" id="goodinfo">-->
-                        <!--<a href="logistics.html">物流企业</a>-->
+                    <!--<a href="logistics.html">物流企业</a>-->
                     <!--</li>-->
                     <!--<li role="presentation" id="carinfo">-->
-                        <!--<a href="mdm.html">门到门</a>-->
+                    <!--<a href="mdm.html">门到门</a>-->
                     <!--</li>-->
                     <!--<li role="presentation" id="newPlatService">-->
-                        <!--<a href="newPlatService.html">平台服务</a>-->
+                    <!--<a href="newPlatService.html">平台服务</a>-->
                     <!--</li>-->
                     <!--<li role="presentation" id="platformResource">-->
-                        <!--<a href="spel.html">特价推荐</a>-->
+                    <!--<a href="spel.html">特价推荐</a>-->
                     <!--</li>-->
                     <li role="presentation" id="center" onclick="vip()">
-                        <a href = "javascript:void(0)">会员中心</a>
+                        <a href="javascript:void(0)">会员中心</a>
                     </li>
                 </ul>
             </div>

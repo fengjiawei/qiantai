@@ -15,8 +15,8 @@
     <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../style/css/bootstrap-table.css"/>
     <link rel="stylesheet" type="text/css" href="../style/css/normalize.css"/>
-    <link rel="stylesheet" type="text/css" href="../style/css/tip/Lobibox.min.css"/>
-
+    <link rel="stylesheet" href="../css/messenger.css">
+    <link rel="stylesheet" href="../css/messenger-theme-air.css">
     <!-- Custom styles for this template -->
     <link href="../css/dashboard.css" rel="stylesheet">
 
@@ -38,9 +38,9 @@
         });
         $('#admin').before(sessionStorage.getItem('name'));
     });
-    function active(id){
+    function active(id) {
         $('.nav-sidebar>li').removeAttr('class');
-        $('#'+id).attr('class','active');
+        $('#' + id).attr('class', 'active');
     }
     function change(name) {
         var id = $(name).attr('id');
@@ -91,12 +91,15 @@
                     $('#goodChildView').html(data);
                 });
                 break;
+            case 'usedCar':
+                $('#goodChildView').load("usedCar.html");
+                break;
         }
 
     }
 </script>
 <style>
-    .page-header{
+    .page-header {
         margin-top: 20px;
     }
 </style>
@@ -121,12 +124,14 @@
                 <li><a href="#">首页</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false" ><span id="admin" class="caret"></span></a>
+                       aria-expanded="false"><span id="admin" class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li onclick="change($('#account'))"><a href="javascript:void(0)">个人设置</a></li>
                         <!--<li><a href="#">消息</a></li>-->
                         <li role="separator" class="divider"></li>
-                        <li><a href="javascript:void(sessionStorage.clear(),window.location.replace('../../index'))">退出</a></li>
+                        <li>
+                            <a href="javascript:void(sessionStorage.clear(),window.location.replace('../../index'))">退出</a>
+                        </li>
 
                     </ul>
                 </li>
@@ -142,26 +147,33 @@
                 <h3>我要发货</h3>
             </div>
             <ul class="nav nav-sidebar">
-                <li id="invoiceGood" onclick="change(this)"><a href="javascript:void(0)" >发布货源</a></li>
-                <li id="newGood" onclick="change(this)"><a href="javascript:void(0)" >已发布货源</a></li>
+                <li id="invoiceGood" onclick="change(this)"><a href="javascript:void(0)">发布货源</a></li>
+                <li id="newGood" onclick="change(this)"><a href="javascript:void(0)">已发布货源</a></li>
             </ul>
             <div class="page-header">
                 <h3>我的订单</h3>
             </div>
             <ul class="nav nav-sidebar">
-                <li id="lookGoodOrder" onclick="change(this)"><a href="javascript:void(0)" >订单查看</a></li>
-                <li id="track" onclick="change(this)"><a href="javascript:void(0)" >订单跟踪</a></li>
-                <li id="goodReceipt" onclick="change(this)"><a href="javascript:void(0)" >我的回单</a></li>
-                <li id="myFreight" onclick="change(this)"><a href="javascript:void(0)" >我的运费</a></li>
+                <li id="lookGoodOrder" onclick="change(this)"><a href="javascript:void(0)">订单查看</a></li>
+                <li id="track" onclick="change(this)"><a href="javascript:void(0)">订单跟踪</a></li>
+                <li id="goodReceipt" onclick="change(this)"><a href="javascript:void(0)">我的回单</a></li>
+                <li id="myFreight" onclick="change(this)"><a href="javascript:void(0)">我的运费</a></li>
             </ul>
             <div class="page-header">
-              <h3>个人中心</h3>
+                <h3>个人中心</h3>
             </div>
             <ul class="nav nav-sidebar">
                 <li class="active" id="account" onclick="change(this)"><a href="javascript:void(0)">账户管理中心</a></li>
-                <li id="authentication" onclick="change(this)"><a href="javascript:void(0)" >会员认证</a></li>
+                <li id="authentication" onclick="change(this)"><a href="javascript:void(0)">会员认证</a></li>
                 <li id="safety" onclick="change(this)"><a href="javascript:void(0)">安全设置</a></li>
             </ul>
+            <div class="page-header">
+                <h3>二手交易</h3>
+            </div>
+            <ul class="nav nav-sidebar">
+                <li id="usedCar" onclick="change(this)"><a href="javascript:void(0)">二手车发布</a></li>
+                <!--<li id="authentication" onclick="change(this)"><a href="javascript:void(0)" >会员认证</a></li>-->
+                <!--<li id="safety" onclick="change(this)"><a href="javascript:void(0)">安全设置</a></li>-->
             </ul>
         </div>
         <div class="col-md-10" style="float:right;background-color: #ffffff;" id="goodChildView">
@@ -178,7 +190,7 @@
 <script src="../js/bootstrap-table-zh-CN.js"></script>
 <script src="../js/location.js"></script>
 <script src="../js/area.js"></script>
-<script type="text/javascript" src="../js/lobibox.min.js"></script>
+<script src="../js/messenger.min.js"></script>
 
 <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
 <!--<script src="../js/holder.min.js"></script>-->
