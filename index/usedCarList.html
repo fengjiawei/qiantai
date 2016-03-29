@@ -1,0 +1,51 @@
+<script>
+    $(document).ready(function () {
+        $.post('usedCarList.php', function (data) {
+            for (var obj in data) {
+                $('#content').append('<div class="col-xs-3 panel product-box">' +
+                        '<a class="hvr-grow" href="#">' +
+                        '<img src="../admin/good/upload/' + data[obj].carimg + '" class="show-img">' +
+                        '</a>' +
+                        '<div class="show-price">' +
+                        '<span>' + data[obj].carprice + '</span>' +
+                        '</div>' +
+                        '<div>' +
+                        '<span class="show-source">' + data[obj].carname + '</span>' +
+                        '</div>' +
+                        '<div>' +
+                        '<span class="show-remark">乾泰物流</span>' +
+                        '</div>' +
+                        '</div>')
+            }
+        }, 'json')
+    });
+</script>
+<div class="index-show">
+    <div class="container" id="usedCar">
+        <div class="special row show-header-2">
+            <div class="col-xs-2">
+                <span class="show-title">二手车交易</span>
+            </div>
+            <div class="col-xs-10 text-right">
+                <a href="#" onclick="dump(1)">
+                    <span>
+                        更多产品
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="special row show-panel">
+            <div class="col-xs-2">
+                <a href="#">
+                    <img width="200px" height="439px" src="img/c233e434-dc9d-4326-b332-a42a1f2e0577.png"
+                         alt="乾泰物流二手车交易">
+                </a>
+            </div>
+            <div class="col-xs-10 special">
+                <div class="row special" id="content">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
