@@ -195,12 +195,10 @@
 </style>
 
 <script>
-
     $(function () {
 //        $('[data-toggle="tooltip"]').tooltip()
         //加载三级地址联动
         showLocation();
-
         $.post('authentication.php',
                 {session: sessionStorage.getItem('session')},
                 function (data) {
@@ -223,7 +221,6 @@
                         $('#step3').show();
                         $('#yes').show();
                         $('#no').hide();
-
                     } else if (state == 'invalid') {
                         $('#reason').after(data.reason);
                         $('#s1').removeClass();
@@ -235,10 +232,7 @@
                         $('#no').show();
                     }
                 }, 'json')
-
-
     })
-
 </script>
 
 
@@ -248,7 +242,6 @@
         <li class="active">会员认证</li>
     </ol>
 </div>
-
 <div class='breadcrumbs' style="margin-top: 30px">
     <div class='inners'>
         <ul class='cf'>
@@ -381,7 +374,7 @@
 
 </div>
 <div id="step3" style="width: 100%;margin-top: 20px;display: none;">
-            <div id="yes" class="alert alert-success" role="alert">
+<div id="yes" class="alert alert-success" role="alert">
                 <strong>你已通过认证</strong>
                 <hr>
                 <table class="table table-striped">
@@ -403,13 +396,12 @@
                     </tr>
                 </table>
             </div>
-            <div id="no" class="alert alert-warning" role="alert">
+<div id="no" class="alert alert-warning" role="alert">
                 <strong>认证失败</strong>
                 <hr id="reason">请<a href="javascript:void(0)" style="color: red" onclick="reset()">重新认证</a>
             </div>
         </if>
     </div>
-
 </div>
 <script>
     function reset() {

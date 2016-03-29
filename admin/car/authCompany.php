@@ -8,4 +8,5 @@
  */
 require_once "function.php";
 
-$res = http_post_json("http://101.200.172.223:8080/unite/priceGoods.json",json_encode($_POST));
+$res = http_post_json("http://101.200.172.223:8080/unite/authTransport.json",json_encode($_POST));
+echo $res;
