@@ -92,12 +92,13 @@
                 });
                 break;
             case 'usedCar':
-                $('#goodChildView').load("usedCar.html");
+                $('#goodChildView').load("../../usedCar.html");
                 break;
         }
 
     }
 </script>
+
 <style>
     .page-header {
         margin-top: 20px;
@@ -130,7 +131,7 @@
                         <!--<li><a href="#">消息</a></li>-->
                         <li role="separator" class="divider"></li>
                         <li>
-                            <a href="javascript:void(sessionStorage.clear(),window.location.replace('../../index'))">退出</a>
+                            <a href="javascript:void(sessionStorage.clear(),window.location.replace('../../'))">退出</a>
                         </li>
 
                     </ul>
@@ -144,14 +145,14 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <div class="page-header">
-                <h3>我要发货</h3>
+                <h4>我要发货</h4>
             </div>
             <ul class="nav nav-sidebar">
                 <li id="invoiceGood" onclick="change(this)"><a href="javascript:void(0)">发布货源</a></li>
                 <li id="newGood" onclick="change(this)"><a href="javascript:void(0)">已发布货源</a></li>
             </ul>
             <div class="page-header">
-                <h3>我的订单</h3>
+                <h4>我的订单</h4>
             </div>
             <ul class="nav nav-sidebar">
                 <li id="lookGoodOrder" onclick="change(this)"><a href="javascript:void(0)">订单查看</a></li>
@@ -160,7 +161,7 @@
                 <li id="myFreight" onclick="change(this)"><a href="javascript:void(0)">我的运费</a></li>
             </ul>
             <div class="page-header">
-                <h3>个人中心</h3>
+                <h4>个人中心</h4>
             </div>
             <ul class="nav nav-sidebar">
                 <li class="active" id="account" onclick="change(this)"><a href="javascript:void(0)">账户管理中心</a></li>
@@ -168,7 +169,7 @@
                 <li id="safety" onclick="change(this)"><a href="javascript:void(0)">安全设置</a></li>
             </ul>
             <div class="page-header">
-                <h3>二手交易</h3>
+                <h4>二手交易</h4>
             </div>
             <ul class="nav nav-sidebar">
                 <li id="usedCar" onclick="change(this)"><a href="javascript:void(0)">二手车发布</a></li>

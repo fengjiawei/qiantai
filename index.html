@@ -6,28 +6,28 @@
     <!--<script type="text/javascript" src="/Public/js/jquery.js"></script>-->
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js  "></script>
     <!-- Bootstrap JavaScript -->
-    <script type="text/javascript" src="../style/js/bootstrap.js"></script>
+    <script type="text/javascript" src="style/js/bootstrap.js"></script>
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <!-- css -->
-    <link rel="stylesheet" type="text/css" href="../style/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="../style/css/APPqt1.css"/>
-    <link rel="stylesheet" type="text/css" href="../style/css/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="style/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="style/css/APPqt1.css"/>
+    <link rel="stylesheet" type="text/css" href="style/css/normalize.css"/>
 
-    <link rel="stylesheet" href="../style/static/global.css">
+    <link rel="stylesheet" href="style/static/global.css">
     <link rel="stylesheet"
-          href="../style/static/bootstrap.vertical-tabs.min.css">
-    <link rel="stylesheet" href="../style/static/font-awesome.min.css"
+          href="style/static/bootstrap.vertical-tabs.min.css">
+    <link rel="stylesheet" href="style/static/font-awesome.min.css"
           media="screen">
-    <link rel="stylesheet" href="../style/static/hover-min.css"
+    <link rel="stylesheet" href="style/static/hover-min.css"
           media="all">
     <link rel="stylesheet"
-          href="../style/static/bootstrap-datepicker3.min.css"
+          href="style/static/bootstrap-datepicker3.min.css"
           media="all">
     <link rel="stylesheet"
-          href="../style/static/jquery.fileupload.css">
-    <link rel="stylesheet" href="../style/static/index.css">
+          href="style/static/jquery.fileupload.css">
+    <link rel="stylesheet" href="style/static/index.css">
     <script>
         $(function () {
             $.get("show.html", function (data) {
@@ -56,8 +56,7 @@
             }
         }
         function myFunction() {
-            sessionStorage.removeItem("name");
-            sessionStorage.removeItem("type");
+            sessionStorage.clear();
             window.location.href = "index.html";
         }
         function vip() {
@@ -65,44 +64,14 @@
             if (type == "" || type == null) {
                 window.location.replace('login.html')
             } else if (type == 'transport') {
-                window.location.href = "../admin/car/car.html";
+                window.location.href = "admin/car/car.html";
             } else if (type == 'company') {
-                window.location.href = "../admin/good/good.html";
+                window.location.href = "admin/good/good.html";
             }
         }
     </script>
     <style>
-        #footer2 {
-            background-color: black;
-            color: gray;
-            font-size: 12px;
-            margin: auto auto;
-            text-align: center;
-            height: 80px;
-        }
 
-        td {
-            font-size: 12px;
-        }
-
-        .main-navigation .menu li.nav-current a {
-            color: #e67e22;
-        }
-
-        .main-navigation .menu li.nav-current a:link {
-            text-decoration: none
-        }
-
-        input {
-            min-height: 34px;
-        }
-
-        .main-navigation .menu li a {
-            color: #ffffff;
-            line-height: 4em;
-            display: block;
-            padding: 0 21px;
-        }
     </style>
     <style>
         #login_status p, #login_status a, #unlog_status p, #unlog_status a {
