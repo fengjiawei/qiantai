@@ -463,7 +463,7 @@
 <script>
     function resetpw() {
         $.post(
-                '/Index/backPw.html',
+                'backPw.php',
                 $('#forgot-form').serialize(),
                 function (data) {
                     if (data.result == 'success') {

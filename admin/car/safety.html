@@ -1,5 +1,4 @@
-
-    <style>
+ <style>
         .container .font-t {
             font-size: 28px;
             font-family: "Microsoft YaHei";
@@ -30,6 +29,25 @@
             overflow: hidden;
         }
     </style>
+ <script>
+     $(document).ready(function () {
+         //safety页面渲染
+         $.post('safety.php', {session: sessionStorage.getItem('session')}, function (data) {
+             if (data.authenticationState == 'authed') {
+                 $('#primary').hide();
+                 $('#danger').hide();
+                 $('#auth').hide();
+             } else if (data.authenticationState == 'wait') {
+                 $('#success').hide();
+                 $('#danger').hide();
+             } else {
+                 $('#success').hide();
+                 $('#primary').hide();
+                 $('#look').hide();
+             }
+         }, 'json')
+     });
+ </script>
 
 <div class="container" style="width: 100%">
     <div class="page-header">
@@ -41,51 +59,25 @@
 
     <table class="table table-striped">
         <tr>
-            <td class="font-a" style="color:green;"><span class="label label-success">保护中</span></td>
-            <td class="font-b">登入密码</td>
-            <td class="font-a">登录时输入，保护账户安全</td>
-            <td class="font-a"><a href="javascript:void(0)" onclick="resetPw()">修改</a></td>
+            <td><span class="label label-success">保护中</span></td>
+            <td>登入密码</td>
+            <td>登录时输入，保护账户安全</td>
+            <td><a href="javascript:void(0)" onclick="resetPw()">修改</a></td>
         </tr>
         <tr>
             <td class="font-a">
-                <if condition="$list.authenticationState eq 'authed'">
-                    <span class="label label-success">已认证</span>
-                    <elseif condition="$list.authenticationState eq 'wait'"/>
-                    <span class="label label-info">认证中</span>
-                    <else/>
-                    <span class="label label-warning">未认证</span>
-                </if>
+                <span id="success" class="label label-success">已认证</span>
+                <span id="primary" class="label label-primary">认证中</span>
+                <span id="danger" class="label label-danger">未认证</span>
             </td>
             <td class="font-b">实名认证</td>
             <td class="font-a">实名认证后可享受更多功能和服务，找回账户更快捷</td>
             <td class="font-a">
-                <if condition="$list.authenticationState eq 'authed'">
-                    <!--<p style="color: green">已认证</p>-->
-                    <elseif condition="$list.authenticationState eq 'wait'"/>
-                    <a>查看</a>
-                    <else/>
-                    <a href="javascript:void(0)" onclick="auth()">立即认证</a>
-                </if>
+                <a id="look" href="javascript:$('#carChildView').load('authentication.html')">查看</a>
+                <a id="auth" href="javascript:$('#carChildView').load('authentication.html')">立即认证</a>
             </td>
         </tr>
-        <script>
-            function auth(){
-                $.get('{:U("authentication")}', function (data) {
-                    $('#carChildView').html(data)
-                })
-            }
-            function resetPw(){
-                $.get('{:U("resetPw")}', function (data) {
-                    $('#carChildView').html(data)
-                })
 
-            }
-            function bind() {
-                $.get('{:U("binding")}', function (data) {
-                    $('#carChildView').html(data)
-                })
-            }
-        </script>
         <tr>
             <td class="font-a"><span class="label label-success">已绑定</span></td>
             <td class="font-b">账号绑定</td>
@@ -113,3 +105,13 @@
     </table>
     <div style="height: 200px;background-color: #ffffff"></div>
 </div>
+ <script>
+     function resetPw() {
+         $('#carChildView').load('resetPw.html')
+     }
+     function bind() {
+         $('#carChildView').load('binding.html')
+     }
+
+
+ </script>

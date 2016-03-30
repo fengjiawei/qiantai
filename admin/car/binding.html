@@ -9,95 +9,104 @@
     <script src="../style/js/validation/formValidation.js"></script>
     <script src='../style/js/validation/bootstrap.js'></script>
     <js href="../style/js/validation/zh_CN.js"/>
-    <script>
-        var wait = 0;
-        function time() {
-            $.post(
-                    '{:U("Index/smsCode")}',
-                    {
-                        phone: $('#phone').val(),
-                        type: 1
-                    },
-                    function (data) {
-                        wait = data.countdown
-                        if (wait == 0) {
+<script>
+    $(function () {
+        var session = sessionStorage.getItem('session');
+        $('#session').val(session);
+    })
+</script>
+<script>
+    var wait = 0;
+    function time() {
+        $.post(
+                'smsCode.php',
+                {
+                    phone: $('#phone').val(),
+                    type: 1
+                },
+                function (data) {
+                    wait = data.countdown
+                    if (wait == 0) {
 //                                                                alert(data.describe)
-                            $('#phoneMsg').html(data.describe)
-                        }
-                        timeTest();
+                        $('#phoneMsg').html(data.describe)
+                    }
+                    timeTest();
 
+                },
+                'json'
+        );
+    }
+    function timeTest() {
+        if (wait == 0) {
+            $('#yzm').removeAttr("disabled");
+            $('#yzm').html("获取验证码");
+        } else {
+            $('#yzm').attr("disabled", true);
+            $('#yzm').html("重新发送(" + wait + ")");
+            wait--;
+            setTimeout(function () {
+                        timeTest()
                     },
-                    'json'
-            );
+                    1000)
         }
-        function timeTest() {
-            if (wait == 0) {
-                $('#yzm').removeAttr("disabled");
-                $('#yzm').html("获取验证码");
-            } else {
-                $('#yzm').attr("disabled", true);
-                $('#yzm').html("重新发送(" + wait + ")");
-                wait--;
-                setTimeout(function () {
-                            timeTest()
-                        },
-                        1000)
-            }
-        }
+    }
 
 
-        $('#defaultForm')
-                .formValidation({
-                    icon: {
-                        valid: 'glyphicon glyphicon-ok',
-                        invalid: 'glyphicon glyphicon-remove',
-                        validating: 'glyphicon glyphicon-refresh'
-                    },
-                    fields: {
-                        smsCode: {
-                            validators: {
-                                notEmpty: {
-                                    message: '验证码必填'
-                                },
+    $('#defaultForm')
+            .formValidation({
+                icon: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    smsCode: {
+                        validators: {
+                            notEmpty: {
+                                message: '验证码必填'
+                            },
+                            phone: {
+                                country: 'CN',
+                                message: '请输入有效的手机账号'
                             }
                         }
-
                     }
-                })
-                .on('success.form.fv', function (e) {
-                    e.preventDefault();
-                    var $form = $(e.target);
 
-                    // Get the FormValidation instance
-                    var bv = $form.data('formValidation');
+                }
+            })
+            .on('success.form.fv', function (e) {
+                e.preventDefault();
+                var $form = $(e.target);
 
-                    $.post("{:U('bind')}",
-                            $('#defaultForm').serialize(),
-                            function (data) {
-                                if (data.result == 'success') {
-                                    Lobibox.notify('success', {
-                                        size: 'mini',
-                                        width: 300,
-                                        msg: '操作成功'
-                                    });
-                                    $.get("{:U('binding')}", function (data) {
-                                        $('#carChildView').html(data)
-                                    })
-                                }
-                                else {
-                                    Lobibox.notify('error', {
-                                        size: 'mini',
-                                        width: 300,
-                                        msg: data.describe
-                                    });
-                                }
-                            }, 'json'
-                    )
+                // Get the FormValidation instance
+                var bv = $form.data('formValidation');
+
+                $.post("bind.php",
+                        $('#defaultForm').serialize(),
+                        function (data) {
+                            if (data.result == 'success') {
+                                Lobibox.notify('success', {
+                                    size: 'mini',
+                                    width: 300,
+                                    msg: '操作成功'
+                                });
+                                $.get("binding.php", function (data) {
+                                    $('#goodChildView').html(data)
+                                })
+                            }
+                            else {
+                                Lobibox.notify('error', {
+                                    size: 'mini',
+                                    width: 300,
+                                    msg: data.describe
+                                });
+                            }
+                        }, 'json'
+                )
 
 
-                });
-    </script>
-
+            });
+</script>
 <div class="container" style="width: 100%;height:600px;">
     <div class="page-header">
         <ol class="breadcrumb">

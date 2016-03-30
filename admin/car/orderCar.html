@@ -1,11 +1,11 @@
-
-    <script>
+ <script>
         showLocation();
         showLocation1();
+        $('#id').val(sessionStorage.getItem('session'));
         function orderCarPush() {
             $('#start').val($('#loc_province  option:selected').text() + $('#loc_city  option:selected').text() + $('#loc_town  option:selected').text());
             $('#end').val($('#loc_province1  option:selected').text() + $('#loc_city1  option:selected').text() + $('#loc_town1  option:selected').text());
-            $.post('{:U("orderCarPush")}', $('#orderInfo').serialize(), function (data) {
+            $.post('orderCarPush.php', $('#orderInfo').serialize(), function (data) {
                 console.log(data);
                 if (data.result == 'success') {
                     Lobibox.notify('success', {
@@ -44,7 +44,7 @@
 
 
         $('#tablePerson').bootstrapTable({
-            url: '{:U("lookcar")}',
+            url: 'lookcar.php',
             height: 700,
             sidePagination: 'server',
             pagination: true,
@@ -107,6 +107,7 @@
             params.carType = $('#carType').val();
             params.carLen = $('#carLen').val();
             params.carLoad = $('#carLoad').val();
+            params.session=sessionStorage.getItem('session');
             return params
         }
     </script>
@@ -129,7 +130,7 @@
         function push(id) {
             var goodsId = $.cookie('goodsId');
             var targetId = id;
-            $.post("{:U('pushGoods')}", {goodsId: goodsId, targetId: targetId}, function (data) {
+            $.post("pushGoods.php", {goodsId: goodsId, targetId: targetId,session:sessionStorage.session}, function (data) {
                 console.log(data)
                 if (data.result == 'success') {
                     Lobibox.notify('success', {
@@ -269,6 +270,7 @@
                         </div>
                         <div class="modal-body">
                             <form class="form-inline" id="orderInfo">
+                                <input type="text" name="session" id="id" style="display: none">
                                 <input type="text" name="targetId" id="targetId" style="display: none;">
 
                                 <div class="form-group">

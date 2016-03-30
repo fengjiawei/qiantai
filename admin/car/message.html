@@ -1,5 +1,4 @@
-
-    <script>
+ <script>
         $("#mytab a").click(function (e) {
             e.preventDefault();
             $(this).tab("show");
@@ -31,7 +30,7 @@
         window.operateEvents = {
             'click .look': function (e, value, row, index) {
 //            alert(row.relateId);
-                $.post('{:U("findGoodById")}', {goodsId: row.relateId}, function (data) {
+                $.post('findGoodById.php', {goodsId: row.relateId,session:sessionStorage.session}, function (data) {
                     console.log(data)
                     var good = data.goods;
                     $('#1').html("<li><i class='glyphicon glyphicon-user'></i>联系人:" + good.name + "</li><li><i class='glyphicon glyphicon-earphone'></i>联系方式:" + good.phone);
@@ -50,7 +49,7 @@
             }
         };
         $('#tableGoods').bootstrapTable({
-            url: '{:U("goodsMessage")}',
+            url: 'goodsMessage.php',
             height: 700,
             sidePagination: 'server',
             pagination: true,
@@ -113,9 +112,33 @@
 //        params.carType = $('#carType').val();
 //        params.carLen = $('#carLen').val();
 //        params.carLoad = $('#carLoad').val();
+            params.session=sessionStorage.getItem('session');
             return params
         }
     </script>
+ <script>
+     function sub() {
+         $.post('priceGoodsMessage.php', $('#price').serialize(), function (data) {
+             console.log(data)
+             if (data.result == 'success') {
+                 Lobibox.notify('success', {
+                     size: 'mini',
+                     width: 300,
+                     msg: '报价成功'
+                 });
+             } else {
+                 Lobibox.notify('error', {
+                     size: 'mini',
+                     width: 300,
+                     msg: data.describe
+                 });
+             }
+         }, 'json')
+         $('#priceModal').modal('hide')
+         $('#tableGoods').bootstrapTable('refresh')
+
+     }
+ </script>
     <style>
 
         .form-group label {
@@ -267,29 +290,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" onclick="sub()">提 交</button>
                         </div>
-                        <script>
-                            function sub() {
-                                $.post('{:U("priceGoodsMessage")}', $('#price').serialize(), function (data) {
-                                    console.log(data)
-                                    if (data.result == 'success') {
-                                        Lobibox.notify('success', {
-                                            size: 'mini',
-                                            width: 300,
-                                            msg: '报价成功'
-                                        });
-                                    } else {
-                                        Lobibox.notify('error', {
-                                            size: 'mini',
-                                            width: 300,
-                                            msg: data.describe
-                                        });
-                                    }
-                                }, 'json')
-                                $('#priceModal').modal('hide')
-                                $('#tableGoods').bootstrapTable('refresh')
 
-                            }
-                        </script>
                     </div>
                 </div>
             </div>
