@@ -218,3 +218,34 @@ a img {
 #main-menu a:hover {
 	color: #E67E22;
 }
+#footer2 {
+	background-color: black;
+	color: gray;
+	font-size: 12px;
+	margin: auto auto;
+	text-align: center;
+	height: 80px;
+}
+
+td {
+	font-size: 12px;
+}
+
+.main-navigation .menu li.nav-current a {
+	color: #e67e22;
+}
+
+.main-navigation .menu li.nav-current a:link {
+	text-decoration: none
+}
+
+input {
+	min-height: 34px;
+}
+
+.main-navigation .menu li a {
+	color: #ffffff;
+	line-height: 4em;
+	display: block;
+	padding: 0 21px;
+}

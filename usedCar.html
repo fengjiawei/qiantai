@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../css/fileinput.css">
+<link rel="stylesheet" href="/qiantai/admin/css/fileinput.css">
 
 
 <div class="container-fluid">
@@ -46,8 +46,8 @@
 </div>
 
 
-<script src="../js/fileinput.js"></script>
-<script src="../js/fileinput_locale_zh.js"></script>
+<script src="/qiantai/admin/js/fileinput.js"></script>
+<script src="/qiantai/admin/js/fileinput_locale_zh.js"></script>
 <script src="//cdn.bootcss.com/jquery.form/3.51/jquery.form.js"></script>
 <script>
     //        function sub() {
@@ -64,7 +64,7 @@
         $('#carinfo').ajaxSubmit({
             type: 'post',
             dataType: 'json',
-            url: 'usedCar.php',
+            url: '/qiantai/usedCar.php',
             success: function (data) {
                 if (data.result == 'success') {
                     Messenger().post("上传成功")

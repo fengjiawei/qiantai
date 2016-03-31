@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- saved from url=(0041)http://v3.bootcss.com/examples/dashboard/ -->
 <html lang="zh-CN">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -9,29 +8,26 @@
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
 
+    <!-- jQuery -->
+    <script src="../js/jquery.min.js"></script>
     <title>车主会员中心</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../style/css/bootstrap-table.css" />
-    <script src="//cdn.bootcss.com/jquery/3.0.0-beta1/jquery.js"></script>
-    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../js/area.js"></script>
-    <script type="text/javascript" src="../js/location.js"></script>
-    <script type="text/javascript" src="../js/lobibox.min.js"></script>
-    <script src="../js/bootstrap-table.js"></script>
-    <script src="../js/bootstrap-table-zh-CN.js"></script>
 
+
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../style/css/bootstrap-table.css"/>
+    <link rel="stylesheet" type="text/css" href="../style/css/normalize.css"/>
+    <link rel="stylesheet" href="../css/messenger.css">
+    <link rel="stylesheet" href="../css/messenger-theme-air.css">
     <!-- Custom styles for this template -->
     <link href="../css/dashboard.css" rel="stylesheet">
 
-
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]>
-    <script src="../js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../js/ie-emulation-modes-warning.js"></script>
+    <!--<script src="../js/ie8-responsive-file-warning.js"></script><![endif]&ndash;&gt;-->
+    <!--<script src="../js/ie-emulation-modes-warning.js"></script>-->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -40,17 +36,24 @@
     <![endif]-->
 </head>
 <style>
+    .page-header {
+        margin-top: 20px;
+    }
 </style>
-<script>
-</script>
 <script>
     $(function () {
         $.get("manage.html", function (data) {
             $('#carChildView').html(data);
-        })
+        });
+        $('#admin').before(sessionStorage.getItem('name'));
     });
+    function active(id) {
+        $('.nav-sidebar>li').removeAttr('class');
+        $('#' + id).attr('class', 'active');
+    }
     function change(name) {
         var id = $(name).attr('id');
+        active(id);
         switch (id) {
             case ('lookGood'):
                 $.get("carcenter.html", function (data) {
@@ -63,7 +66,7 @@
                 });
                 break;
             case 'orderCar':
-                $.get("orderCar.html", function (data) {
+                $.get("carOrder.html", function (data) {
                     $('#carChildView').html(data);
                 });
                 break;
@@ -126,60 +129,77 @@
             </button>
             <a class="navbar-brand" href="http://www.56zhipei.com">车主会员中心</a>
         </div>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="javascript:void(window.location.replace('../../index'))">首页</a></li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                   aria-expanded="false">个人中心<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li onclick="change($('#account'))"><a href="javascript:void(0)">个人设置</a></li>
-                    <!--<li><a href="#">消息</a></li>-->
-                    <li role="separator" class="divider"></li>
-                    <li><a href="javascript:void(sessionStorage.clear(),window.location.replace('../../index'))">退出</a></li>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">首页</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false"><span id="admin" class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li onclick="change($('#account'))"><a href="javascript:void(0)">个人设置</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a href="javascript:void(sessionStorage.clear(),window.location.replace('../../index'))">退出</a>
+                        </li>
 
-                </ul>
-            </li>
-        </ul>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
+            <div class="page-header">
+                <h4>我要找货</h4>
+            </div>
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">我要找货</a></li>
-                <li><a href="javascript:void(0);" id="lookGood" onclick="change(this)">货源查看</a></li>
+                <li id="lookGood" onclick="change(this)"><a href="javascript:void(0);">货源查看</a></li>
             </ul>
+            <div class="page-header">
+                <h4>车源发布</h4>
+            </div>
             <ul class="nav nav-sidebar">
-                <li><a href="javascript:void(0);">车源发布</a></li>
-                <li><a href="javascript:void(0);" id="myCarResoure" onclick="change(this)">我的车队</a></li>
-                <li><a href="javascript:void(0);" id="orderCar" onclick="change(this)">车源列表</a></li>
+                <li id="myCarResoure" onclick="change(this)"><a href="javascript:void(0);">我的车队</a></li>
+                <li id="orderCar" onclick="change(this)"><a href="javascript:void(0);">车源列表</a></li>
             </ul>
+            <div class="page-header">
+                <h4>订单中心</h4>
+            </div>
             <ul class="nav nav-sidebar">
-                <li><a href="javascript:void(0);" id="myPrice" onclick="change(this)">我的报价</a></li>
-                <li><a href="javascript:void(0);" id="carOrder" onclick="change(this)">订单查看</a></li>
-                <li><a href="javascript:void(0);" id="myReceipt" onclick="change(this)">我的回单</a></li>
-                <li><a href="javascript:void(0);" id="myFreight" onclick="change(this)">我的运费</a></li>
+                <li id="myPrice" onclick="change(this)"><a href="javascript:void(0);">我的报价</a></li>
+                <li id="carOrder" onclick="change(this)"><a href="javascript:void(0);">订单查看</a></li>
+                <li id="myReceipt" onclick="change(this)"><a href="javascript:void(0);">我的回单</a></li>
+                <li id="myFreight" onclick="change(this)"><a href="javascript:void(0);">我的运费</a></li>
             </ul>
+            <div class="page-header">
+                <h4>个人中心</h4>
+            </div>
             <ul class="nav nav-sidebar">
-                <li><a href="javascript:void(0);" id="account">账户管理</a></li>
-                <li><a href="javascript:void(0);" id="authentication" onclick="change(this)">会员认证</a></li>
-                <li><a href="javascript:void(0);" id="safety" onclick="change(this)">安全设置</a></li>
-                <li><a href="javascript:void(0);" id="message" onclick="change(this)">消息中心</a></li>
+                <li class="active" id="account" onclick="change(this)"><a href="javascript:void(0);" >账户管理</a></li>
+                <li id="authentication" onclick="change(this)"><a href="javascript:void(0);">会员认证</a></li>
+                <li id="safety" onclick="change(this)"><a href="javascript:void(0);">安全设置</a></li>
+                <li id="message" onclick="change(this)"><a href="javascript:void(0);">消息中心</a></li>
             </ul>
         </div>
         <div class="col-md-10" style="float: right;background-color: #ffffff" id="carChildView">
         </div>
     </div>
 </div>
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<!--<script src="../js/jquery.min.js"></script>-->
+<!-- Bootstrap core JavaScript-->
 
 
-<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-<script src="../js/holder.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-table.js"></script>
+<script src="../js/bootstrap-table-zh-CN.js"></script>
+<script src="../js/location.js"></script>
+<script src="../js/area.js"></script>
+<script src="../js/messenger.min.js"></script>
+
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="../js/ie10-viewport-bug-workaround.js"></script>
 
