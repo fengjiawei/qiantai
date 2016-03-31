@@ -7,4 +7,4 @@
  * describe:短信验证码
  */
 require_once "function.php";
-returnJson("http://101.200.172.223:8080/user/smsCode.json",$_POST);
+returnJson(U."user/smsCode.json",$_POST);

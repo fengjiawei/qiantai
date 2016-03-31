@@ -8,4 +8,4 @@
  */
 require_once "function.php";
 
-returnJson("http://101.200.172.223:8080/goods/queryGoodsTrack.json",$_POST);
+returnJson(U."goods/queryGoodsTrack.json",$_POST);

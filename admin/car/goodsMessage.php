@@ -7,4 +7,4 @@
  * describe:获取推送货源信息
  */
 require_once 'function.php';
-returnJson("http://101.200.172.223:8080/message/goodsMessages.json",$_GET);
+returnJson(U."message/goodsMessages.json",$_GET);

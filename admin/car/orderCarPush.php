@@ -7,4 +7,4 @@
  * describe:订车
  */
 require_once "function.php";
-returnJson('http://101.200.172.223:8080/rental/rentalCar.json',$_POST);
+returnJson(U.'rental/rentalCar.json',$_POST);

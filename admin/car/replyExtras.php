@@ -7,5 +7,5 @@
  * describe:接受杂费
  */
 require_once "function.php";
-$result = http_post_json("http://101.200.172.223:8080/unite/replyExtras.json", json_encode($_POST));
+$result = http_post_json(U."unite/replyExtras.json", json_encode($_POST));
 echo $result;

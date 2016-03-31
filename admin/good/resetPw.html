@@ -11,6 +11,7 @@
     <script src='../style/js/validation/bootstrap.js'></script>
     <js href="../style/js/validation/zh_CN.js"/>
     <script>
+        $('#id').val(sessionStorage.getItem('session'));
         $('#defaultForm')
                 .formValidation({
                     icon: {
@@ -58,7 +59,7 @@
                     // Get the FormValidation instance
                     var bv = $form.data('formValidation');
 
-                    $.post("{:U('resPw')}",
+                    $.post("resPw.php",
                             $('#defaultForm').serialize(),
                             function (data) {
                                 if (data.result == 'success') {
@@ -94,6 +95,7 @@
         </ol>
     </div>
     <form id="defaultForm" class="form-horizontal" style="margin-top: 30px">
+        <input id="id" name="session" type="text" style="display: none">
         <div class="form-group">
             <label class="col-sm-2 control-label">账号</label>
 

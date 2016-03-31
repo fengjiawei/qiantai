@@ -5,6 +5,7 @@
  * Date: 2016/3/9
  * Time: 14:12
  */
+define("U","http://101.200.172.223:8080/");
 function http_post_json($url, $jsonStr)
 {
     $ch = curl_init();

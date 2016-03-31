@@ -7,5 +7,5 @@
  * describe:修改密码
  */
 require_once "function.php";
-$result = http_post_json("http://101.200.172.223:8080/user/findPassword.json", json_encode($_POST));
+$result = http_post_json(U."user/findPassword.json", json_encode($_POST));
 echo $result;

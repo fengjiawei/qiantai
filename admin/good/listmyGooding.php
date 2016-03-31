@@ -8,5 +8,5 @@
 require_once "function.php";
 
 //returnJson("http://101.200.172.223:8080/unite/newGoodsList.json",$_GET);
-$result = http_post_json("http://101.200.172.223:8080/unite/currentGoodsList.json",json_encode($_GET));
+$result = http_post_json(U."unite/currentGoodsList.json",json_encode($_GET));
 echo $result;

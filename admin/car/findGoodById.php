@@ -7,4 +7,4 @@
  * describe:通过id查看货源详情
  */
 require_once "function.php";
-returnJson("http://101.200.172.223:8080/unite/queryGoodsInfo.json",$_POST);
+returnJson(U."unite/queryGoodsInfo.json",$_POST);

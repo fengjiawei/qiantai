@@ -7,7 +7,7 @@
  * describe：查看个人车主报价(获得货物id和个人车主id)
  */
 require_once "function.php";
-$result = http_post_json("http://101.200.172.223:8080/unite/personalPriceList.json",json_encode($_GET));
+$result = http_post_json(U."unite/personalPriceList.json",json_encode($_GET));
 if (json_decode($result)->result == 'success') {
     echo json_encode(json_decode($result)->list);
 }

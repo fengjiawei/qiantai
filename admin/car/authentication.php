@@ -6,4 +6,4 @@
  * Time: 16:32
  */
 require_once "function.php";
-returnJson("http://101.200.172.223:8080/unite/transportAuthentication.json",$_POST);
+returnJson(U."unite/transportAuthentication.json",$_POST);

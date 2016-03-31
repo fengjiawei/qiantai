@@ -7,4 +7,4 @@
  * describe:查看车源
  */
 require_once "function.php";
-returnJson("http://101.200.172.223:8080/unite/queryPublicCar.json", $_GET);
+returnJson(U."unite/queryPublicCar.json", $_GET);

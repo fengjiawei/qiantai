@@ -7,4 +7,4 @@
  * describe:提交认证消息
  */
 require_once "function.php";
-returnJson("http://101.200.172.223:8080/unite/authCompany.json",$_POST);
+returnJson(U."unite/authCompany.json",$_POST);

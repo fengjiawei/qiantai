@@ -7,5 +7,5 @@
  * describe:我的报价
  */
 require_once "function.php";
-$result = http_post_json("http://101.200.172.223:8080/unite/newCarList.json",json_encode($_GET));
+$result = http_post_json(U."unite/newCarList.json",json_encode($_GET));
 echo $result;
