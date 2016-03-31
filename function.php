@@ -35,19 +35,3 @@ function returnJson($url,$params){
     echo $result;
 //    }
 }
-function create_uuid(){
-    $units = array();
-    for($i=0;$i<1000000;$i++){
-        $units[]=md5(uniqid(md5(microtime(true)),true));
-    }
-    $values  = array_count_values($units);
-    $duplicates = [];
-    foreach($values as $k=>$v){
-        if($v>1){
-            $duplicates[$k]=$v;
-        }
-    }
-    echo '<pre>';
-    print_r($duplicates);
-    echo '</pre>';
-}
