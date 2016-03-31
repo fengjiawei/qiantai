@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- jQuery -->
+    <script src="../style/js/jquery.min.js"></script>
+    <title>车主会员中心</title>
+
+    <!-- Bootstrap core CSS -->
+
+
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap-table.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/normalize.css"/>
+    <link rel="stylesheet" href="../static/css/messenger.css">
+    <link rel="stylesheet" href="../static/css/messenger-theme-air.css">
+    <!-- Custom styles for this template -->
+    <link href="../static/css/dashboard.css" rel="stylesheet">
+    <script src="../static/js/jquery.min.js"></script>
+
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../static/js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <!--<script src="../js/ie8-responsive-file-warning.js"></script><![endif]&ndash;&gt;-->
+    <!--<script src="../js/ie-emulation-modes-warning.js"></script>-->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<style>
+    .page-header {
+        margin-top: 20px;
+    }
+</style>
+<script>
+    $(function () {
+        $.get("manage.html", function (data) {
+            $('#carChildView').html(data);
+        });
+        $('#admin').before(sessionStorage.getItem('name'));
+    });
+    function active(id) {
+        $('.nav-sidebar>li').removeAttr('class');
+        $('#' + id).attr('class', 'active');
+    }
+    function change(name) {
+        var id = $(name).attr('id');
+        active(id);
+        switch (id) {
+            case ('lookGood'):
+                $.get("carcenter.html", function (data) {
+                    $('#carChildView').html(data);
+                });
+                break;
+            case 'myCarResoure':
+                $.get("myCarResoure.html", function (data) {
+                    $('#carChildView').html(data);
+                });
+                break;
+            case 'orderCar':
+                $.get("carOrder.html", function (data) {
+                    $('#carChildView').html(data);
+                });
+                break;
+            case 'myPrice':
+                $.get("myPrice.html", function (data) {
+                    $('#carChildView').html(data);
+                });
+                break;
+            case 'carOrder':
+                $.get("carOrder.html", function (data) {
+                    $('#carChildView').html(data);
+                });
+                break;
+            case 'myReceipt':
+                $.get("myReceipt.html", function (data) {
+                    $('#carChildView').html(data);
+                });
+                break;
+            case 'myFreight':
+                $.get("myFreight.html", function (data) {
+                    $('#carChildView').html(data);
+                });
+                break;
+            case 'authentication':
+                $.get("authentication.html", function (data) {
+                    $('#carChildView').html(data);
+                });
+                break;
+            case 'safety':
+                $.get("safety.html", function (data) {
+                    $('#carChildView').html(data);
+                });
+                break;
+            case 'message':
+                $.get("message.html", function (data) {
+                    $('#carChildView').html(data);
+                });
+                break;
+            case 'account':
+                $.get("manage.html", function (data) {
+                    $('#carChildView').html(data);
+                });
+                break;
+        }
+
+    }
+</script>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://www.56zhipei.com">车主会员中心</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">首页</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false"><span id="admin" class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li onclick="change($('#account'))"><a href="javascript:void(0)">个人设置</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a href="javascript:void(sessionStorage.clear(),window.location.replace('../../index'))">退出</a>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <div class="page-header">
+                <h4>我要找货</h4>
+            </div>
+            <ul class="nav nav-sidebar">
+                <li id="lookGood" onclick="change(this)"><a href="javascript:void(0);">货源查看</a></li>
+            </ul>
+            <div class="page-header">
+                <h4>车源发布</h4>
+            </div>
+            <ul class="nav nav-sidebar">
+                <li id="myCarResoure" onclick="change(this)"><a href="javascript:void(0);">我的车队</a></li>
+                <li id="orderCar" onclick="change(this)"><a href="javascript:void(0);">车源列表</a></li>
+            </ul>
+            <div class="page-header">
+                <h4>订单中心</h4>
+            </div>
+            <ul class="nav nav-sidebar">
+                <li id="myPrice" onclick="change(this)"><a href="javascript:void(0);">我的报价</a></li>
+                <li id="carOrder" onclick="change(this)"><a href="javascript:void(0);">订单查看</a></li>
+                <li id="myReceipt" onclick="change(this)"><a href="javascript:void(0);">我的回单</a></li>
+                <li id="myFreight" onclick="change(this)"><a href="javascript:void(0);">我的运费</a></li>
+            </ul>
+            <div class="page-header">
+                <h4>个人中心</h4>
+            </div>
+            <ul class="nav nav-sidebar">
+                <li class="active" id="account" onclick="change(this)"><a href="javascript:void(0);" >账户管理</a></li>
+                <li id="authentication" onclick="change(this)"><a href="javascript:void(0);">会员认证</a></li>
+                <li id="safety" onclick="change(this)"><a href="javascript:void(0);">安全设置</a></li>
+                <li id="message" onclick="change(this)"><a href="javascript:void(0);">消息中心</a></li>
+            </ul>
+        </div>
+        <div class="col-md-10" style="float: right;background-color: #ffffff" id="carChildView">
+        </div>
+    </div>
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="../static/js/bootstrap.min.js"></script>
+<script src="../static/js/bootstrap-table.js"></script>
+<script src="../static/js/bootstrap-table-zh-CN.js"></script>
+<script src="../static/js/location.js"></script>
+<script src="../static/js/area.js"></script>
+<script src="../static/js/messenger.min.js"></script>
+
+</body>
+
+</html>
