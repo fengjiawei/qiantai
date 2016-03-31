@@ -8,19 +8,11 @@
     <script type="text/javascript" src="../style/js/validation/bootstrap.js"></script>
     <link href="../style/css/validation/formValidation.css" type="text/css"/>
 
-
-
-
     <style>
 
         .form-group {
             margin-top: 10px;
         }
-
-        /*button{*/
-        /*margin-top: 10px;*/
-        /*}*/
-
     </style>
     <script>
 
@@ -32,7 +24,7 @@
         $("#mytab a").click(function (e) {
             e.preventDefault();
             $(this).tab("show");
-        })
+        });
         function save(num) {
             if (num == 1) {
                 $('#startStation').val($('#loc_province  option:selected').text() + $('#loc_city  option:selected').text() + $('#loc_town  option:selected').text());
@@ -43,7 +35,7 @@
                             url: 'save.php',
                             data: $("#vehicle").serialize(),
                             success: function (data) {
-                                console.log(data)
+                                console.log(data);
                                 if (data.result == 'success') {
                                     Lobibox.confirm({
                                         title: '提示',
@@ -81,7 +73,8 @@
                             dataType: 'json'
                         }
                 )
-            } else {
+            }
+            else {
                 $('#ld_startStation').val($('#ld_from_province').val() + $('#ld_from_city').val() + $('#ld_from_counties').val());
                 $('#ld_endStation').val($('#ld_to_province').val() + $('#ld_to_city').val() + $('#ld_to_counties').val());
                 $('#goodsLoadSize').val($('#ld_good_types').val() + " " + $('#ld_good_number').val() + "件/" + $('#ld_good_volume').val() + "立方/" + $('#good_weight').val() + "吨/");
@@ -135,7 +128,7 @@
                 var marker = new AMap.Marker({
                     map: map,
                     bubble: true
-                })
+                });
                 var input = document.getElementById('input1');
                 var message = document.getElementById('message');
                 map.on('click', function (e) {
@@ -144,20 +137,20 @@
                     marker.setPosition(e.lnglat);
                     geocoder.getAddress(e.lnglat, function (status, result) {
                         if (status == 'complete') {
-                            input.value = result.regeocode.formattedAddress
+                            input.value = result.regeocode.formattedAddress;
                             message.innerHTML = ''
                         } else {
                             message.innerHTML = '无法获取地址'
                         }
                     })
-                })
+                });
 
                 input.onchange = function (e) {
                     var address = input.value;
                     geocoder.getLocation(address, function (status, result) {
                         if (status == 'complete' && result.geocodes.length) {
                             marker.setPosition(result.geocodes[0].location);
-                            map.setCenter(marker.getPosition())
+                            map.setCenter(marker.getPosition());
                             message.innerHTML = ''
                         } else {
                             message.innerHTML = '无法获取位置'

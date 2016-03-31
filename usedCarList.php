@@ -6,6 +6,7 @@
  * Time: 下午1:48
  */
 //header('Content-type:image/jpeg');
+require_once 'function.php';
 $con = new mysqli("101.200.172.223:3306", "root", "logistics_mysql", "testdb");
 
 $sql = "select * from uesd_car";
