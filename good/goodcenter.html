@@ -22,25 +22,26 @@
     .input-group-addon {
         cursor: pointer;
     }
-    /*.panel1 {*/
-        /*background-color: #ddf;*/
-        /*color: #333;*/
-        /*border: 1px solid silver;*/
-        /*box-shadow: 3px 4px 3px 0px silver;*/
-        /*position: absolute;*/
-        /*top: 10px;*/
-        /*right: 10px;*/
-        /*border-radius: 5px;*/
-        /*overflow: hidden;*/
-        /*line-height: 20px;*/
-        /*margin-top: 36px;*/
-    /*}*/
 
-    /*#input1 {*/
-        /*width: 250px;*/
-        /*height: 25px;*/
-        /*border: 0;*/
-    /*}*/
+    .panel1 {
+        background-color: #ddf;
+        color: #333;
+        border: 1px solid silver;
+        box-shadow: 3px 4px 3px 0px silver;
+        position: absolute;
+        top: 30px;
+        right: 10px;
+        border-radius: 5px;
+        overflow: hidden;
+        line-height: 20px;
+        margin-top: 36px;
+    }
+
+    #input1 {
+        width: 250px;
+        height: 25px;
+        border: 0;
+    }
 
 
 </style>
@@ -53,24 +54,27 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">装车地址</h4>
             </div>
-            <div class="modal-body"  style="height: 400px">
+            <div class="modal-body" id="mapContainer" style="height: 400px">
 
             </div>
-            <!--<div class='panel1'>-->
-                <!--<input id='input1' value='点击地图显示地址/输入地址显示位置' onfocus='this.value=""'/>-->
+            <div class='panel1'>
+                <input id='input1' value='点击地图显示地址/输入地址显示位置' onfocus='this.value=""'/>
 
-                <!--<div id='message'></div>-->
-            <!--</div>-->
-            <!--<div id="pos" style="display: none">-->
-                <!--<b>鼠标左键在地图上单击获取坐标</b>-->
-                <!--<br>-->
+                <div id='message'></div>
+            </div>
+            <div id="pos" style="display: none">
+                <b>鼠标左键在地图上单击获取坐标</b>
+                <br>
 
-                <!--<div>X：<input type="text" id="lngX" name="lngX" value=""/>&nbsp;Y：<input type="text" id="latY"-->
-                                                                                         <!--name="latY"-->
-                                                                                         <!--value=""/></div>-->
-            <!--</div>-->
+                <div>X：<input type="text" id="lngX" name="lngX" value=""/>&nbsp;Y：<input type="text" id="latY"
+                                                                                         name="latY"
+                                                                                         value=""/></div>
+            </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button id="z" type="button" class="btn btn-primary" onclick="checkXY(1)" data-dismiss="modal">确定
+                </button>
+                <button id="l" type="button" class="btn btn-success" onclick="checkXY(2)" data-dismiss="modal">确定
+                </button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -95,411 +99,398 @@
             <div class="tab-content">
                 <!--tab页 1 整车发货-->
                 <div class="tab-pane active" id="zhengchefahuo">
-                    <div class="container" style="width: 100%">
-                        <form id="vehicle" class="form-inline" action="" method="post">
-                            <script>
-                                $(function () {
-                                    var session = sessionStorage.getItem('session');
-                                    $('#session').val(session);
-                                })
-                            </script>
-                            <input type="text" id="session" name="session" style="display:none;">
-                            <div class="form-group">
-                                <label class="control-label">发货日期</label>
+                    <form id="vehicle" class="form-inline" action="" method="post">
+                        <input type="text" name="session" style="display:none;">
+                        <div class="form-group">
+                            <label class="control-label">发货日期</label>
 
-                                <div class="input-group date" id="deliveryDate">
-                                    <input type="text" class="form-control" name="deliveryDate"/>
+                            <div class="input-group date" id="deliveryDate">
+                                <input type="text" class="form-control" name="deliveryDate"/>
                                     <span class="input-group-addon"><span
                                             class="glyphicon glyphicon-calendar"></span></span>
-                                </div>
-                                <!--<input name="deliveryDate" type="date" class="form-control" placeholder="">-->
                             </div>
-                            <br>
-                            <div class="form-group">
-                                <input name="type" value="nonstop" style="display: none">
+                            <!--<input name="deliveryDate" type="date" class="form-control" placeholder="">-->
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <input name="type" value="nonstop" style="display: none">
 
-                                <label class="control-label">发货城市 </label>
-                                <select id="loc_province" name="loc_province" class="form-control"></select>
-                                <select id="loc_city" name="loc_city" class="form-control"></select>
+                            <label class="control-label">发货城市 </label>
+                            <select id="loc_province" name="loc_province" class="form-control"></select>
+                            <select id="loc_city" name="loc_city" class="form-control"></select>
 
-                                <select id="loc_town" name="loc_town" class="form-control"></select>
-                                <input type="text" name="startStation" id="startStation" style="display: none">
+                            <select id="loc_town" name="loc_town" class="form-control"></select>
+                            <input type="text" name="startStation" id="startStation" style="display: none">
 
-                            </div>
-                            <!--<div class="form-group">-->
-                            <!--<select id="loc_city" name="loc_city" class="form-control"></select>-->
-                            <!--</div>-->
-                            <!--<div class="form-group"></div>-->
-                            <div class="form-group">
-                                <label class="control-label">装车地址</label>
+                        </div>
+                        <!--<div class="form-group">-->
+                        <!--<select id="loc_city" name="loc_city" class="form-control"></select>-->
+                        <!--</div>-->
+                        <!--<div class="form-group"></div>-->
+                        <div class="form-group">
+                            <label class="control-label">装车地址</label>
 
-                                <div class="input-group">
-                                    <input id='zc' name="startAddress" type="text" class="form-control"
-                                           placeholder="详细地址"
-                                           style="width: 200px;">
-                                    <span class="input-group-addon" onclick="openMap()"><span
-                                            class="glyphicon glyphicon-map-marker"></span></span>
-                                </div>
-                                <input type="text" name="positionY" id="positionx" readonly style="display: none">
-                                <input type="text" name="positionX" id="positiony" readonly style="display: none">
-                            </div>
-                            <br>
-                            <div class="form-group">
-                                <label class="control-label">到货城市 </label>
-                                <select id="loc_province1" name="loc_province" class="form-control"></select>
-                                <select id="loc_city1" name="loc_city" class="form-control"></select>
-                                <select id="loc_town1" name="loc_town" class="form-control"></select>
-                                <input type="text" name="endStation" id="endStation" style="display: none">
-
-                            </div>
-                            <!--<div class="form-group">-->
-                            <!---->
-                            <!--</div>-->
-                            <!--<div class="form-group"></div>-->
-                            <div class="form-group">
-                                <label class="control-label">卸货地址</label>
-                                <input name="endAddress" type="text" class="form-control" placeholder="详细地址"
+                            <div class="input-group">
+                                <input id='zc' name="startAddress" type="text" class="form-control"
+                                       placeholder="详细地址"
                                        style="width: 200px;">
+                                    <span class="input-group-addon" onclick="openMap(1)"><span
+                                            class="glyphicon glyphicon-map-marker"></span></span>
                             </div>
-                            <hr>
-                            <div class="form-group">
-                                <label class="control-label">联系人名</label>
-                                <input name="receiverName" type="text" style="width: 185px;" class="form-control"
-                                       placeholder="请输入姓名">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">手机号码</label>
-                                <input name="receiverPhone" type="text" style="width: 185px;" class="form-control"
-                                       placeholder="请输入手机号码">
-                            </div>
-                            <div class="form-group">
-                                <label>固定电话</label>
-                                <input name="tel" type="text" style="width: 185px;" class="form-control" readonly
-                                       placeholder="请输入固话号码">
-                            </div>
-                            <hr>
-                            <div class="form-group">
-                                <label class="control-label">货物种类</label>
-                                <select id="good_types" name="good_types" class="form-control" style="width: 185px;">
-                                    <option>重货</option>
-                                    <option>泡货</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">货物类型</label>
-                                <select name="goodsType" class="form-control" style="width: 185px;">
-                                    <option>设备</option>
-                                    <option>矿产</option>
-                                    <option>建材</option>
-                                    <option>食品</option>
-                                    <option>蔬菜</option>
-                                    <option>生鲜</option>
-                                    <option>药品</option>
-                                    <option>化工</option>
-                                    <option>木材</option>
-                                    <option>家畜</option>
-                                    <option>纺织品</option>
-                                    <option>日用品</option>
-                                    <option>电子电器</option>
-                                    <option>农夫产品</option>
-                                    <option>其他类型</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">货物名称</label>
-                                <input name="goodsName" type="text" style="width: 185px;" class="form-control"
-                                       placeholder="输入货物名称">
-                            </div>
-                            <div class="form-group">
-                                <label>件　　数</label>
-                                <input id="good_number" type="number" style="width: 185px;" class="form-control"
-                                       placeholder="输入货物件数">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">体　　积</label>
+                            <input type="text" name="positionY" id="positionx" readonly style="display: none">
+                            <input type="text" name="positionX" id="positiony" readonly style="display: none">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="control-label">到货城市 </label>
+                            <select id="loc_province1" name="loc_province" class="form-control"></select>
+                            <select id="loc_city1" name="loc_city" class="form-control"></select>
+                            <select id="loc_town1" name="loc_town" class="form-control"></select>
+                            <input type="text" name="endStation" id="endStation" style="display: none">
 
-                                <input id="good_volume" name="good_volume" type="text" style="width: 185px;"
-                                       class="form-control"
-                                       placeholder="输入体积(方)">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">重　　量</label>
-                                <input id="good_weight" name="good_weight" type="text" class="form-control"
-                                       placeholder="输入重量(吨)"
-                                       style="width: 185px;">
+                        </div>
+                        <!--<div class="form-group">-->
+                        <!---->
+                        <!--</div>-->
+                        <!--<div class="form-group"></div>-->
+                        <div class="form-group">
+                            <label class="control-label">卸货地址</label>
+                            <input name="endAddress" type="text" class="form-control" placeholder="详细地址"
+                                   style="width: 200px;">
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label class="control-label">联系人名</label>
+                            <input name="receiverName" type="text" style="width: 185px;" class="form-control"
+                                   placeholder="请输入姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">手机号码</label>
+                            <input name="receiverPhone" type="text" style="width: 185px;" class="form-control"
+                                   placeholder="请输入手机号码">
+                        </div>
+                        <div class="form-group">
+                            <label>固定电话</label>
+                            <input name="tel" type="text" style="width: 185px;" class="form-control" readonly
+                                   placeholder="请输入固话号码">
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label class="control-label">货物种类</label>
+                            <select id="good_types" name="good_types" class="form-control" style="width: 185px;">
+                                <option>重货</option>
+                                <option>泡货</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">货物类型</label>
+                            <select name="goodsType" class="form-control" style="width: 185px;">
+                                <option>设备</option>
+                                <option>矿产</option>
+                                <option>建材</option>
+                                <option>食品</option>
+                                <option>蔬菜</option>
+                                <option>生鲜</option>
+                                <option>药品</option>
+                                <option>化工</option>
+                                <option>木材</option>
+                                <option>家畜</option>
+                                <option>纺织品</option>
+                                <option>日用品</option>
+                                <option>电子电器</option>
+                                <option>农夫产品</option>
+                                <option>其他类型</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">货物名称</label>
+                            <input name="goodsName" type="text" style="width: 185px;" class="form-control"
+                                   placeholder="输入货物名称">
+                        </div>
+                        <div class="form-group">
+                            <label>件　　数</label>
+                            <input id="good_number" type="number" style="width: 185px;" class="form-control"
+                                   placeholder="输入货物件数">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">体　　积</label>
 
-                            </div>
-                            <input type="text" name="goodsLoadSize" id="goodsLoadSize" style="display: none">
+                            <input id="good_volume" name="good_volume" type="text" style="width: 185px;"
+                                   class="form-control"
+                                   placeholder="输入体积(方)">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">重　　量</label>
+                            <input id="good_weight" name="good_weight" type="text" class="form-control"
+                                   placeholder="输入重量(吨)"
+                                   style="width: 185px;">
 
-                            <div class="form-group">
-                                <label class="control-label">车　　型</label>
-                                <select name="carType" class="form-control" id="chexing" style="width: 185px;">
-                                    <option>厢式车</option>
-                                    <option>平板车</option>
-                                    <option>高低板车</option>
-                                    <option>高栏车</option>
-                                    <option>中栏车</option>
-                                    <option>低栏车</option>
-                                    <option>罐式车</option>
-                                    <option>冷藏车</option>
-                                    <option>保暖车</option>
-                                    <option>危险品车</option>
-                                    <option>铁笼车</option>
-                                    <option>集装箱</option>
-                                    <option>自卸货车</option>
-                                    <option>其他车型</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">车　　长</label>
-                                <select name="carLen" class="form-control" style="width: 185px;">
-                                    <option>4.2米</option>
-                                    <option>4.8米</option>
-                                    <option>5.2米</option>
-                                    <option>5.8米</option>
-                                    <option>6.2米</option>
-                                    <option>6.5米</option>
-                                    <option>6.8米</option>
-                                    <option>7.2米</option>
-                                    <option>8.0米</option>
-                                    <option>9.6米</option>
-                                    <option>12.0米</option>
-                                    <option>13.0米</option>
-                                    <option>13.5米</option>
-                                    <option>15.0米</option>
-                                    <option>17.5米</option>
-                                    <option>18.5米</option>
-                                    <option>20.0米</option>
-                                    <option>22.0米</option>
-                                    <option>24.0米</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">载　　重</label>
-                                <select name="carLoad" class="form-control" style="width: 187px;">
-                                    <option>8T</option>
-                                    <option>10T</option>
-                                    <option>15T</option>
-                                    <option>20T</option>
-                                    <option>25T</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>备　　注</label>
-                                <input name="describe" type="text" class="form-control" placeholder="填写运输要求"
-                                       style="width: 300px;">
-                            </div>
-                            <br>
+                        </div>
+                        <input type="text" name="goodsLoadSize" id="goodsLoadSize" style="display: none">
 
-                            <div class="form-group" style="margin-bottom: 20px">
-                                <button type="submit" class="btn btn-primary btn-sm">
-                                    发布货源
-                                </button>
-                                <!--<button type="button" class="btn btn-success btn-sm">-->
-                                <!--批量导入-->
-                                <!--</button>-->
-                            </div>
+                        <div class="form-group">
+                            <label class="control-label">车　　型</label>
+                            <select name="carType" class="form-control" id="chexing" style="width: 185px;">
+                                <option>厢式车</option>
+                                <option>平板车</option>
+                                <option>高低板车</option>
+                                <option>高栏车</option>
+                                <option>中栏车</option>
+                                <option>低栏车</option>
+                                <option>罐式车</option>
+                                <option>冷藏车</option>
+                                <option>保暖车</option>
+                                <option>危险品车</option>
+                                <option>铁笼车</option>
+                                <option>集装箱</option>
+                                <option>自卸货车</option>
+                                <option>其他车型</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">车　　长</label>
+                            <select name="carLen" class="form-control" style="width: 185px;">
+                                <option>4.2米</option>
+                                <option>4.8米</option>
+                                <option>5.2米</option>
+                                <option>5.8米</option>
+                                <option>6.2米</option>
+                                <option>6.5米</option>
+                                <option>6.8米</option>
+                                <option>7.2米</option>
+                                <option>8.0米</option>
+                                <option>9.6米</option>
+                                <option>12.0米</option>
+                                <option>13.0米</option>
+                                <option>13.5米</option>
+                                <option>15.0米</option>
+                                <option>17.5米</option>
+                                <option>18.5米</option>
+                                <option>20.0米</option>
+                                <option>22.0米</option>
+                                <option>24.0米</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">载　　重</label>
+                            <select name="carLoad" class="form-control" style="width: 187px;">
+                                <option>8T</option>
+                                <option>10T</option>
+                                <option>15T</option>
+                                <option>20T</option>
+                                <option>25T</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>备　　注</label>
+                            <input name="describe" type="text" class="form-control" placeholder="填写运输要求"
+                                   style="width: 300px;">
+                        </div>
+                        <br>
 
-                        </form>
-                    </div>
+                        <div class="form-group" style="margin-bottom: 20px">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                发布货源
+                            </button>
+                            <!--<button type="button" class="btn btn-success btn-sm">-->
+                            <!--批量导入-->
+                            <!--</button>-->
+                        </div>
+
+                    </form>
                 </div>
                 <!--tab页 2 零担发货-->
                 <div class="tab-pane" id="lingdanfahuo">
-                    <div class="tab-pane active">
-                        <div class="container jiange" style="width: 800px;">
-                            <form id="lingdan" class="form-inline" action="" method="post">
-                                <div class="form-group">
-                                    <label>发货日期</label>
-                                    <input name="deliveryDate" type="date" class="form-control" placeholder="">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="type" value="transfer" style="display: none">
-
-                                    <label class="control-label">发货城市 </label>
-                                    <select id="loc_province3" class="form-control"></select>
-                                    <select id="loc_city3" class="form-control"></select>
-                                    <select id="loc_town3" class="form-control"></select>
-                                    <input type="text" name="startStation" id="ld_startStation"
-                                           style="display:none;">
-
-                                </div>
-                                <div class="form-group">
-                                    <label>装车地址</label>
-                                    <input id="ld" name="startAddress" type="text" class="form-control"
-                                           onclick="openMap()" placeholder="详细地址"
-                                           style="width: 310px; font-size: 11px">
-                                    <input type="text" name="positionY" id="positionx1" style="display: none"/>
-                                    <input type="text" name="positionX" id="positiony1" style="display: none"/>
-                                </div>
-                                <br>
-
-                                <div class="form-group">
-                                    <label class="control-label">到货城市 </label>
-                                    <select id="loc_province4" class="form-control"></select>
-                                    <select id="loc_city4" class="form-control"></select>
-                                    <select id="loc_town4" class="form-control"></select>
-                                    <input type="text" name="endStation" id="ld_endStation" style="display: none">
-                                </div>
-                                <div class="form-group">
-                                    <label>卸车地址</label>
-                                    <input name="endAddress" type="text" class="form-control" placeholder="详细地址"
-                                           style="width: 310px;">
-                                </div>
-                                <br>
-
-                                <div class="form-group">
-                                    <label>联系人名</label>
-                                    <input name="receiverName" type="text" style="width: 185px;" class="form-control"
-                                           placeholder="请输入姓名">
-                                </div>
-                                <div class="form-group">
-                                    <label>手机号码</label>
-                                    <input name="receiverPhone" type="text" style="width: 185px;" class="form-control"
-                                           placeholder="请输入手机号码">
-                                </div>
-                                <div class="form-group">
-                                    <label>固定电话</label>
-                                    <input name="tel" type="text" style="width: 185px;" class="form-control" readonly
-                                           placeholder="请输入固话号码">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>货物种类</label>
-                                    <select id="ld_good_types" class="form-control" style="width: 185px;">
-                                        <option>重货</option>
-                                        <option>泡货</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>货物类型</label>
-                                    <select name="goodsType" class="form-control" style="width: 185px;">
-                                        <option>设备</option>
-                                        <option>矿产</option>
-                                        <option>建材</option>
-                                        <option>食品</option>
-                                        <option>蔬菜</option>
-                                        <option>生鲜</option>
-                                        <option>药品</option>
-                                        <option>化工</option>
-                                        <option>木材</option>
-                                        <option>家畜</option>
-                                        <option>纺织品</option>
-                                        <option>日用品</option>
-                                        <option>电子电器</option>
-                                        <option>农夫产品</option>
-                                        <option>其他类型</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>货物名称</label>
-                                    <input name="goodsName" type="text" style="width: 185px;" class="form-control"
-                                           placeholder="输入货物名称">
-                                </div>
-                                <br>
-
-                                <div class="form-group">
-                                    <label>件　　数</label>
-                                    <input id="ld_good_number" type="number" style="width: 185px;" class="form-control"
-                                           placeholder="输入货物件数">
-                                </div>
-
-                                <label>体　　积</label>
-
-                                <div class="input-group input-group-sm">
-
-                                    <input id="ld_good_volume" type="number" class="form-control" placeholder="输入体积"
-                                           style="width: 153px;">
-                                    <span class="input-group-addon">方</span>
-
-                                </div>
-                                <label>重　　量</label>
-
-                                <div class="input-group input-group-sm">
-
-                                    <input id="ld_good_weight" type="number" class="form-control" placeholder="输入体积"
-                                           style="width: 153px;">
-                                    <span class="input-group-addon">吨</span>
-
-                                </div>
-
-                                <input type="text" name="goodsLoadSize" id="ld_goodsLoadSize" style="display: none">
-
-
-                                <div class="form-group">
-                                    <label>车　　型</label>
-                                    <select name="carType" class="form-control" style="width: 185px;">
-                                        <option>厢式车</option>
-                                        <option>平板车</option>
-                                        <option>高低板车</option>
-                                        <option>高栏车</option>
-                                        <option>中栏车</option>
-                                        <option>低栏车</option>
-                                        <option>罐式车</option>
-                                        <option>冷藏车</option>
-                                        <option>保暖车</option>
-                                        <option>危险品车</option>
-                                        <option>铁笼车</option>
-                                        <option>集装箱</option>
-                                        <option>自卸货车</option>
-                                        <option>其他车型</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>车　　长</label>
-                                    <select name="carLen" class="form-control" style="width: 185px;">
-                                        <option>4.2米</option>
-                                        <option>4.8米</option>
-                                        <option>5.2米</option>
-                                        <option>5.8米</option>
-                                        <option>6.2米</option>
-                                        <option>6.5米</option>
-                                        <option>6.8米</option>
-                                        <option>7.2米</option>
-                                        <option>8.0米</option>
-                                        <option>9.6米</option>
-                                        <option>12.0米</option>
-                                        <option>13.0米</option>
-                                        <option>13.5米</option>
-                                        <option>15.0米</option>
-                                        <option>17.5米</option>
-                                        <option>18.5米</option>
-                                        <option>20.0米</option>
-                                        <option>22.0米</option>
-                                        <option>24.0米</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>载　　重</label>
-                                    <select name="carLoad" class="form-control" style="width: 185px;">
-                                        <option>8T</option>
-                                        <option>10T</option>
-                                        <option>15T</option>
-                                        <option>20T</option>
-                                        <option>25T</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>备　　注</label>
-                                    <input name="describe" type="text" class="form-control" placeholder="填写运输要求"
-                                           style="width: 300px;">
-                                </div>
-                                <br>
-
-                                <div>
-
-                                    <button type="button" class="btn btn-primary btn-sm"
-                                            style="margin-bottom: 50px" onclick="save(2)">
-                                        发布货源
-                                    </button>
-                                    <button type="button" class="btn btn-success btn-sm"
-                                            style="margin-bottom: 50px">
-                                        批量导入
-                                    </button>
-                                    <br>
-                                </div>
-                            </form>
+                    <form id="lingdan" class="form-inline" action="" method="post">
+                        <input type="text" name="session" style="display:none;">
+                        <div class="form-group">
+                            <label class="control-label">发货日期</label>
+                            <div class="input-group date" id="ld_deliveryDate">
+                                <input type="text" class="form-control" name="deliveryDate"/>
+                                    <span class="input-group-addon"><span
+                                            class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
                         </div>
-                    </div>
+                        <br>
+                        <div class="form-group">
+                            <input type="text" name="type" value="transfer" style="display: none">
+
+                            <label class="control-label">发货城市 </label>
+                            <select id="loc_province3" class="form-control"></select>
+                            <select id="loc_city3" class="form-control"></select>
+                            <select id="loc_town3" name="loc_town" class="form-control"></select>
+                            <input type="text" name="startStation" id="ld_startStation"
+                                   style="display:none;">
+
+                        </div>
+                        <div class="form-group">
+                            <label>装车地址</label>
+                            <div class="input-group">
+                                <input id="ld" name="startAddress" type="text" class="form-control"
+                                       placeholder="详细地址">
+                                    <span class="input-group-addon" onclick="openMap(2)"><span
+                                            class="glyphicon glyphicon-map-marker"></span></span>
+                            </div>
+                            <input type="text" name="positionY" id="positionx1" style="display: none"/>
+                            <input type="text" name="positionX" id="positiony1" style="display: none"/>
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+                            <label class="control-label">到货城市 </label>
+                            <select id="loc_province4" class="form-control"></select>
+                            <select id="loc_city4" class="form-control"></select>
+                            <select id="loc_town4" name="loc_town" class="form-control"></select>
+                            <input type="text" name="endStation" id="ld_endStation" style="display: none">
+                        </div>
+                        <div class="form-group">
+                            <label>卸车地址</label>
+                            <input name="endAddress" type="text" class="form-control" placeholder="详细地址">
+                        </div>
+                        <hr>
+
+                        <div class="form-group">
+                            <label>联系人名</label>
+                            <input name="receiverName" type="text" style="width: 185px;" class="form-control"
+                                   placeholder="请输入姓名">
+                        </div>
+                        <div class="form-group">
+                            <label>手机号码</label>
+                            <input name="receiverPhone" type="text" style="width: 185px;" class="form-control"
+                                   placeholder="请输入手机号码">
+                        </div>
+                        <div class="form-group">
+                            <label>固定电话</label>
+                            <input name="tel" type="text" style="width: 185px;" class="form-control" readonly
+                                   placeholder="请输入固话号码">
+                        </div>
+                        <hr>
+
+                        <div class="form-group">
+                            <label>货物种类</label>
+                            <select id="ld_good_types" name="good_types" class="form-control" style="width: 185px;">
+                                <option>重货</option>
+                                <option>泡货</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>货物类型</label>
+                            <select name="goodsType" class="form-control" style="width: 185px;">
+                                <option>设备</option>
+                                <option>矿产</option>
+                                <option>建材</option>
+                                <option>食品</option>
+                                <option>蔬菜</option>
+                                <option>生鲜</option>
+                                <option>药品</option>
+                                <option>化工</option>
+                                <option>木材</option>
+                                <option>家畜</option>
+                                <option>纺织品</option>
+                                <option>日用品</option>
+                                <option>电子电器</option>
+                                <option>农夫产品</option>
+                                <option>其他类型</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>货物名称</label>
+                            <input name="goodsName" type="text" style="width: 185px;" class="form-control"
+                                   placeholder="输入货物名称">
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+                            <label>件　　数</label>
+                            <input type="number" style="width: 185px;" class="form-control"
+                                   placeholder="输入货物件数">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">体　　积</label>
+
+                            <input name="good_volume" type="text" style="width: 185px;"
+                                   class="form-control"
+                                   placeholder="输入体积(方)">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">重　　量</label>
+                            <input name="good_weight" type="text" class="form-control"
+                                   placeholder="输入重量(吨)"
+                                   style="width: 185px;">
+
+                        </div>
+
+                        <input type="text" name="goodsLoadSize" id="ld_goodsLoadSize" style="display: none">
+
+
+                        <div class="form-group">
+                            <label>车　　型</label>
+                            <select name="carType" class="form-control" style="width: 185px;">
+                                <option>厢式车</option>
+                                <option>平板车</option>
+                                <option>高低板车</option>
+                                <option>高栏车</option>
+                                <option>中栏车</option>
+                                <option>低栏车</option>
+                                <option>罐式车</option>
+                                <option>冷藏车</option>
+                                <option>保暖车</option>
+                                <option>危险品车</option>
+                                <option>铁笼车</option>
+                                <option>集装箱</option>
+                                <option>自卸货车</option>
+                                <option>其他车型</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>车　　长</label>
+                            <select name="carLen" class="form-control" style="width: 185px;">
+                                <option>4.2米</option>
+                                <option>4.8米</option>
+                                <option>5.2米</option>
+                                <option>5.8米</option>
+                                <option>6.2米</option>
+                                <option>6.5米</option>
+                                <option>6.8米</option>
+                                <option>7.2米</option>
+                                <option>8.0米</option>
+                                <option>9.6米</option>
+                                <option>12.0米</option>
+                                <option>13.0米</option>
+                                <option>13.5米</option>
+                                <option>15.0米</option>
+                                <option>17.5米</option>
+                                <option>18.5米</option>
+                                <option>20.0米</option>
+                                <option>22.0米</option>
+                                <option>24.0米</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>载　　重</label>
+                            <select name="carLoad" class="form-control" style="width: 185px;">
+                                <option>8T</option>
+                                <option>10T</option>
+                                <option>15T</option>
+                                <option>20T</option>
+                                <option>25T</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>备　　注</label>
+                            <input name="describe" type="text" class="form-control" placeholder="填写运输要求"
+                                   style="width: 300px;">
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+
+                            <button type="submit" class="btn btn-success btn-sm">
+                                发布货源
+                            </button>
+                            <br>
+                        </div>
+                    </form>
                 </div>
                 <!--测试-->
             </div>
@@ -509,27 +500,16 @@
     </div>
 </div>
 
-<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="9999" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <!--<div class="modal-header">-->
-            <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-            <!--<h4 class="modal-title">Modal title</h4>-->
-            <!--</div>-->
-            <div class="modal-body" id="map" style="height: 400px;">
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
 <script type="text/javascript" src="../static/js/validation/formValidation.js"></script>
 <script type="text/javascript" src="../static/js/validation/bootstrap.js"></script>
 <script type="text/javascript" src="../static/js/validation/zh_CN.js"></script>
 <script type="text/javascript" src="../static/js/moment.js"></script>
 <script type="text/javascript" src="../static/js/bootstrap-datetimepicker.min.js"></script>
-<!--<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=ce69d8b5bff1639849e1d874d630a58d"></script>-->
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=ce69d8b5bff1639849e1d874d630a58d"></script>
 <script>
 
     $(document).ready(function () {
+        $('[name=session]').val(sessionStorage.getItem('session'));
         //开启省市区三级下拉框
         showLocation();
         showLocation1();
@@ -541,6 +521,9 @@
             $(this).tab("show");
         });
         $('#deliveryDate').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+        $('#ld_deliveryDate').datetimepicker({
             format: 'YYYY-MM-DD'
         });
         //整车发货
@@ -693,6 +676,155 @@
 
                     save(1);
                 });
+        $('#lingdan')
+                .formValidation({
+                    err: {
+                        container: 'tooltip'
+                    },
+                    message: 'This value is not valid',
+                    icon: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        deliveryDate: {
+                            validators: {
+                                notEmpty: {
+                                    message: '发货日期必填！'
+                                },
+                                date: {
+                                    format: 'YYYY-MM-DD'
+                                }
+//                                                    digits: {},
+                            }
+                        },
+                        loc_town: {
+                            validators: {
+                                notEmpty: {
+                                    message: '省市区必填！'
+                                },
+//                                                    digits: {},
+                            }
+                        },
+                        startAddress: {
+                            validators: {
+                                notEmpty: {
+                                    message: '装车地址必填！'
+                                },
+//                                                    digits: {},
+                            }
+                        },
+                        endAddress: {
+                            validators: {
+                                notEmpty: {
+                                    message: '卸货地址必填！'
+                                },
+//                                                    digits: {},
+                            }
+                        },
+                        receiverName: {
+                            validators: {
+                                notEmpty: {
+                                    message: '联系人必填！'
+                                },
+//                                                    digits: {},
+                            }
+                        },
+                        receiverPhone: {
+                            validators: {
+                                notEmpty: {
+                                    message: '手机号码不能为空'
+                                },
+                                regexp: {
+                                    regexp: "^((13[0-9])|(15[^4,\\D])|(18[0,2,5-9]))\\d{8}$",
+                                    message: '不是正确的手机号码'
+                                }
+                            }
+                        },
+                        good_types: {
+                            validators: {
+                                notEmpty: {
+                                    message: '货物种类必填！'
+                                }
+                            }
+                        },
+                        goodsType: {
+                            validators: {
+                                notEmpty: {
+                                    message: '货物类型必填！'
+                                }
+                            }
+                        },
+                        goodsName: {
+                            validators: {
+                                notEmpty: {
+                                    message: '货物名称必填！'
+                                }
+                            }
+                        },
+                        good_volume: {
+//                                                message: '只能填写数字。',
+                            validators: {
+                                notEmpty: {
+                                    message: '体积必填！'
+                                },
+                                digits: {
+                                    message: '必须填写数字'
+                                },
+                            }
+                        },
+                        good_weight: {
+//                                                message: '只能填写数字。',
+                            validators: {
+                                notEmpty: {
+                                    message: '重量必填！'
+                                },
+                                digits: {
+                                    message: '必须填写数字'
+                                },
+                            }
+                        },
+                        carType: {
+//                                                message: '只能填写数字。',
+                            validators: {
+                                notEmpty: {
+                                    message: '所需车型必填！'
+                                }
+                            }
+                        },
+                        carLen: {
+//                                                message: '只能填写数字。',
+                            validators: {
+                                notEmpty: {
+                                    message: '所需车长必填！'
+                                }
+                            }
+                        },
+                        carLoad: {
+//                                                message: '只能填写数字。',
+                            validators: {
+                                notEmpty: {
+                                    message: '所需载重必填！'
+                                }
+                            }
+                        },
+                    }
+                })
+                .on('success.form.fv', function (e) {
+                    // Prevent form submission
+                    e.preventDefault();
+
+                    // Get the form instance
+                    var $form = $(e.target);
+
+                    // Get the FormValidation instance
+                    var bv = $form.data('formValidation');
+
+                    // Use Ajax to submit form data
+
+                    save(2);
+                });
         $('#deliveryDate')
                 .on('dp.change dp.show', function (e) {
                     // Validate the date when user change it
@@ -700,66 +832,83 @@
                     // You also can call it as following:
 //		             $('#defaultForm').formValidation('revalidateField', 'datetimePicker');
                 });
-
+        $('#ld_deliveryDate')
+                .on('dp.change dp.show', function (e) {
+                    // Validate the date when user change it
+                    $('#lingdan').data('formValidation').revalidateField('deliveryDate');
+                    // You also can call it as following:
+//		             $('#defaultForm').formValidation('revalidateField', 'datetimePicker');
+                });
 
 
     });
 
-    function openMap() {
-//        var map = new AMap.Map('mapContainer', {
-//            resizeEnable: true,
-//            zoom: 13
-//        });
-//        var city;
-//        if (type == 1 && $('#loc_town').val() != "") {
-//            city = $('#loc_town  option:selected').text();
-//        } else {
-//            city = $('#ld_from_counties').val();
-//        }
-//
-//
-//        if (city) {
-//            map.setCity(city)
-//        }
-//        AMap.plugin('AMap.Geocoder', function () {
-//            var geocoder = new AMap.Geocoder({
-//                city: "全国"//城市，默认：“全国”
-//            });
-//            var marker = new AMap.Marker({
-//                map: map,
-//                bubble: true
-//            });
-//            var input = document.getElementById('input1');
-//            var message = document.getElementById('message');
-//            map.on('click', function (e) {
-//                $('#lngX').val(e.lnglat.getLng());
-//                $('#latY').val(e.lnglat.getLat());
-//                marker.setPosition(e.lnglat);
-//                geocoder.getAddress(e.lnglat, function (status, result) {
-//                    if (status == 'complete') {
-//                        input.value = result.regeocode.formattedAddress;
-//                        message.innerHTML = ''
-//                    } else {
-//                        message.innerHTML = '无法获取地址'
-//                    }
-//                })
-//            });
-//
-//            input.onchange = function (e) {
-//                var address = input.value;
-//                geocoder.getLocation(address, function (status, result) {
-//                    if (status == 'complete' && result.geocodes.length) {
-//                        marker.setPosition(result.geocodes[0].location);
-//                        map.setCenter(marker.getPosition());
-//                        message.innerHTML = ''
-//                    } else {
-//                        message.innerHTML = '无法获取位置'
-//                    }
-//                })
-//            }
-//
-//        });
-        $('#myModal').modal('show')
+    function openMap(type) {
+
+        var city, town;
+        if (type == 1) {
+
+            $('#l').hide();
+            $('#z').show();
+            city = $('#loc_city  option:selected').text();
+            town = $('#loc_town  option:selected').text();
+        } else {
+            $('#z').hide();
+            $('#l').show();
+            city = $('#loc_city3 option:selected').text();
+            town = $('#loc_town3 option:selected').text();
+        }
+
+
+        var map = new AMap.Map('mapContainer', {
+            resizeEnable: true,
+            zoom: 13,
+        });
+        AMap.plugin('AMap.Geocoder', function () {
+            var geocoder = new AMap.Geocoder({
+                city: city//城市，默认：“全国”
+            });
+            var marker = new AMap.Marker({
+                map: map
+            });
+            geocoder.getLocation(town, function (status, result) {
+                if (status == 'complete' && result.geocodes.length) {
+                    marker.setPosition(result.geocodes[0].location);
+                    map.setCenter(marker.getPosition());
+                }
+            });
+            var input = document.getElementById('input1');
+            var message = document.getElementById('message');
+            map.on('click', function (e) {
+                $('#lngX').val(e.lnglat.getLng());
+                $('#latY').val(e.lnglat.getLat());
+                marker.setPosition(e.lnglat);
+                geocoder.getAddress(e.lnglat, function (status, result) {
+                    if (status == 'complete') {
+                        input.value = result.regeocode.formattedAddress;
+                        message.innerHTML = ''
+                    } else {
+                        message.innerHTML = '无法获取地址'
+                    }
+                })
+            });
+
+            input.onchange = function (e) {
+                var address = input.value;
+                geocoder.getLocation(address, function (status, result) {
+                    if (status == 'complete' && result.geocodes.length) {
+                        marker.setPosition(result.geocodes[0].location);
+                        map.setCenter(marker.getPosition());
+                        message.innerHTML = ''
+                    } else {
+                        message.innerHTML = '无法获取位置'
+                    }
+                })
+            }
+
+        });
+
+        $('#modal').modal('show')
 
 
     }
@@ -776,38 +925,20 @@
                         success: function (data) {
                             console.log(data);
                             if (data.result == 'success') {
-                                Lobibox.confirm({
-                                    title: '提示',
-                                    msg: '货源发布成功，你可以继续发布货源，或者查看货源列表',
-                                    callback: function (lobibox, type) {
-                                        if (type === 'conti') {
-                                            $.get('goodcenter.html', function (data) {
-                                                $('#goodChildView').html(data);
-                                            })
-                                        } else if (type === 'look') {
-                                            $.get('myGood.html', function (data) {
-                                                $('#goodChildView').html(data);
-                                            })
-                                        }
-
-                                    }
-                                });
-                                $.get("goodcenter.html", function (data) {
-                                    $('#goodChildView').html(data);
-                                })
+                                Messenger().post('货源发布成功');
+                                $('#goodChildView').load("goodcenter.html");
                             } else {
-                                Lobibox.notify('info', {
-                                    width: 300,
-                                    msg: data.describe + "请注意，装车地址必须地图选择"
-                                });
+                                Messenger().post({
+                                    message: data.describe + "请注意，装车地址必须地图选择",
+                                    type: 'error'
+                                })
                             }
                         },
                         error: function (data) {
-                            Lobibox.notify('error', {
-                                size: 'mini',
-                                width: 300,
-                                msg: '请填写完整信息'
-                            });
+                            Messenger().post({
+                                message: data,
+                                type: 'error'
+                            })
                         },
                         dataType: 'json'
                     }
@@ -821,15 +952,16 @@
                     'save.php',
                     $("#lingdan").serialize(),
                     function (data) {
-                        if (data.result == 'success') {
-//                            $("#myModal").modal('show');
-                            alert('发布成功');
-                            $.get("goodcenter.html", function (data) {
-                                $('#goodChildView').html(data);
-                            })
-                        } else {
-                            alert('发货失败')
-                        }
+                            console.log(data);
+                            if (data.result == 'success') {
+                                Messenger().post('货源发布成功');
+                                $('#goodChildView').load("goodcenter.html");
+                            } else {
+                                Messenger().post({
+                                    message: data.describe + "请注意，装车地址必须地图选择",
+                                    type: 'error'
+                                })
+                            }
                     },
                     'json'
             )
@@ -837,21 +969,23 @@
     }
 
 
-    //    function checkXY(x) {
-    //
-    //        if (x == 1) {
-    //            $('#zc').val($('#input1').val());
-    //            $('#positionx').val($('#lngX').val());
-    //            $('#positiony').val($('#latY').val());
-    //            $("#fullbg,#dialog").hide();
-    //            $('#z').css('display', 'none');
-    //        } else {
-    //            $('#ld').val($('#input1').val());
-    //            $('#positionx1').val($('#lngX').val());
-    //            $('#positiony1').val($('#latY').val());
-    //            $("#fullbg,#dialog").hide();
-    //            $('#l').css('display', 'none');
-    //        }
-    //
-    //    }
+    function checkXY(x) {
+
+        if (x == 1) {
+            $('#zc').val($('#input1').val());
+            $('#vehicle').data('formValidation').revalidateField('startAddress');
+            $('#positionx').val($('#lngX').val());
+            $('#positiony').val($('#latY').val());
+            $("#fullbg,#dialog").hide();
+            $('#z').css('display', 'none');
+        } else {
+            $('#ld').val($('#input1').val());
+            $('#lingdan').data('formValidation').revalidateField('startAddress');
+            $('#positionx1').val($('#lngX').val());
+            $('#positiony1').val($('#latY').val());
+            $("#fullbg,#dialog").hide();
+            $('#l').css('display', 'none');
+        }
+
+    }
 </script>
