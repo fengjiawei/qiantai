@@ -644,23 +644,23 @@
     </script>
     <script>
 
-        function openMap(x, y) {
-            var map;
-            //初始化地图对象，加载地图
-            map = new AMap.Map("mapContainer", {
-                resizeEnable: true,
-            });
-            marker = new AMap.Marker({
-//                            icon: "http://webapi.amap.com/images/marker_sprite.png",
-                position: [x, y]
-            });
-
-            marker.setMap(map); // 在地图上添加点
-            map.setFitView(); // 调整到合理视野
-
-
-            $("#map").dialog("open");
-        }
+//        function openMap(x, y) {
+//            var map;
+//            //初始化地图对象，加载地图
+//            map = new AMap.Map("mapContainer", {
+//                resizeEnable: true,
+//            });
+//            marker = new AMap.Marker({
+////                            icon: "http://webapi.amap.com/images/marker_sprite.png",
+//                position: [x, y]
+//            });
+//
+//            marker.setMap(map); // 在地图上添加点
+//            map.setFitView(); // 调整到合理视野
+//
+//
+//            $("#map").dialog("open");
+//        }
         function openCost(row) {
             $("#orderId").val(row.orderId);
             var str = row.goodsLoadSize;
