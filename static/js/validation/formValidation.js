@@ -1,6 +1,3 @@
-/**
- * Created by Administrator on 2016/3/31.
- */
 /*!
  * FormValidation (http://formvalidation.io)
  * The best jQuery plugin to validate form fields. Support Bootstrap, Foundation, Pure, SemanticUI, UIKit and custom frameworks
@@ -229,17 +226,17 @@ if (typeof jQuery === 'undefined') {
             // The form then will be submitted.
             // I create a first hidden submit button
             this.$hiddenButton = $('<button/>')
-                .attr('type', 'submit')
-                .prependTo(this.$form)
-                .addClass('fv-hidden-submit')
-                .css({ display: 'none', width: 0, height: 0 });
+                                    .attr('type', 'submit')
+                                    .prependTo(this.$form)
+                                    .addClass('fv-hidden-submit')
+                                    .css({ display: 'none', width: 0, height: 0 });
 
             this.$form
                 .on('click.' +  this._namespace, '[type="submit"]', function(e) {
                     // #746: Check if the button click handler returns false
                     if (!e.isDefaultPrevented()) {
                         var $target = $(e.target),
-                        // The button might contain HTML tag
+                            // The button might contain HTML tag
                             $button = $target.is('[type="submit"]') ? $target.eq(0) : $target.parent('[type="submit"]').eq(0);
 
                         // Don't perform validation when clicking on the submit button/input
@@ -333,11 +330,11 @@ if (typeof jQuery === 'undefined') {
                 var $field    = fields.eq(i),
                     row       = this.options.fields[field].row || this.options.row.selector,
                     $parent   = $field.closest(row),
-                // Allow user to indicate where the error messages are shown
-                // Support backward
+                    // Allow user to indicate where the error messages are shown
+                    // Support backward
                     container = ('function' === typeof (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container))
-                        ? (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container).call(this, $field, this)
-                        : (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container),
+                                ? (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container).call(this, $field, this)
+                                : (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container),
                     $message  = (container && container !== 'tooltip' && container !== 'popover') ? $(container) : this._getMessageContainer($field, row);
 
                 if (container && container !== 'tooltip' && container !== 'popover') {
@@ -385,10 +382,10 @@ if (typeof jQuery === 'undefined') {
                     // Keep error messages which are populated from back-end
                     $parent.addClass(this.options.row.feedback);
                     var $icon = $('<i/>')
-                        .css('display', 'none')
-                        .addClass(this.options.icon.feedback)
-                        .attr('data-' + ns + '-icon-for', field)
-                        .insertAfter($field);
+                                    .css('display', 'none')
+                                    .addClass(this.options.icon.feedback)
+                                    .attr('data-' + ns + '-icon-for', field)
+                                    .insertAfter($field);
 
                     // Store the icon as a data of field element
                     (!updateAll ? $field : fields).data(ns + '.icon', $icon);
@@ -403,7 +400,7 @@ if (typeof jQuery === 'undefined') {
                             });
 
                         $field
-                        // Show tooltip/popover message when field gets focus
+                            // Show tooltip/popover message when field gets focus
                             .off('focus.container.' + ns)
                             .on('focus.container.' + ns, function() {
                                 that._showTooltip($field, container);
@@ -481,7 +478,7 @@ if (typeof jQuery === 'undefined') {
         _isExcluded: function($field) {
             var ns           = this._namespace,
                 excludedAttr = $field.attr('data-' + ns + '-excluded'),
-            // I still need to check the 'name' attribute while initializing the field
+                // I still need to check the 'name' attribute while initializing the field
                 field        = $field.attr('data-' + ns + '-field') || $field.attr('name');
 
             switch (true) {
@@ -668,7 +665,7 @@ if (typeof jQuery === 'undefined') {
             for (v in FormValidation.Validator) {
                 validator    = FormValidation.Validator[v];
                 attrName     = 'data-' + ns + '-' + v.toLowerCase(),
-                    enabled      = $field.attr(attrName) + '';
+                enabled      = $field.attr(attrName) + '';
                 html5AttrMap = ('function' === typeof validator.enableByHtml5) ? validator.enableByHtml5($field) : null;
 
                 if ((html5AttrMap && enabled !== 'false')
@@ -676,17 +673,17 @@ if (typeof jQuery === 'undefined') {
                 {
                     // Try to parse the options via attributes
                     validator.html5Attributes = $.extend({}, {
-                        message: 'message',
-                        onerror: 'onError',
-                        onsuccess: 'onSuccess',
-                        transformer: 'transformer'
-                    }, validator.html5Attributes);
+                                                    message: 'message',
+                                                    onerror: 'onError',
+                                                    onsuccess: 'onSuccess',
+                                                    transformer: 'transformer'
+                                                }, validator.html5Attributes);
                     validators[v] = $.extend({}, html5AttrMap === true ? {} : html5AttrMap, validators[v]);
 
                     for (html5AttrName in validator.html5Attributes) {
                         optionName  = validator.html5Attributes[html5AttrName];
                         optionAttrName = 'data-' + ns + '-' + v.toLowerCase() + '-' + html5AttrName,
-                            optionValue = $field.attr(optionAttrName);
+                        optionValue = $field.attr(optionAttrName);
                         if (optionValue) {
                             if ('true' === optionValue || optionAttrName === optionValue.toLowerCase()) {
                                 optionValue = true;
@@ -970,14 +967,14 @@ if (typeof jQuery === 'undefined') {
             if (!disabled) {
                 this.$form
                     .find(this.options.button.selector)
-                    .removeAttr('disabled')
-                    .removeClass(this.options.button.disabled);
+                        .removeAttr('disabled')
+                        .removeClass(this.options.button.disabled);
             } else if (this.options.live !== 'disabled') {
                 // Don't disable if the live validating mode is disabled
                 this.$form
                     .find(this.options.button.selector)
-                    .attr('disabled', 'disabled')
-                    .addClass(this.options.button.disabled);
+                        .attr('disabled', 'disabled')
+                        .addClass(this.options.button.disabled);
             }
 
             return this;
@@ -1028,8 +1025,8 @@ if (typeof jQuery === 'undefined') {
             }
 
             var transformer = (this.options.fields[field].validators && this.options.fields[field].validators[validatorName]
-                    ? this.options.fields[field].validators[validatorName].transformer : null)
-                || this.options.fields[field].transformer;
+                                ? this.options.fields[field].validators[validatorName].transformer : null)
+                                || this.options.fields[field].transformer;
             return transformer ? FormValidation.Helper.call(transformer, [$field, validatorName, this]) : $field.val();
         },
 
@@ -1162,7 +1159,7 @@ if (typeof jQuery === 'undefined') {
                 var $f      = fields[i],
                     field   = $f.attr('data-' + ns + '-field'),
                     $errors = $f.data(ns + '.messages')
-                        .find('.' + this.options.err.clazz.split(' ').join('.') + '[data-' + ns + '-validator][data-' + ns + '-for="' + field + '"]');
+                                .find('.' + this.options.err.clazz.split(' ').join('.') + '[data-' + ns + '-validator][data-' + ns + '-for="' + field + '"]');
 
                 if ($errors.filter('[data-' + ns + '-result="' + this.STATUS_INVALID + '"]').length > 0) {
                     return false;
@@ -1373,10 +1370,10 @@ if (typeof jQuery === 'undefined') {
                     $allErrors   = $message.find('.' + this.options.err.clazz.split(' ').join('.') + '[data-' + ns + '-validator][data-' + ns + '-for="' + field + '"]'),
                     $errors      = validatorName ? $allErrors.filter('[data-' + ns + '-validator="' + validatorName + '"]') : $allErrors,
                     $icon        = $field.data(ns + '.icon'),
-                // Support backward
+                    // Support backward
                     container    = ('function' === typeof (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container))
-                        ? (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container).call(this, $field, this)
-                        : (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container),
+                                    ? (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container).call(this, $field, this)
+                                    : (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container),
                     isValidField = null,
                     isValidating,
                     isNotValidated;
@@ -1421,9 +1418,9 @@ if (typeof jQuery === 'undefined') {
 
                         // If the field is valid (passes all validators)
                         isValidField   = (isValidating || isNotValidated)     // There are some validators that have not done
-                            ? null
-                            : ($allErrors.filter('[data-' + ns + '-result="' + this.STATUS_VALID +'"]').length
-                        + $allErrors.filter('[data-' + ns + '-result="' + this.STATUS_IGNORED +'"]').length === $allErrors.length); // All validators are completed
+                                       ? null
+                                       : ($allErrors.filter('[data-' + ns + '-result="' + this.STATUS_VALID +'"]').length
+                                        + $allErrors.filter('[data-' + ns + '-result="' + this.STATUS_IGNORED +'"]').length === $allErrors.length); // All validators are completed
 
                         $field.removeClass(this.options.control.valid).removeClass(this.options.control.invalid);
 
@@ -1444,7 +1441,7 @@ if (typeof jQuery === 'undefined') {
                             if (status === this.STATUS_VALID) {
                                 $icon.addClass(isValidField === null
                                         ? '' : (isValidField ? this.options.icon.valid : (isValidating ? this.options.icon.validating : this.options.icon.invalid)))
-                                    .show();
+                                     .show();
                             }
                         }
 
@@ -1592,8 +1589,8 @@ if (typeof jQuery === 'undefined') {
                             }
 
                             that.updateStatus(updateAll ? $f.attr('data-' + ns + '-field') : $f,
-                                response.valid === true ? that.STATUS_VALID : (response.valid === false ? that.STATUS_INVALID : that.STATUS_IGNORED),
-                                v);
+                                              response.valid === true ? that.STATUS_VALID : (response.valid === false ? that.STATUS_INVALID : that.STATUS_IGNORED),
+                                              v);
 
                             if (response.valid && that._submitIfValid === true) {
                                 // If a remote validator returns true and the form is ready to submit, then do it
@@ -1610,8 +1607,8 @@ if (typeof jQuery === 'undefined') {
                             this.updateMessage(updateAll ? field : $field, validatorName, validateResult.message);
                         }
                         this.updateStatus(updateAll ? field : $field,
-                            validateResult.valid === true ? this.STATUS_VALID : (validateResult.valid === false ? this.STATUS_INVALID : this.STATUS_IGNORED),
-                            validatorName);
+                                          validateResult.valid === true ? this.STATUS_VALID : (validateResult.valid === false ? this.STATUS_INVALID : this.STATUS_IGNORED),
+                                          validatorName);
                         if (validateResult.valid === false && !verbose) {
                             break;
                         }
@@ -1712,8 +1709,8 @@ if (typeof jQuery === 'undefined') {
                             $field.data(ns + '.dfs.' + validator).reject();
                         }
                         $field.removeData(ns + '.result.' + validator)
-                            .removeData(ns + '.response.' + validator)
-                            .removeData(ns + '.dfs.' + validator);
+                              .removeData(ns + '.response.' + validator)
+                              .removeData(ns + '.dfs.' + validator);
 
                         // Destroy the validator
                         if ('function' === typeof FormValidation.Validator[validator].destroy) {
@@ -1730,17 +1727,17 @@ if (typeof jQuery === 'undefined') {
                 for (i = 0; i < fields.length; i++) {
                     $field = fields.eq(i);
                     $field
-                    // Remove all error messages
+                        // Remove all error messages
                         .data(ns + '.messages')
-                        .find('.' + this.options.err.clazz.split(' ').join('.') + '[data-' + ns + '-validator][data-' + ns + '-for="' + field + '"]').remove().end()
-                        .end()
+                            .find('.' + this.options.err.clazz.split(' ').join('.') + '[data-' + ns + '-validator][data-' + ns + '-for="' + field + '"]').remove().end()
+                            .end()
                         .removeData(ns + '.messages')
                         // Remove feedback classes
                         .closest(row)
-                        .removeClass(this.options.row.valid)
-                        .removeClass(this.options.row.invalid)
-                        .removeClass(this.options.row.feedback)
-                        .end()
+                            .removeClass(this.options.row.valid)
+                            .removeClass(this.options.row.invalid)
+                            .removeClass(this.options.row.feedback)
+                            .end()
                         // Turn off events
                         .off('.' + ns)
                         .removeAttr('data-' + ns + '-field');
@@ -1748,8 +1745,8 @@ if (typeof jQuery === 'undefined') {
                     // Remove feedback icons, tooltip/popover container
                     // Support backward
                     var container = ('function' === typeof (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container))
-                        ? (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container).call(this, $field, this)
-                        : (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container);
+                                    ? (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container).call(this, $field, this)
+                                    : (this.options.fields[field].container || this.options.fields[field].err || this.options.err.container);
                     if ('tooltip' === container || 'popover' === container) {
                         this._destroyTooltip($field, container);
                     }
@@ -1759,8 +1756,8 @@ if (typeof jQuery === 'undefined') {
                         $icon.remove();
                     }
                     $field.removeData(ns + '.icon')
-                        // It's safe to remove trigger data here, because it might be used when destroying the validator
-                        .removeData(ns + '.trigger');
+                          // It's safe to remove trigger data here, because it might be used when destroying the validator
+                          .removeData(ns + '.trigger');
                 }
             }
 
@@ -1782,7 +1779,7 @@ if (typeof jQuery === 'undefined') {
                 // Remove generated hidden elements
                 .find('[data-' + ns + '-submit-hidden]').remove().end()
                 .find('[type="submit"]')
-                .off('click.' + ns);
+                    .off('click.' + ns);
         },
 
         /**
@@ -2164,7 +2161,7 @@ if (typeof jQuery === 'undefined') {
 
                 data = new FormValidation.Framework[clazz](this, options);
                 $this.addClass('fv-form-' + framework)
-                    .data('formValidation', data);
+                     .data('formValidation', data);
             }
 
             // Allow to call plugin method
@@ -2315,7 +2312,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     // Helper methods, which can be used in validator class
     FormValidation.Helper = {
         /**
@@ -2473,7 +2470,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             base64: {
@@ -2502,7 +2499,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             between: {
@@ -2556,7 +2553,7 @@ if (typeof jQuery === 'undefined') {
                 return true;
             }
 
-            value = this._format(value);
+			value = this._format(value);
             if (!$.isNumeric(value)) {
                 return false;
             }
@@ -2568,15 +2565,15 @@ if (typeof jQuery === 'undefined') {
                 maxValue = this._format(max);
 
             value = parseFloat(value);
-            return (options.inclusive === true || options.inclusive === undefined)
-                ? {
-                valid: value >= minValue && value <= maxValue,
-                message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].between['default'], [min, max])
-            }
-                : {
-                valid: value > minValue  && value <  maxValue,
-                message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].between.notInclusive, [min, max])
-            };
+			return (options.inclusive === true || options.inclusive === undefined)
+                    ? {
+                        valid: value >= minValue && value <= maxValue,
+                        message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].between['default'], [min, max])
+                    }
+                    : {
+                        valid: value > minValue  && value <  maxValue,
+                        message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].between.notInclusive, [min, max])
+                    };
         },
 
         _format: function(value) {
@@ -2584,7 +2581,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             bic: {
@@ -2615,7 +2612,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.Validator.blank = {
         /**
          * Placeholder validator that can be used to display a custom validation message
@@ -2644,7 +2641,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             callback: {
@@ -2689,7 +2686,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             choice: {
@@ -2731,8 +2728,8 @@ if (typeof jQuery === 'undefined') {
             var locale     = validator.getLocale(),
                 ns         = validator.getNamespace(),
                 numChoices = $field.is('select')
-                    ? validator.getFieldElements($field.attr('data-' + ns + '-field')).find('option').filter(':selected').length
-                    : validator.getFieldElements($field.attr('data-' + ns + '-field')).filter(':checked').length,
+                            ? validator.getFieldElements($field.attr('data-' + ns + '-field')).find('option').filter(':selected').length
+                            : validator.getFieldElements($field.attr('data-' + ns + '-field')).filter(':checked').length,
                 min        = options.min ? ($.isNumeric(options.min) ? options.min : validator.getDynamicOption($field, options.min)) : null,
                 max        = options.max ? ($.isNumeric(options.max) ? options.max : validator.getDynamicOption($field, options.max)) : null,
                 isValid    = true,
@@ -2763,7 +2760,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             color: {
@@ -2911,7 +2908,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             creditCard: {
@@ -2964,11 +2961,11 @@ if (typeof jQuery === 'undefined') {
                 DISCOVER: {
                     length: [16],
                     prefix: ['6011', '622126', '622127', '622128', '622129', '62213',
-                        '62214', '62215', '62216', '62217', '62218', '62219',
-                        '6222', '6223', '6224', '6225', '6226', '6227', '6228',
-                        '62290', '62291', '622920', '622921', '622922', '622923',
-                        '622924', '622925', '644', '645', '646', '647', '648',
-                        '649', '65']
+                             '62214', '62215', '62216', '62217', '62218', '62219',
+                             '6222', '6223', '6224', '6225', '6226', '6227', '6228',
+                             '62290', '62291', '622920', '622921', '622922', '622923',
+                             '622924', '622925', '644', '645', '646', '647', '648',
+                             '649', '65']
                 },
                 JCB: {
                     length: [16],
@@ -2993,9 +2990,9 @@ if (typeof jQuery === 'undefined') {
                 UNIONPAY: {
                     length: [16, 17, 18, 19],
                     prefix: ['622126', '622127', '622128', '622129', '62213', '62214',
-                        '62215', '62216', '62217', '62218', '62219', '6222', '6223',
-                        '6224', '6225', '6226', '6227', '6228', '62290', '62291',
-                        '622920', '622921', '622922', '622923', '622924', '622925']
+                             '62215', '62216', '62217', '62218', '62219', '6222', '6223',
+                             '6224', '6225', '6226', '6227', '6228', '62290', '62291',
+                             '622920', '622921', '622922', '622923', '622924', '622925']
                 },
                 VISA: {
                     length: [16],
@@ -3021,7 +3018,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             cusip: {
@@ -3056,12 +3053,12 @@ if (typeof jQuery === 'undefined') {
             }
 
             var converted = $.map(value.split(''), function(item) {
-                    var code = item.charCodeAt(0);
-                    return (code >= 'A'.charCodeAt(0) && code <= 'Z'.charCodeAt(0))
-                        // Replace A, B, C, ..., Z with 10, 11, ..., 35
-                        ? (code - 'A'.charCodeAt(0) + 10)
-                        : item;
-                }),
+                                var code = item.charCodeAt(0);
+                                return (code >= 'A'.charCodeAt(0) && code <= 'Z'.charCodeAt(0))
+                                            // Replace A, B, C, ..., Z with 10, 11, ..., 35
+                                            ? (code - 'A'.charCodeAt(0) + 10)
+                                            : item;
+                            }),
                 length    = converted.length,
                 sum       = 0;
             for (var i = 0; i < length - 1; i++) {
@@ -3080,7 +3077,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             cvv: {
@@ -3159,7 +3156,7 @@ if (typeof jQuery === 'undefined') {
             if (creditCard === '') {
                 return true;
             }
-
+            
             creditCard = creditCard.replace(/\D/g, '');
 
             // Supported credit card types
@@ -3179,11 +3176,11 @@ if (typeof jQuery === 'undefined') {
                 DISCOVER: {
                     length: [16],
                     prefix: ['6011', '622126', '622127', '622128', '622129', '62213',
-                        '62214', '62215', '62216', '62217', '62218', '62219',
-                        '6222', '6223', '6224', '6225', '6226', '6227', '6228',
-                        '62290', '62291', '622920', '622921', '622922', '622923',
-                        '622924', '622925', '644', '645', '646', '647', '648',
-                        '649', '65']
+                             '62214', '62215', '62216', '62217', '62218', '62219',
+                             '6222', '6223', '6224', '6225', '6226', '6227', '6228',
+                             '62290', '62291', '622920', '622921', '622922', '622923',
+                             '622924', '622925', '644', '645', '646', '647', '648',
+                             '649', '65']
                 },
                 JCB: {
                     length: [16],
@@ -3208,9 +3205,9 @@ if (typeof jQuery === 'undefined') {
                 UNIONPAY: {
                     length: [16, 17, 18, 19],
                     prefix: ['622126', '622127', '622128', '622129', '62213', '62214',
-                        '62215', '62216', '62217', '62218', '62219', '6222', '6223',
-                        '6224', '6225', '6226', '6227', '6228', '62290', '62291',
-                        '622920', '622921', '622922', '622923', '622924', '622925']
+                             '62215', '62216', '62217', '62218', '62219', '6222', '6223',
+                             '6224', '6225', '6226', '6227', '6228', '62290', '62291',
+                             '622920', '622921', '622922', '622923', '622924', '622925']
                 },
                 VISA: {
                     length: [16],
@@ -3230,12 +3227,12 @@ if (typeof jQuery === 'undefined') {
             }
 
             return (creditCardType === null)
-                ? false
-                : (('AMERICAN_EXPRESS' === creditCardType) ? (value.length === 4) : (value.length === 3));
+                        ? false
+                        : (('AMERICAN_EXPRESS' === creditCardType) ? (value.length === 4) : (value.length === 3));
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             date: {
@@ -3310,8 +3307,8 @@ if (typeof jQuery === 'undefined') {
             var separator = options.separator;
             if (!separator) {
                 separator = (date.indexOf('/') !== -1)
-                    ? '/'
-                    : ((date.indexOf('-') !== -1) ? '-' : ((date.indexOf('.') !== -1) ? '.' : null));
+                            ? '/'
+                            : ((date.indexOf('-') !== -1) ? '-' : ((date.indexOf('.') !== -1) ? '.' : null));
             }
             if (separator === null || date.indexOf(separator) === -1) {
                 return {
@@ -3419,7 +3416,7 @@ if (typeof jQuery === 'undefined') {
 
             // Validate day, month, and year
             var valid     = FormValidation.Helper.date(year, month, day),
-            // declare the date, min and max objects
+                // declare the date, min and max objects
                 min       = null,
                 max       = null,
                 minOption = options.min,
@@ -3529,13 +3526,13 @@ if (typeof jQuery === 'undefined') {
          */
         _formatDate: function(date, format) {
             format = format
-                .replace(/Y/g, 'y')
-                .replace(/M/g, 'm')
-                .replace(/D/g, 'd')
-                .replace(/:m/g, ':M')
-                .replace(/:mm/g, ':MM')
-                .replace(/:S/, ':s')
-                .replace(/:SS/, ':ss');
+                        .replace(/Y/g, 'y')
+                        .replace(/M/g, 'm')
+                        .replace(/D/g, 'd')
+                        .replace(/:m/g, ':M')
+                        .replace(/:mm/g, ':MM')
+                        .replace(/:S/, ':s')
+                        .replace(/:SS/, ':ss');
 
             var replacer = {
                 d: function(date) {
@@ -3594,7 +3591,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             different: {
@@ -3683,7 +3680,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             digits: {
@@ -3711,7 +3708,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             ean: {
@@ -3755,7 +3752,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             ein: {
@@ -3817,7 +3814,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             emailAddress: {
@@ -3908,7 +3905,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             file: {
@@ -4000,7 +3997,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             greaterThan: {
@@ -4050,7 +4047,7 @@ if (typeof jQuery === 'undefined') {
             if (value === '') {
                 return true;
             }
-
+            
             value = this._format(value);
             if (!$.isNumeric(value)) {
                 return false;
@@ -4061,15 +4058,15 @@ if (typeof jQuery === 'undefined') {
                 compareToValue = this._format(compareTo);
 
             value = parseFloat(value);
-            return (options.inclusive === true || options.inclusive === undefined)
-                ? {
-                valid: value >= compareToValue,
-                message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].greaterThan['default'], compareTo)
-            }
-                : {
-                valid: value > compareToValue,
-                message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].greaterThan.notInclusive, compareTo)
-            };
+			return (options.inclusive === true || options.inclusive === undefined)
+                    ? {
+                        valid: value >= compareToValue,
+                        message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].greaterThan['default'], compareTo)
+                    }
+                    : {
+                        valid: value > compareToValue,
+                        message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].greaterThan.notInclusive, compareTo)
+                    };
         },
 
         _format: function(value) {
@@ -4077,7 +4074,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             grid: {
@@ -4118,7 +4115,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             hex: {
@@ -4147,7 +4144,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             iban: {
@@ -4375,9 +4372,9 @@ if (typeof jQuery === 'undefined') {
             value = $.map(value.split(''), function(n) {
                 var code = n.charCodeAt(0);
                 return (code >= 'A'.charCodeAt(0) && code <= 'Z'.charCodeAt(0))
-                    // Replace A, B, C, ..., Z with 10, 11, ..., 35
-                    ? (code - 'A'.charCodeAt(0) + 10)
-                    : n;
+                        // Replace A, B, C, ..., Z with 10, 11, ..., 35
+                        ? (code - 'A'.charCodeAt(0) + 10)
+                        : n;
             });
             value = value.join('');
 
@@ -4394,7 +4391,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             id: {
@@ -4482,11 +4479,11 @@ if (typeof jQuery === 'undefined') {
 
             var method  = ['_', country.toLowerCase()].join('');
             return this[method](value)
-                ? true
-                : {
-                valid: false,
-                message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].id.country, FormValidation.I18n[locale].id.countries[country.toUpperCase()])
-            };
+                    ? true
+                    : {
+                        valid: false,
+                        message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].id.country, FormValidation.I18n[locale].id.countries[country.toUpperCase()])
+                    };
         },
 
         /**
@@ -4745,7 +4742,7 @@ if (typeof jQuery === 'undefined') {
             if (!/^\d{15}$/.test(value) && !/^\d{17}[\dXx]{1}$/.test(value)) {
                 return false;
             }
-
+            
             // Check China PR Administrative division code
             var adminDivisionCodes = {
                 11: {
@@ -5199,11 +5196,11 @@ if (typeof jQuery === 'undefined') {
                 81: { 0: [0] },
                 82: { 0: [0] }
             };
-
+            
             var provincial  = parseInt(value.substr(0, 2), 10),
                 prefectural = parseInt(value.substr(2, 2), 10),
                 county      = parseInt(value.substr(4, 2), 10);
-
+            
             if (!adminDivisionCodes[provincial] || !adminDivisionCodes[provincial][prefectural]) {
                 return false;
             }
@@ -5221,12 +5218,12 @@ if (typeof jQuery === 'undefined') {
             if (!inRange) {
                 return false;
             }
-
+            
             // Check date of birth
             var dob;
             if (value.length === 18) {
                 dob = value.substr(6, 8);
-            } else /* length == 15 */ {
+            } else /* length == 15 */ { 
                 dob = '19' + value.substr(6, 6);
             }
             var year  = parseInt(dob.substr(0, 4), 10),
@@ -5235,7 +5232,7 @@ if (typeof jQuery === 'undefined') {
             if (!FormValidation.Helper.date(year, month, day)) {
                 return false;
             }
-
+            
             // Check checksum (18-digit system only)
             if (value.length === 18) {
                 var sum    = 0,
@@ -5247,10 +5244,10 @@ if (typeof jQuery === 'undefined') {
                 var checksum = (value.charAt(17).toUpperCase() !== 'X') ? parseInt(value.charAt(17), 10) : 10;
                 return checksum === sum;
             }
-
+            
             return true;
         },
-
+        
         /**
          * Validate Czech national identification number (RC)
          * Examples:
@@ -5410,7 +5407,7 @@ if (typeof jQuery === 'undefined') {
                 if (lastDigit !== 0) {
                     lastDigit = 10 - lastDigit;
                 }
-
+                
                 if ('KQS'.indexOf(letter) !== -1) {
                     // If the CIF starts with a K, Q or S, the control digit must be a letter
                     return (control === 'JABCDEFGHI'[lastDigit]);
@@ -5663,10 +5660,10 @@ if (typeof jQuery === 'undefined') {
             }
             return (sum + '' === value.charAt(length - 1));
         },
-
+        
         /**
          * Validate Poland citizen number (PESEL)
-         *
+         * 
          * @see http://en.wikipedia.org/wiki/National_identification_number#Poland
          * @see http://en.wikipedia.org/wiki/PESEL
          * @param {String} value The ID
@@ -5716,7 +5713,7 @@ if (typeof jQuery === 'undefined') {
             var year      = parseInt(value.substr(1, 2), 10),
                 month     = parseInt(value.substr(3, 2), 10),
                 day       = parseInt(value.substr(5, 2), 10),
-            // The year of date is determined base on the gender
+                // The year of date is determined base on the gender
                 centuries = {
                     '1': 1900,  // Male born between 1900 and 1999
                     '2': 1900,  // Female born between 1900 and 1999
@@ -5853,7 +5850,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             identical: {
@@ -5925,7 +5922,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             imei: {
@@ -5973,7 +5970,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             imo: {
@@ -6005,11 +6002,11 @@ if (typeof jQuery === 'undefined') {
             if (!/^IMO \d{7}$/i.test(value)) {
                 return false;
             }
-
+            
             // Grab just the digits
             var sum    = 0,
                 digits = value.replace(/^.*(\d{7})$/, '$1');
-
+            
             // Go over each char, multiplying by the inverse of it's position
             // IMO 9176187
             // (9 * 7) + (1 * 6) + (7 * 5) + (6 * 4) + (1 * 3) + (8 * 2) = 147
@@ -6022,7 +6019,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             integer: {
@@ -6058,7 +6055,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             ip: {
@@ -6126,7 +6123,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             isbn: {
@@ -6216,7 +6213,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             isin: {
@@ -6279,7 +6276,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             ismn: {
@@ -6342,7 +6339,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             issn: {
@@ -6392,7 +6389,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             lessThan: {
@@ -6442,8 +6439,8 @@ if (typeof jQuery === 'undefined') {
             if (value === '') {
                 return true;
             }
-
-            value = this._format(value);
+            
+			value = this._format(value);
             if (!$.isNumeric(value)) {
                 return false;
             }
@@ -6454,14 +6451,14 @@ if (typeof jQuery === 'undefined') {
 
             value = parseFloat(value);
             return (options.inclusive === true || options.inclusive === undefined)
-                ? {
-                valid: value <= compareToValue,
-                message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].lessThan['default'], compareTo)
-            }
-                : {
-                valid: value < compareToValue,
-                message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].lessThan.notInclusive, compareTo)
-            };
+                    ? {
+                        valid: value <= compareToValue,
+                        message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].lessThan['default'], compareTo)
+                    }
+                    : {
+                        valid: value < compareToValue,
+                        message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].lessThan.notInclusive, compareTo)
+                    };
         },
 
         _format: function(value) {
@@ -6469,7 +6466,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             mac: {
@@ -6498,7 +6495,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             meid: {
@@ -6564,10 +6561,10 @@ if (typeof jQuery === 'undefined') {
 
                     // If the last digit of the calc is 0, the check digit is 0
                     return (sum % 10 === 0)
-                        ? (cd === '0')
-                        // Subtract it from the next highest 10s number (64 goes to 70) and subtract the sum
-                        // Double it and turn it into a hex char
-                        : (cd === ((Math.floor((sum + 10) / 10) * 10 - sum) * 2).toString(16));
+                            ? (cd === '0')
+                            // Subtract it from the next highest 10s number (64 goes to 70) and subtract the sum
+                            // Double it and turn it into a hex char
+                            : (cd === ((Math.floor((sum + 10) / 10) * 10 - sum) * 2).toString(16));
 
                 // 14 digit hex representation (no check digit)
                 case /^[0-9A-F]{14}$/i.test(value):
@@ -6585,7 +6582,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             notEmpty: {
@@ -6613,9 +6610,9 @@ if (typeof jQuery === 'undefined') {
             if ('radio' === type || 'checkbox' === type) {
                 var ns = validator.getNamespace();
                 return validator
-                        .getFieldElements($field.attr('data-' + ns + '-field'))
-                        .filter(':checked')
-                        .length > 0;
+                            .getFieldElements($field.attr('data-' + ns + '-field'))
+                            .filter(':checked')
+                            .length > 0;
             }
 
             if ('number' === type && $field.get(0).validity && $field.get(0).validity.badInput === true) {
@@ -6627,7 +6624,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             numeric: {
@@ -6674,7 +6671,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             phone: {
@@ -6755,7 +6752,7 @@ if (typeof jQuery === 'undefined') {
                     value   = $.trim(value);
                     isValid = (/^(((\+|00)?971[\s\.-]?(\(0\)[\s\.-]?)?|0)(\(5(0|2|5|6)\)|5(0|2|5|6)|2|3|4|6|7|9)|60)([\s\.-]?[0-9]){7}$/).test(value);
                     break;
-
+                    
                 case 'BG':
                     // https://regex101.com/r/yE6vN4/1
                     // See http://en.wikipedia.org/wiki/Telephone_numbers_in_Bulgaria
@@ -6814,13 +6811,13 @@ if (typeof jQuery === 'undefined') {
                     isValid = (/^(?:(?:(?:\+|00)33[ ]?(?:\(0\)[ ]?)?)|0){1}[1-9]{1}([ .-]?)(?:\d{2}\1?){3}\d{2}$/).test(value);
                     break;
 
-                case 'GB':
+            	case 'GB':
                     // http://aa-asterisk.org.uk/index.php/Regular_Expressions_for_Validating_and_Formatting_GB_Telephone_Numbers#Match_GB_telephone_number_in_any_format
                     // http://regexr.com/38uhv
                     value   = $.trim(value);
                     isValid = (/^\(?(?:(?:0(?:0|11)\)?[\s-]?\(?|\+)44\)?[\s-]?\(?(?:0\)?[\s-]?\(?)?|0)(?:\d{2}\)?[\s-]?\d{4}[\s-]?\d{4}|\d{3}\)?[\s-]?\d{3}[\s-]?\d{3,4}|\d{4}\)?[\s-]?(?:\d{5}|\d{3}[\s-]?\d{3})|\d{5}\)?[\s-]?\d{4,5}|8(?:00[\s-]?11[\s-]?11|45[\s-]?46[\s-]?4\d))(?:(?:[\s-]?(?:x|ext\.?\s?|\#)\d+)?)$/).test(value);
                     break;
-
+            
                 case 'IN':
                     // http://stackoverflow.com/questions/18351553/regular-expression-validation-for-indian-phone-number-and-mobile-number
                     // http://regex101.com/r/qL6eZ5/1
@@ -6828,21 +6825,21 @@ if (typeof jQuery === 'undefined') {
                     value   = $.trim(value);
                     isValid = (/((\+?)((0[ -]+)*|(91 )*)(\d{12}|\d{10}))|\d{5}([- ]*)\d{6}/).test(value);
                     break;
-
+                    
                 case 'MA':
                     // http://en.wikipedia.org/wiki/Telephone_numbers_in_Morocco
                     // http://regexr.com/399n8
                     value   = $.trim(value);
                     isValid = (/^(?:(?:(?:\+|00)212[\s]?(?:[\s]?\(0\)[\s]?)?)|0){1}(?:5[\s.-]?[2-3]|6[\s.-]?[13-9]){1}[0-9]{1}(?:[\s.-]?\d{2}){3}$/).test(value);
                     break;
-
+                
                 case 'NL':
                     // http://en.wikipedia.org/wiki/Telephone_numbers_in_the_Netherlands
                     // http://regexr.com/3aevr
                     value   = $.trim(value);
                     isValid = (/^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)[1-9]((\s|\s?\-\s?)?[0-9])((\s|\s?-\s?)?[0-9])((\s|\s?-\s?)?[0-9])\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]$/gm).test(value);
                     break;
-
+                
                 case 'PK':
                     // http://regex101.com/r/yH8aV9/2
                     value   = $.trim(value);
@@ -6875,7 +6872,7 @@ if (typeof jQuery === 'undefined') {
                     value   = $.trim(value);
                     isValid = (/^0(?:2(?:12|4[0-9]|5[1-9]|6[0-9]|7[0-8]|8[1-35-8]|9[1-5]|3[45789])|4(?:1[246]|2[46]))\d{7}$/).test(value);
                     break;
-
+  
                 case 'US':
                 /* falls through */
                 default:
@@ -6894,7 +6891,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             regexp: {
@@ -6940,7 +6937,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             remote: {
@@ -7044,8 +7041,8 @@ if (typeof jQuery === 'undefined') {
                 xhr
                     .success(function(response) {
                         response.valid = (response[validKey] === true || response[validKey] === 'true')
-                            ? true
-                            : (response[validKey] === false || response[validKey] === 'false' ? false : null);
+                                        ? true
+                                        : (response[validKey] === false || response[validKey] === 'false' ? false : null);
                         dfd.resolve($field, 'remote', response);
                     })
                     .error(function(response) {
@@ -7060,7 +7057,7 @@ if (typeof jQuery === 'undefined') {
 
                 return dfd;
             }
-
+            
             if (options.delay) {
                 // Since the form might have multiple fields with the same name
                 // I have to attach the timer to the field element
@@ -7076,7 +7073,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             rtn: {
@@ -7118,7 +7115,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             sedol: {
@@ -7155,55 +7152,55 @@ if (typeof jQuery === 'undefined') {
                 weight = [1, 3, 1, 7, 3, 9, 1],
                 length = value.length;
             for (var i = 0; i < length - 1; i++) {
-                sum += weight[i] * parseInt(value.charAt(i), 36);
-            }
-            sum = (10 - sum % 10) % 10;
+	            sum += weight[i] * parseInt(value.charAt(i), 36);
+	        }
+	        sum = (10 - sum % 10) % 10;
             return sum + '' === value.charAt(length - 1);
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
-        'en_US': {
-            siren: {
-                'default': 'Please enter a valid SIREN number'
-            }
-        }
+		'en_US': {
+			siren: {
+				'default': 'Please enter a valid SIREN number'
+			}
+		}
     });
 
-    FormValidation.Validator.siren = {
-        /**
-         * Check if a string is a siren number
-         *
-         * @param {FormValidation.Base} validator The validator plugin instance
-         * @param {jQuery} $field Field element
-         * @param {Object} options Consist of key:
+	FormValidation.Validator.siren = {
+		/**
+		 * Check if a string is a siren number
+		 *
+		 * @param {FormValidation.Base} validator The validator plugin instance
+		 * @param {jQuery} $field Field element
+		 * @param {Object} options Consist of key:
          * - message: The invalid message
-         * @returns {Boolean}
-         */
-        validate: function(validator, $field, options) {
-            var value = validator.getFieldValue($field, 'siren');
-            if (value === '') {
-                return true;
-            }
+		 * @returns {Boolean}
+		 */
+		validate: function(validator, $field, options) {
+			var value = validator.getFieldValue($field, 'siren');
+			if (value === '') {
+				return true;
+			}
 
             if (!/^\d{9}$/.test(value)) {
                 return false;
             }
             return FormValidation.Helper.luhn(value);
-        }
-    };
+		}
+	};
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
-        'en_US': {
-            siret: {
-                'default': 'Please enter a valid SIRET number'
-            }
-        }
+		'en_US': {
+			siret: {
+				'default': 'Please enter a valid SIRET number'
+			}
+		}
     });
 
-    FormValidation.Validator.siret = {
+	FormValidation.Validator.siret = {
         /**
          * Check if a string is a siret number
          *
@@ -7213,30 +7210,30 @@ if (typeof jQuery === 'undefined') {
          * - message: The invalid message
          * @returns {Boolean}
          */
-        validate: function(validator, $field, options) {
-            var value = validator.getFieldValue($field, 'siret');
-            if (value === '') {
-                return true;
-            }
+		validate: function(validator, $field, options) {
+			var value = validator.getFieldValue($field, 'siret');
+			if (value === '') {
+				return true;
+			}
 
-            var sum    = 0,
+			var sum    = 0,
                 length = value.length,
                 tmp;
-            for (var i = 0; i < length; i++) {
+			for (var i = 0; i < length; i++) {
                 tmp = parseInt(value.charAt(i), 10);
-                if ((i % 2) === 0) {
-                    tmp = tmp * 2;
-                    if (tmp > 9) {
-                        tmp -= 9;
-                    }
-                }
-                sum += tmp;
-            }
-            return (sum % 10 === 0);
-        }
-    };
+				if ((i % 2) === 0) {
+					tmp = tmp * 2;
+					if (tmp > 9) {
+						tmp -= 9;
+					}
+				}
+				sum += tmp;
+			}
+			return (sum % 10 === 0);
+		}
+	};
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             step: {
@@ -7305,7 +7302,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             stringCase: {
@@ -7346,7 +7343,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             stringLength: {
@@ -7414,22 +7411,22 @@ if (typeof jQuery === 'undefined') {
             var locale     = validator.getLocale(),
                 min        = $.isNumeric(options.min) ? options.min : validator.getDynamicOption($field, options.min),
                 max        = $.isNumeric(options.max) ? options.max : validator.getDynamicOption($field, options.max),
-            // Credit to http://stackoverflow.com/a/23329386 (@lovasoa) for UTF-8 byte length code
+                // Credit to http://stackoverflow.com/a/23329386 (@lovasoa) for UTF-8 byte length code
                 utf8Length = function(str) {
-                    var s = str.length;
-                    for (var i = str.length - 1; i >= 0; i--) {
-                        var code = str.charCodeAt(i);
-                        if (code > 0x7f && code <= 0x7ff) {
-                            s++;
-                        } else if (code > 0x7ff && code <= 0xffff) {
-                            s += 2;
-                        }
-                        if (code >= 0xDC00 && code <= 0xDFFF) {
-                            i--;
-                        }
-                    }
-                    return s;
-                },
+                                 var s = str.length;
+                                 for (var i = str.length - 1; i >= 0; i--) {
+                                     var code = str.charCodeAt(i);
+                                     if (code > 0x7f && code <= 0x7ff) {
+                                         s++;
+                                     } else if (code > 0x7ff && code <= 0xffff) {
+                                         s += 2;
+                                     }
+                                     if (code >= 0xDC00 && code <= 0xDFFF) {
+                                         i--;
+                                     }
+                                 }
+                                 return s;
+                             },
                 length     = options.utf8Bytes ? utf8Length(value) : value.length,
                 isValid    = true,
                 message    = options.message || FormValidation.I18n[locale].stringLength['default'];
@@ -7462,7 +7459,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             uri: {
@@ -7539,41 +7536,41 @@ if (typeof jQuery === 'undefined') {
                 protocol           = (options.protocol || 'http, https, ftp').split(',').join('|').replace(/\s/g, ''),
                 urlExp             = new RegExp(
                     "^" +
-                        // protocol identifier
+                    // protocol identifier
                     "(?:(?:" + protocol + ")://)" +
-                        // allow empty protocol
+                    // allow empty protocol
                     (allowEmptyProtocol ? '?' : '') +
-                        // user:pass authentication
+                    // user:pass authentication
                     "(?:\\S+(?::\\S*)?@)?" +
                     "(?:" +
-                        // IP address exclusion
-                        // private & local networks
+                    // IP address exclusion
+                    // private & local networks
                     (allowLocal
                         ? ''
                         : ("(?!(?:10|127)(?:\\.\\d{1,3}){3})" +
-                    "(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})" +
-                    "(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})")) +
-                        // IP address dotted notation octets
-                        // excludes loopback network 0.0.0.0
-                        // excludes reserved space >= 224.0.0.0
-                        // excludes network & broadcast addresses
-                        // (first & last IP address of each class)
+                           "(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})" +
+                           "(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})")) +
+                    // IP address dotted notation octets
+                    // excludes loopback network 0.0.0.0
+                    // excludes reserved space >= 224.0.0.0
+                    // excludes network & broadcast addresses
+                    // (first & last IP address of each class)
                     "(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])" +
                     "(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}" +
                     "(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))" +
                     "|" +
-                        // host name
+                    // host name
                     "(?:(?:[a-z\\u00a1-\\uffff0-9]-?)*[a-z\\u00a1-\\uffff0-9]+)" +
-                        // domain name
+                    // domain name
                     "(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-?)*[a-z\\u00a1-\\uffff0-9])*" +
-                        // TLD identifier
+                    // TLD identifier
                     "(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))" +
-                        // Allow intranet sites (no TLD) if `allowLocal` is true
+                    // Allow intranet sites (no TLD) if `allowLocal` is true
                     (allowLocal ? '?' : '') +
                     ")" +
-                        // port number
+                    // port number
                     "(?::\\d{2,5})?" +
-                        // resource path
+                    // resource path
                     "(?:/[^\\s]*)?" +
                     "$", "i"
                 );
@@ -7582,7 +7579,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             uuid: {
@@ -7627,13 +7624,13 @@ if (typeof jQuery === 'undefined') {
             return {
                 valid: (null === patterns[version]) ? true : patterns[version].test(value),
                 message: options.version
-                    ? FormValidation.Helper.format(options.message || FormValidation.I18n[locale].uuid.version, options.version)
-                    : (options.message || FormValidation.I18n[locale].uuid['default'])
+                            ? FormValidation.Helper.format(options.message || FormValidation.I18n[locale].uuid.version, options.version)
+                            : (options.message || FormValidation.I18n[locale].uuid['default'])
             };
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             vat: {
@@ -7732,9 +7729,9 @@ if (typeof jQuery === 'undefined') {
             return this[method](value)
                 ? true
                 : {
-                valid: false,
-                message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].vat.country, FormValidation.I18n[locale].vat.countries[country.toUpperCase()])
-            };
+                    valid: false,
+                    message: FormValidation.Helper.format(options.message || FormValidation.I18n[locale].vat.country, FormValidation.I18n[locale].vat.countries[country.toUpperCase()])
+                };
         },
 
         // VAT validators
@@ -7869,7 +7866,7 @@ if (typeof jQuery === 'undefined') {
                         sum = (sum % 11) % 10;
                         return (sum + '' === value.substr(9, 1));
                     },
-                // Validate Bulgarian personal number of a foreigner
+                    // Validate Bulgarian personal number of a foreigner
                     pnf = function(value) {
                         var sum    = 0,
                             weight = [21, 19, 17, 13, 11, 9, 7, 3, 1];
@@ -7879,7 +7876,7 @@ if (typeof jQuery === 'undefined') {
                         sum = sum % 10;
                         return (sum + '' === value.substr(9, 1));
                     },
-                // Finally, consider it as a VAT number
+                    // Finally, consider it as a VAT number
                     vat = function(value) {
                         var sum    = 0,
                             weight = [4, 3, 2, 7, 6, 5, 4, 3, 2];
@@ -7900,7 +7897,7 @@ if (typeof jQuery === 'undefined') {
 
             return false;
         },
-
+        
         /**
          * Validate Brazilian VAT number (CNPJ)
          *
@@ -8716,10 +8713,10 @@ if (typeof jQuery === 'undefined') {
          */
         _nl: function(value) {
             if (/^NL[0-9]{9}B[0-9]{2}$/.test(value)) {
-                value = value.substr(2);
+               value = value.substr(2);
             }
             if (!/^[0-9]{9}B[0-9]{2}$/.test(value)) {
-                return false;
+               return false;
             }
 
             var sum    = 0,
@@ -8744,10 +8741,10 @@ if (typeof jQuery === 'undefined') {
          */
         _no: function(value) {
             if (/^NO[0-9]{9}$/.test(value)) {
-                value = value.substr(2);
+               value = value.substr(2);
             }
             if (!/^[0-9]{9}$/.test(value)) {
-                return false;
+               return false;
             }
 
             var sum    = 0,
@@ -9048,7 +9045,7 @@ if (typeof jQuery === 'undefined') {
          * @params {String} value VAT number
          * @returns {Boolean}
          */
-        _za: function(value) {
+         _za: function(value) {
             if (/^ZA4[0-9]{9}$/.test(value)) {
                 value = value.substr(2);
             }
@@ -9057,7 +9054,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             vin: {
@@ -9091,7 +9088,7 @@ if (typeof jQuery === 'undefined') {
             var chars   = {
                     A: 1,   B: 2,   C: 3,   D: 4,   E: 5,   F: 6,   G: 7,   H: 8,
                     J: 1,   K: 2,   L: 3,   M: 4,   N: 5,           P: 7,           R: 9,
-                    S: 2,   T: 3,   U: 4,   V: 5,   W: 6,   X: 7,   Y: 8,   Z: 9,
+                            S: 2,   T: 3,   U: 4,   V: 5,   W: 6,   X: 7,   Y: 8,   Z: 9,
                     '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '0': 0
                 },
                 weights = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2],
@@ -9110,7 +9107,7 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-;(function($) {
+(function ($) {
     FormValidation.I18n = $.extend(true, FormValidation.I18n || {}, {
         'en_US': {
             zipCode: {
@@ -9361,4 +9358,3 @@ if (typeof jQuery === 'undefined') {
         }
     };
 }(jQuery));
-

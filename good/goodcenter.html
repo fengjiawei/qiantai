@@ -1,302 +1,141 @@
+<link href="../static/css/validation/formValidation.css" type="text/css"/>
+<link href="//cdn.bootcss.com/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
-    <!--<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main.css"/>-->
-    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=ce69d8b5bff1639849e1d874d630a58d"></script>
-    <script type="text/javascript" src="../static/js/area.js"></script>
-    <script type="text/javascript" src="../static/js/location.js"></script>
-    <script type="text/javascript" src="../static/js/validation/formValidation.js"></script>
-    <script type="text/javascript" src="../static/js/validation/zh_CN.js"></script>
-    <script type="text/javascript" src="../static/js/validation/bootstrap.js"></script>
-    <link href="../static/css/validation/formValidation.css" type="text/css"/>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=ce69d8b5bff1639849e1d874d630a58d"></script>
+<style>
 
-    <style>
+    .form-group {
+        margin-top: 10px;
+        margin-left: 30px;
+    }
 
-        .form-group {
-            margin-top: 10px;
-        }
-    </style>
-    <script>
+    .form-inline .has-feedback .form-control-feedback {
+        top: 0;
+        right: -30px;
+    }
 
-        showLocation();
-        showLocation1();
-        showLocation3();
-        showLocation4();
+    /*.form-inline .has-feedback .input-group .form-control-feedback {*/
+    /*top: 0;*/
+    /*right: -40px;*/
+    /*}*/
 
-        $("#mytab a").click(function (e) {
-            e.preventDefault();
-            $(this).tab("show");
-        });
-        function save(num) {
-            if (num == 1) {
-                $('#startStation').val($('#loc_province  option:selected').text() + $('#loc_city  option:selected').text() + $('#loc_town  option:selected').text());
-                $('#endStation').val($('#loc_province1  option:selected').text() + $('#loc_city1  option:selected').text() + $('#loc_town1  option:selected').text());
-                $('#goodsLoadSize').val($('#good_types').val() + " " + $('#good_volume').val() + "立方/" + $('#good_weight').val() + "吨");
-                $.ajax({
-                            type: 'post',
-                            url: 'save.php',
-                            data: $("#vehicle").serialize(),
-                            success: function (data) {
-                                console.log(data);
-                                if (data.result == 'success') {
-                                    Lobibox.confirm({
-                                        title: '提示',
-                                        msg: '货源发布成功，你可以继续发布货源，或者查看货源列表',
-                                        callback: function (lobibox, type) {
-                                            if (type === 'conti') {
-                                                $.get('goodcenter.html', function (data) {
-                                                    $('#goodChildView').html(data);
-                                                })
-                                            } else if (type === 'look') {
-                                                $.get('myGood.html', function (data) {
-                                                    $('#goodChildView').html(data);
-                                                })
-                                            }
+    .input-group-addon {
+        cursor: pointer;
+    }
 
-                                        }
-                                    });
-                                    $.get("goodcenter.html", function (data) {
-                                        $('#goodChildView').html(data);
-                                    })
-                                } else {
-                                    Lobibox.notify('info', {
-                                        width: 300,
-                                        msg: data.describe + "请注意，装车地址必须地图选择"
-                                    });
-                                }
-                            },
-                            error: function (data) {
-                                Lobibox.notify('error', {
-                                    size: 'mini',
-                                    width: 300,
-                                    msg: '请填写完整信息'
-                                });
-                            },
-                            dataType: 'json'
-                        }
-                )
-            }
-            else {
-                $('#ld_startStation').val($('#ld_from_province').val() + $('#ld_from_city').val() + $('#ld_from_counties').val());
-                $('#ld_endStation').val($('#ld_to_province').val() + $('#ld_to_city').val() + $('#ld_to_counties').val());
-                $('#goodsLoadSize').val($('#ld_good_types').val() + " " + $('#ld_good_number').val() + "件/" + $('#ld_good_volume').val() + "立方/" + $('#good_weight').val() + "吨/");
-                $.post(
-                        'save.php',
-                        $("#lingdan").serialize(),
-                        function (data) {
-                            if (data.result == 'success') {
-//                            $("#myModal").modal('show');
-                                alert('发布成功');
-                                $.get("goodcenter.html", function (data) {
-                                    $('#goodChildView').html(data);
-                                })
-                            } else {
-                                alert('发货失败')
-                            }
-                        },
-                        'json'
-                )
-            }
-        }
+</style>
 
-        function closeBg() {
-            $("#fullbg,#dialog").hide();
-            $('#z').css('display', 'none');
-            $('#l').css('display', 'none');
-        }
-        function openMap(type) {
-            $("#fullbg").css({
-                display: "block"
-            });
-            var map = new AMap.Map('container', {
-                resizeEnable: true,
-                zoom: 13
-            });
-            var city;
-            if (type == 1 && $('#loc_town').val() != "") {
-                city = $('#loc_town  option:selected').text();
-            } else {
-                city = $('#ld_from_counties').val();
-            }
+<style>
+    #container {
+        height: 90%;
+        /*margin: 0px*/
+    }
 
+    .panel1 {
+        background-color: #ddf;
+        color: #333;
+        border: 1px solid silver;
+        box-shadow: 3px 4px 3px 0px silver;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        border-radius: 5px;
+        overflow: hidden;
+        line-height: 20px;
+        margin-top: 36px;
+    }
 
-            if (city) {
-                map.setCity(city)
-            }
-            AMap.plugin('AMap.Geocoder', function () {
-                var geocoder = new AMap.Geocoder({
-                    city: "全国"//城市，默认：“全国”
-                });
-                var marker = new AMap.Marker({
-                    map: map,
-                    bubble: true
-                });
-                var input = document.getElementById('input1');
-                var message = document.getElementById('message');
-                map.on('click', function (e) {
-                    $('#lngX').val(e.lnglat.getLng());
-                    $('#latY').val(e.lnglat.getLat());
-                    marker.setPosition(e.lnglat);
-                    geocoder.getAddress(e.lnglat, function (status, result) {
-                        if (status == 'complete') {
-                            input.value = result.regeocode.formattedAddress;
-                            message.innerHTML = ''
-                        } else {
-                            message.innerHTML = '无法获取地址'
-                        }
-                    })
-                });
+    #btn {
+        /*background-color: #ddf;*/
+        /*color: #333;*/
+        /*border: 1px solid silver;*/
+        /*box-shadow: 3px 4px 3px 0px silver;*/
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        /*border-radius: 5px;*/
+        overflow: hidden;
+        line-height: 20px;
+        /*margin-bottom: 36px;*/
+    }
 
-                input.onchange = function (e) {
-                    var address = input.value;
-                    geocoder.getLocation(address, function (status, result) {
-                        if (status == 'complete' && result.geocodes.length) {
-                            marker.setPosition(result.geocodes[0].location);
-                            map.setCenter(marker.getPosition());
-                            message.innerHTML = ''
-                        } else {
-                            message.innerHTML = '无法获取位置'
-                        }
-                    })
-                }
+    #input1 {
+        width: 250px;
+        height: 25px;
+        border: 0;
+    }
 
-            });
-            if (type == 1) {
-                $('#z').css('display', 'block');
-            } else {
-                $('#l').css('display', 'block');
-            }
-            $("#dialog").show();
+    #fullbg {
+        height: 100%;
+        width: 100%;
+        /*background-color: gray;*/
+        left: 0;
+        opacity: 0.5;
+        /*position: absolute;*/
+        top: 0;
+        /*z-index: 3;*/
+        filter: alpha(opacity=50);
+        -moz-opacity: 0.5;
+        -khtml-opacity: 0.5;
+        position: fixed;
+        /*width: 100%;*/
+        /*height: 100%;*/
+        background: #000;
+        /*position: absolute;*/
+        /*top: 0;*/
+        /*left: 0;*/
+        z-index: 99;
+        overflow: hidden;
+        display: none;
+    }
 
+    #dialog {
+        left: 50%;
+        top: 50%;
+        margin: -200px -400px;
+        position: fixed !important; /* 浮动对话框 */
+        /*position:absolute;*/
+        /*top:50%;*/
+        /*width:800px;*/
+        /*z-index:5;*/
+        /*border-radius:5px;*/
+        display: none;
+        /*overflow-y: auto;*/
+        overflow-x: hidden; /*隐藏水平滚动条*/
+        width: auto;
+        min-width: 70%;
+        height: 500px /* 320px */;
+        max-height: calc(100% - 20px); /* 当时窗口的最大高度减去20px*/
+        background-color: #fff;
+        background-repeat: no-repeat;
+        border: 1px solid rgb(51, 122, 182);
+        border-radius: 5px;
+        position: fixed; /*保证在可视区域内居中 */
+        z-index: 100;
+    }
 
-        }
-        function checkXY(x) {
+    #dialog p {
+        background-color: rgb(51, 122, 182);
+        height: 30px;
+        line-height: 30px;
+        padding-left: 5px;
+        cursor: move;
+        margin-top: 0;
+        color: white;
+    }
 
-            if (x == 1) {
-                $('#zc').val($('#input1').val());
-                $('#positionx').val($('#lngX').val());
-                $('#positiony').val($('#latY').val());
-                $("#fullbg,#dialog").hide();
-                $('#z').css('display', 'none');
-            } else {
-                $('#ld').val($('#input1').val());
-                $('#positionx1').val($('#lngX').val());
-                $('#positiony1').val($('#latY').val());
-                $("#fullbg,#dialog").hide();
-                $('#l').css('display', 'none');
-            }
+    #close {
+        text-align: right;
+        padding-right: 20px;
+    }
 
-        }
-    </script>
-    <style>
-        #container {
-            height: 90%;
-            /*margin: 0px*/
-        }
-
-        .panel1 {
-            background-color: #ddf;
-            color: #333;
-            border: 1px solid silver;
-            box-shadow: 3px 4px 3px 0px silver;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            border-radius: 5px;
-            overflow: hidden;
-            line-height: 20px;
-            margin-top: 36px;
-        }
-
-        #btn {
-            /*background-color: #ddf;*/
-            /*color: #333;*/
-            /*border: 1px solid silver;*/
-            /*box-shadow: 3px 4px 3px 0px silver;*/
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            /*border-radius: 5px;*/
-            overflow: hidden;
-            line-height: 20px;
-            /*margin-bottom: 36px;*/
-        }
-
-        #input1 {
-            width: 250px;
-            height: 25px;
-            border: 0;
-        }
-
-        #fullbg {
-            height: 100%;
-            width: 100%;
-            /*background-color: gray;*/
-            left: 0;
-            opacity: 0.5;
-            /*position: absolute;*/
-            top: 0;
-            /*z-index: 3;*/
-            filter: alpha(opacity=50);
-            -moz-opacity: 0.5;
-            -khtml-opacity: 0.5;
-            position: fixed;
-            /*width: 100%;*/
-            /*height: 100%;*/
-            background: #000;
-            /*position: absolute;*/
-            /*top: 0;*/
-            /*left: 0;*/
-            z-index: 99;
-            overflow: hidden;
-            display: none;
-        }
-
-        #dialog {
-            left: 50%;
-            top: 50%;
-            margin: -200px -400px;
-            position: fixed !important; /* 浮动对话框 */
-            /*position:absolute;*/
-            /*top:50%;*/
-            /*width:800px;*/
-            /*z-index:5;*/
-            /*border-radius:5px;*/
-            display: none;
-            /*overflow-y: auto;*/
-            overflow-x: hidden; /*隐藏水平滚动条*/
-            width: auto;
-            min-width: 70%;
-            height: 500px /* 320px */;
-            max-height: calc(100% - 20px); /* 当时窗口的最大高度减去20px*/
-            background-color: #fff;
-            background-repeat: no-repeat;
-            border: 1px solid rgb(51, 122, 182);
-            border-radius: 5px;
-            position: fixed; /*保证在可视区域内居中 */
-            z-index: 100;
-        }
-
-        #dialog p {
-            background-color: rgb(51, 122, 182);
-            height: 30px;
-            line-height: 30px;
-            padding-left: 5px;
-            cursor: move;
-            margin-top: 0;
-            color: white;
-        }
-
-        #close {
-            text-align: right;
-            padding-right: 20px;
-        }
-
-        #close a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-            line-height: 30px;
-        }
-    </style>
+    #close a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 18px;
+        line-height: 30px;
+    }
+</style>
 </head>
 <body>
 <div id="main">
@@ -341,13 +180,14 @@
             <ul id="mytab" class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#zhengchefahuo">整车发货</a></li>
                 <li role="presentation"><a href="#lingdanfahuo">零担发货</a>
+                <!--<li role="presentation"><a href="#test">测试</a>-->
                 </li>
             </ul>
             <!--tab页content-->
             <div class="tab-content">
                 <!--tab页 1 整车发货-->
                 <div class="tab-pane active" id="zhengchefahuo">
-                    <div class="container" style="width: 800px;">
+                    <div class="container" style="width: 100%">
                         <form id="vehicle" class="form-inline" action="" method="post">
                             <script>
                                 $(function () {
@@ -359,23 +199,29 @@
                             <div class="form-group">
                                 <label class="control-label">发货日期</label>
 
-                                <input name="deliveryDate" type="date" class="form-control" placeholder="">
+                                <div class="input-group date" id="deliveryDate">
+                                    <input type="text" class="form-control" name="deliveryDate"/>
+                                    <span class="input-group-addon"><span
+                                            class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                                <!--<input name="deliveryDate" type="date" class="form-control" placeholder="">-->
                             </div>
                             <br>
-
                             <div class="form-group">
                                 <input name="type" value="nonstop" style="display: none">
 
                                 <label class="control-label">发货城市 </label>
                                 <select id="loc_province" name="loc_province" class="form-control"></select>
-                            </div>
-                            <div class="form-group">
                                 <select id="loc_city" name="loc_city" class="form-control"></select>
-                            </div>
-                            <div class="form-group">
+
                                 <select id="loc_town" name="loc_town" class="form-control"></select>
                                 <input type="text" name="startStation" id="startStation" style="display: none">
+
                             </div>
+                            <!--<div class="form-group">-->
+                            <!--<select id="loc_city" name="loc_city" class="form-control"></select>-->
+                            <!--</div>-->
+                            <!--<div class="form-group"></div>-->
                             <div class="form-group">
                                 <label class="control-label">装车地址</label>
 
@@ -383,33 +229,31 @@
                                     <input id='zc' name="startAddress" type="text" class="form-control"
                                            placeholder="详细地址"
                                            style="width: 200px;">
-                                    <span class="input-group-btn ">
-                                        <button class="btn btn-default btn-sm" type="button" onclick="openMap(1)"><span
-                                                class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                                        </button>
-                                    </span>
+                                    <span class="input-group-addon" onclick="openMap(1)"><span
+                                            class="glyphicon glyphicon-map-marker"></span></span>
                                 </div>
                                 <input type="text" name="positionY" id="positionx" readonly style="display: none">
                                 <input type="text" name="positionX" id="positiony" readonly style="display: none">
                             </div>
+                            <br>
                             <div class="form-group">
                                 <label class="control-label">到货城市 </label>
                                 <select id="loc_province1" name="loc_province" class="form-control"></select>
-                            </div>
-                            <div class="form-group">
                                 <select id="loc_city1" name="loc_city" class="form-control"></select>
-                            </div>
-                            <div class="form-group">
                                 <select id="loc_town1" name="loc_town" class="form-control"></select>
                                 <input type="text" name="endStation" id="endStation" style="display: none">
+
                             </div>
+                            <!--<div class="form-group">-->
+                            <!---->
+                            <!--</div>-->
+                            <!--<div class="form-group"></div>-->
                             <div class="form-group">
                                 <label class="control-label">卸货地址</label>
                                 <input name="endAddress" type="text" class="form-control" placeholder="详细地址"
                                        style="width: 200px;">
                             </div>
-                            <br>
-
+                            <hr>
                             <div class="form-group">
                                 <label class="control-label">联系人名</label>
                                 <input name="receiverName" type="text" style="width: 185px;" class="form-control"
@@ -425,7 +269,7 @@
                                 <input name="tel" type="text" style="width: 185px;" class="form-control" readonly
                                        placeholder="请输入固话号码">
                             </div>
-
+                            <hr>
                             <div class="form-group">
                                 <label class="control-label">货物种类</label>
                                 <select id="good_types" name="good_types" class="form-control" style="width: 185px;">
@@ -543,167 +387,12 @@
                                 <button type="submit" class="btn btn-primary btn-sm">
                                     发布货源
                                 </button>
-                                <button type="button" class="btn btn-success btn-sm">
-                                    批量导入
-                                </button>
+                                <!--<button type="button" class="btn btn-success btn-sm">-->
+                                <!--批量导入-->
+                                <!--</button>-->
                             </div>
 
                         </form>
-                        <script>
-                            $('#vehicle')
-                                    .formValidation({
-                                        message: 'This value is not valid',
-                                        icon: {
-                                            valid: 'glyphicon glyphicon-ok',
-//                                            invalid: 'glyphicon glyphicon-remove',
-                                            validating: 'glyphicon glyphicon-refresh'
-                                        },
-                                        fields: {
-                                            deliveryDate: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '发货日期必填！'
-                                                    },
-//                                                    digits: {},
-                                                }
-                                            },
-                                            loc_town: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '省市区必填！'
-                                                    },
-//                                                    digits: {},
-                                                }
-                                            },
-                                            startAddress: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '装车地址必填！'
-                                                    },
-//                                                    digits: {},
-                                                }
-                                            },
-                                            endAddress: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '卸货地址必填！'
-                                                    },
-//                                                    digits: {},
-                                                }
-                                            },
-                                            receiverName: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '联系人必填！'
-                                                    },
-//                                                    digits: {},
-                                                }
-                                            },
-                                            receiverName: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '联系人必填！'
-                                                    },
-//                                                    digits: {},
-                                                }
-                                            }, receiverPhone: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '手机号码必填！'
-                                                    },
-                                                    phone: {
-                                                        country: 'CN',
-                                                        message: '请输入有效的手机号码'
-                                                    }
-                                                }
-                                            },
-                                            good_types: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '货物种类必填！'
-                                                    }
-                                                }
-                                            },
-                                            goodsType: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '货物类型必填！'
-                                                    }
-                                                }
-                                            },
-                                            goodsName: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '货物名称必填！'
-                                                    }
-                                                }
-                                            },
-                                            good_volume: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '体积必填！'
-                                                    }
-                                                }
-                                            },
-                                            good_weight: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '重量必填！'
-                                                    }
-                                                }
-                                            },
-                                            carType: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '所需车型必填！'
-                                                    }
-                                                }
-                                            },
-                                            carLen: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '所需车长必填！'
-                                                    }
-                                                }
-                                            },
-                                            carLoad: {
-//                                                message: '只能填写数字。',
-                                                validators: {
-                                                    notEmpty: {
-                                                        message: '所需载重必填！'
-                                                    }
-                                                }
-                                            },
-                                        }
-                                    })
-                                    .on('success.form.fv', function (e) {
-                                        // Prevent form submission
-                                        e.preventDefault();
-
-                                        // Get the form instance
-                                        var $form = $(e.target);
-
-                                        // Get the FormValidation instance
-                                        var bv = $form.data('formValidation');
-
-                                        // Use Ajax to submit form data
-                                        save(1);
-                                    });
-                        </script>
                     </div>
                 </div>
                 <!--tab页 2 零担发货-->
@@ -904,12 +593,381 @@
                         </div>
                     </div>
                 </div>
-                <!--</div>-->
+                <!--测试-->
+                <div class="tab-pane" id="test">
+                    <div class="container" style="width: 800px;">
+                        <form id="testForm" class="form-inline" action="" method="post">
+                            <div class="form-group">
+                                <label class="control-label">发货日期</label>
+                                <div class="input-group date" id="datetimePicker">
+                                    <input type="text" class="form-control" name="datetimePicker"/>
+                                    <span class="input-group-addon"><span
+                                            class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">发货日期</label>
+                                <input type="text" class="form-control" name="datetimePicker"/>
+                            </div>
+                            <br>
+                            <div class="form-group" style="margin-bottom: 20px">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    发布货源
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
             </div>
 
         </div>
 
     </div>
 </div>
-</body>
-</html>
+
+<script type="text/javascript" src="../static/js/validation/formValidation.js"></script>
+<script type="text/javascript" src="../static/js/validation/bootstrap.js"></script>
+<script type="text/javascript" src="../static/js/validation/zh_CN.js"></script>
+<script type="text/javascript" src="../static/js/moment.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap-datetimepicker.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        //开启省市区三级下拉框
+        showLocation();
+        showLocation1();
+        showLocation3();
+        showLocation4();
+        //开启tab功能
+        $("#mytab a").click(function (e) {
+            e.preventDefault();
+            $(this).tab("show");
+        });
+        $('#deliveryDate').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+        //整车发货
+        $('#vehicle')
+                .formValidation({
+                    err: {
+                        container: 'tooltip'
+                    },
+                    message: 'This value is not valid',
+                    icon: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        deliveryDate: {
+                            validators: {
+                                notEmpty: {
+                                    message: '发货日期必填！'
+                                },
+                                date: {
+                                    format: 'YYYY-MM-DD'
+                                }
+//                                                    digits: {},
+                            }
+                        },
+                        loc_town: {
+                            validators: {
+                                notEmpty: {
+                                    message: '省市区必填！'
+                                },
+//                                                    digits: {},
+                            }
+                        },
+                        startAddress: {
+                            validators: {
+                                notEmpty: {
+                                    message: '装车地址必填！'
+                                },
+//                                                    digits: {},
+                            }
+                        },
+                        endAddress: {
+                            validators: {
+                                notEmpty: {
+                                    message: '卸货地址必填！'
+                                },
+//                                                    digits: {},
+                            }
+                        },
+                        receiverName: {
+                            validators: {
+                                notEmpty: {
+                                    message: '联系人必填！'
+                                },
+//                                                    digits: {},
+                            }
+                        },
+                        receiverPhone: {
+                            validators: {
+                                notEmpty: {
+                                    message: '手机号码不能为空'
+                                },
+                                regexp: {
+                                    regexp: "^((13[0-9])|(15[^4,\\D])|(18[0,2,5-9]))\\d{8}$",
+                                    message: '不是正确的手机号码'
+                                }
+                            }
+                        },
+                        good_types: {
+                            validators: {
+                                notEmpty: {
+                                    message: '货物种类必填！'
+                                }
+                            }
+                        },
+                        goodsType: {
+                            validators: {
+                                notEmpty: {
+                                    message: '货物类型必填！'
+                                }
+                            }
+                        },
+                        goodsName: {
+                            validators: {
+                                notEmpty: {
+                                    message: '货物名称必填！'
+                                }
+                            }
+                        },
+                        good_volume: {
+//                                                message: '只能填写数字。',
+                            validators: {
+                                notEmpty: {
+                                    message: '体积必填！'
+                                },
+                                digits: {
+                                    message:'必须填写数字'
+                                },
+                            }
+                        },
+                        good_weight: {
+//                                                message: '只能填写数字。',
+                            validators: {
+                                notEmpty: {
+                                    message: '重量必填！'
+                                },
+                                digits: {
+                                    message:'必须填写数字'
+                                },
+                            }
+                        },
+                        carType: {
+//                                                message: '只能填写数字。',
+                            validators: {
+                                notEmpty: {
+                                    message: '所需车型必填！'
+                                }
+                            }
+                        },
+                        carLen: {
+//                                                message: '只能填写数字。',
+                            validators: {
+                                notEmpty: {
+                                    message: '所需车长必填！'
+                                }
+                            }
+                        },
+                        carLoad: {
+//                                                message: '只能填写数字。',
+                            validators: {
+                                notEmpty: {
+                                    message: '所需载重必填！'
+                                }
+                            }
+                        },
+                    }
+                })
+                .on('success.form.fv', function (e) {
+                    // Prevent form submission
+                    e.preventDefault();
+
+                    // Get the form instance
+                    var $form = $(e.target);
+
+                    // Get the FormValidation instance
+                    var bv = $form.data('formValidation');
+
+                    // Use Ajax to submit form data
+
+                    save(1);
+                });
+        $('#deliveryDate')
+                .on('dp.change dp.show', function (e) {
+                    // Validate the date when user change it
+                    $('#vehicle').data('formValidation').revalidateField('deliveryDate');
+                    // You also can call it as following:
+//		             $('#defaultForm').formValidation('revalidateField', 'datetimePicker');
+                });
+
+
+    });
+
+
+    //发布货源
+    function save(num) {
+        if (num == 1) {
+            $('#startStation').val($('#loc_province  option:selected').text() + $('#loc_city  option:selected').text() + $('#loc_town  option:selected').text());
+            $('#endStation').val($('#loc_province1  option:selected').text() + $('#loc_city1  option:selected').text() + $('#loc_town1  option:selected').text());
+            $('#goodsLoadSize').val($('#good_types').val() + " " + $('#good_volume').val() + "立方/" + $('#good_weight').val() + "吨");
+            $.ajax({
+                        type: 'post',
+                        url: 'save.php',
+                        data: $("#vehicle").serialize(),
+                        success: function (data) {
+                            console.log(data);
+                            if (data.result == 'success') {
+                                Lobibox.confirm({
+                                    title: '提示',
+                                    msg: '货源发布成功，你可以继续发布货源，或者查看货源列表',
+                                    callback: function (lobibox, type) {
+                                        if (type === 'conti') {
+                                            $.get('goodcenter.html', function (data) {
+                                                $('#goodChildView').html(data);
+                                            })
+                                        } else if (type === 'look') {
+                                            $.get('myGood.html', function (data) {
+                                                $('#goodChildView').html(data);
+                                            })
+                                        }
+
+                                    }
+                                });
+                                $.get("goodcenter.html", function (data) {
+                                    $('#goodChildView').html(data);
+                                })
+                            } else {
+                                Lobibox.notify('info', {
+                                    width: 300,
+                                    msg: data.describe + "请注意，装车地址必须地图选择"
+                                });
+                            }
+                        },
+                        error: function (data) {
+                            Lobibox.notify('error', {
+                                size: 'mini',
+                                width: 300,
+                                msg: '请填写完整信息'
+                            });
+                        },
+                        dataType: 'json'
+                    }
+            )
+        }
+        else {
+            $('#ld_startStation').val($('#ld_from_province').val() + $('#ld_from_city').val() + $('#ld_from_counties').val());
+            $('#ld_endStation').val($('#ld_to_province').val() + $('#ld_to_city').val() + $('#ld_to_counties').val());
+            $('#goodsLoadSize').val($('#ld_good_types').val() + " " + $('#ld_good_number').val() + "件/" + $('#ld_good_volume').val() + "立方/" + $('#good_weight').val() + "吨/");
+            $.post(
+                    'save.php',
+                    $("#lingdan").serialize(),
+                    function (data) {
+                        if (data.result == 'success') {
+//                            $("#myModal").modal('show');
+                            alert('发布成功');
+                            $.get("goodcenter.html", function (data) {
+                                $('#goodChildView').html(data);
+                            })
+                        } else {
+                            alert('发货失败')
+                        }
+                    },
+                    'json'
+            )
+        }
+    }
+
+    function closeBg() {
+        $("#fullbg,#dialog").hide();
+        $('#z').css('display', 'none');
+        $('#l').css('display', 'none');
+    }
+    function openMap(type) {
+        $("#fullbg").css({
+            display: "block"
+        });
+        var map = new AMap.Map('container', {
+            resizeEnable: true,
+            zoom: 13
+        });
+        var city;
+        if (type == 1 && $('#loc_town').val() != "") {
+            city = $('#loc_town  option:selected').text();
+        } else {
+            city = $('#ld_from_counties').val();
+        }
+
+
+        if (city) {
+            map.setCity(city)
+        }
+        AMap.plugin('AMap.Geocoder', function () {
+            var geocoder = new AMap.Geocoder({
+                city: "全国"//城市，默认：“全国”
+            });
+            var marker = new AMap.Marker({
+                map: map,
+                bubble: true
+            });
+            var input = document.getElementById('input1');
+            var message = document.getElementById('message');
+            map.on('click', function (e) {
+                $('#lngX').val(e.lnglat.getLng());
+                $('#latY').val(e.lnglat.getLat());
+                marker.setPosition(e.lnglat);
+                geocoder.getAddress(e.lnglat, function (status, result) {
+                    if (status == 'complete') {
+                        input.value = result.regeocode.formattedAddress;
+                        message.innerHTML = ''
+                    } else {
+                        message.innerHTML = '无法获取地址'
+                    }
+                })
+            });
+
+            input.onchange = function (e) {
+                var address = input.value;
+                geocoder.getLocation(address, function (status, result) {
+                    if (status == 'complete' && result.geocodes.length) {
+                        marker.setPosition(result.geocodes[0].location);
+                        map.setCenter(marker.getPosition());
+                        message.innerHTML = ''
+                    } else {
+                        message.innerHTML = '无法获取位置'
+                    }
+                })
+            }
+
+        });
+        if (type == 1) {
+            $('#z').css('display', 'block');
+        } else {
+            $('#l').css('display', 'block');
+        }
+        $("#dialog").show();
+
+
+    }
+    function checkXY(x) {
+
+        if (x == 1) {
+            $('#zc').val($('#input1').val());
+            $('#positionx').val($('#lngX').val());
+            $('#positiony').val($('#latY').val());
+            $("#fullbg,#dialog").hide();
+            $('#z').css('display', 'none');
+        } else {
+            $('#ld').val($('#input1').val());
+            $('#positionx1').val($('#lngX').val());
+            $('#positiony1').val($('#latY').val());
+            $("#fullbg,#dialog").hide();
+            $('#l').css('display', 'none');
+        }
+
+    }
+</script>

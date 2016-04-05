@@ -95,7 +95,7 @@
             // Fix feedback icons in input-group
             if ($parent.find('.input-group').length !== 0) {
                 $icon.addClass('fv-bootstrap-icon-input-group')
-                    .insertAfter($parent.find('.input-group').eq(0));
+                     .insertAfter($parent.find('.input-group').eq(0));
             }
         },
 
@@ -265,8 +265,8 @@
                 }, options), 'bv');
 
                 $this.addClass('fv-form-bootstrap')
-                    .data('formValidation', data)
-                    .data('bootstrapValidator', data);
+                     .data('formValidation', data)
+                     .data('bootstrapValidator', data);
             }
 
             // Allow to call plugin method
@@ -278,4 +278,3 @@
 
     $.fn.bootstrapValidator.Constructor = FormValidation.Framework.Bootstrap;
 }(jQuery));
-
