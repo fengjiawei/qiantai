@@ -122,7 +122,6 @@
         'click .push': function (e, value, row, index) {
             var id = row.goodsId;
             sessionStorage.setItem('goodsId', id);
-//            window.location.replace("{:U('modal')}?goodsId=" + id)
             $.get('carlist.html', function (data) {
                 $('#goodChildView').html(data);
             })

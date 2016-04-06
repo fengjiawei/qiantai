@@ -1,187 +1,4 @@
-
-    <style>
-        table {
-            padding: 0;
-            text-align: center;
-            font-size: 12px;
-        }
-
-        table th {
-            text-align: center;
-        }
-
-        table {
-            text-align: center;
-        }
-
-        .form-group label {
-            width: 50px;
-        }
-
-    </style>
-    <script>
-        function push(id) {
-            var goodsId = sessionStorage.getItem('id');
-            var targetId = id;
-            $.post("pushGoods.php", {goodsId: goodsId, targetId: targetId}, function (data) {
-                console.log(data)
-                if (data.result == 'success') {
-                    Lobibox.notify('success', {
-                        size: 'mini',
-                        width: 300,
-                        msg: '推送货源成功'
-                    });
-                } else {
-                    Lobibox.notify('error', {
-                        size: 'mini',
-                        width: 300,
-                        msg:data.describe
-                    });
-                }
-            }, 'json')
-        }
-    </script>
-    <script>
-        $('#serch').on('click', function () {
-
-            $('#tablePerson').bootstrapTable('refresh')
-            $('#search').modal('hide');
-            $("input[name='res']").click();
-
-        })
-        function detailFormatter(index, row) {
-            var html = [];
-            ;
-            $.each(row, function (key, value) {
-//            if(key=='price'){
-//                var name =  '价格'
-//            }
-                html.push('<p style="text-align: left"><b>' + key + ':</b> ' + value + '</p>');
-            });
-            return html.join('');
-        }
-        window.operateEvents1 = {
-            'click .push': function (e, value, row, index) {
-//            alert(row.carId)
-                push(row.memberIdc)
-            }
-        };
-        window.operateEvents2 = {
-            'click .push': function (e, value, row, index) {
-//            alert(row.orderId)
-                push(row.id)
-            }
-        };
-        $('#tableCompany').bootstrapTable({
-            url: 'lookCompany.php',
-            height: 700,
-            sidePagination: 'server',
-            pagination: true,
-            pageSize: 10,
-//        pageList: [5,10, 15, 20, 25],
-//        search: true,
-            showColumns: true,
-            showRefresh: true,
-            clickToSelect: true,
-            singleSelect: true,
-            queryParams: queryParams,//参数
-//        onClickRow: function (row) {
-////          console.log(row)
-//            track(row.posY,row.posX)
-//        },
-            columns: [{
-                field: 'name',
-                title: '承运企业',
-//            visible: false
-            }, {
-                field: 'phone',
-                title: '企业电话',
-//            visible: false
-            }, {
-//                field: '',
-                title: '操作',
-                formatter: function (value, row, index) {
-                    return '<a class="push" href="javascript:void(0)">推送货源</a>'
-
-                },
-                events: operateEvents2
-            }]
-        });
-
-        $('#tablePerson').bootstrapTable({
-            url: 'lookcar.php',
-            height: 700,
-            sidePagination: 'server',
-            pagination: true,
-            pageSize: 10,
-//        pageList: [5,10, 15, 20, 25],
-//        search: true,
-            showColumns: true,
-            showRefresh: true,
-            clickToSelect: true,
-            singleSelect: true,
-            queryParams: queryParams,//参数
-            columns: [
-                {
-                    field: 'name',
-                    title: '姓名',
-//            visible: false
-                }, {
-                    field: 'phone',
-                    title: '电话',
-//            visible: false
-                }, {
-                    field: 'license',
-                    title: '车牌',
-//            visible: false
-                }, {
-                    field: 'carType',
-                    title: '车型',
-//            visible: false
-                }, {
-                    field: 'carLen',
-                    title: '车长',
-//            visible: false
-                }, {
-                    field: 'carLoad',
-                    title: '载重',
-//            visible: false
-                }, {
-                    field: '',
-                    title: '当前位置',
-//            visible: false
-                }, {
-                    field: '',
-                    title: '常跑城市',
-//            visible: false
-                }, {
-//                field: '',
-                    title: '操作',
-                    formatter: function (value, row, index) {
-                        return '<a class="push" href="javascript:void(0)">推送货源</a>'
-
-                    },
-                    events: operateEvents1
-                }]
-        });
-
-
-        function queryParams(params) {
-            params.startStation = $('#from_city').val();
-            params.endStation = $('#to_city').val();
-            params.carType = $('#carType').val();
-            params.carLen = $('#carLen').val();
-            params.carLoad = $('#carLoad').val();
-            return params
-        }
-    </script>
-    <script>
-        $("#mytab a").click(function (e) {
-            e.preventDefault();
-            $(this).tab("show");
-        })
-    </script>
-
+<!--订车-车辆列表-->
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
@@ -338,4 +155,157 @@
         </div>
     </div>
 </div>
-</div>
+<script>
+    $(document).ready(function(){
+        $('#serch').on('click', function () {
+
+            $('#tablePerson').bootstrapTable('refresh');
+            $('#search').modal('hide');
+            $("input[name='res']").click();
+
+        });
+        $("#mytab a").click(function (e) {
+            e.preventDefault();
+            $(this).tab("show");
+        })
+    });
+    function push(id) {
+        var goodsId = sessionStorage.getItem('goodsId');
+        alert(goodsId);
+        var targetId = id;
+        $.post("pushGoods.php", {goodsId: goodsId, targetId: targetId,session:sessionStorage.getItem('session')}, function (data) {
+            console.log(data);
+            if (data.result == 'success') {
+                Messenger().post('推送货源成功')
+            } else {
+                 Messenger().post({
+                     message:data.describe,
+                     type:'error'
+                 })
+            }
+        }, 'json')
+    }
+
+    function detailFormatter(index, row) {
+        var html = [];
+        $.each(row, function (key, value) {
+//            if(key=='price'){
+//                var name =  '价格'
+//            }
+            html.push('<p style="text-align: left"><b>' + key + ':</b> ' + value + '</p>');
+        });
+        return html.join('');
+    }
+    //个人车主推送
+    window.operateEvents1 = {
+        'click .push': function (e, value, row, index) {
+//            alert(row.carId)
+            push(row.memberIdc)
+        }
+    };
+    //企业车主推送
+    window.operateEvents2 = {
+        'click .push': function (e, value, row, index) {
+            push(row.id)
+        }
+    };
+    $('#tableCompany').bootstrapTable({
+        url: 'lookCompany.php',
+        height: 700,
+        sidePagination: 'server',
+        pagination: true,
+        pageSize: 10,
+//        pageList: [5,10, 15, 20, 25],
+//        search: true,
+        showColumns: true,
+        showRefresh: true,
+        clickToSelect: true,
+        singleSelect: true,
+        queryParams: queryParams,//参数
+        columns: [{
+            field: 'name',
+            title: '承运企业',
+//            visible: false
+        }, {
+            field: 'phone',
+            title: '企业电话',
+//            visible: false
+        }, {
+//                field: '',
+            title: '操作',
+            formatter: function (value, row, index) {
+                return '<a class="push" href="javascript:void(0)">推送货源</a>'
+
+            },
+            events: operateEvents2
+        }]
+    });
+
+    $('#tablePerson').bootstrapTable({
+        url: 'lookcar.php',
+        height: 700,
+        sidePagination: 'server',
+        pagination: true,
+        pageSize: 10,
+//        pageList: [5,10, 15, 20, 25],
+//        search: true,
+        showColumns: true,
+        showRefresh: true,
+        clickToSelect: true,
+        singleSelect: true,
+        queryParams: queryParams,//参数
+        columns: [
+            {
+                field: 'name',
+                title: '姓名',
+//            visible: false
+            }, {
+                field: 'phone',
+                title: '电话',
+//            visible: false
+            }, {
+                field: 'license',
+                title: '车牌',
+//            visible: false
+            }, {
+                field: 'carType',
+                title: '车型',
+//            visible: false
+            }, {
+                field: 'carLen',
+                title: '车长',
+//            visible: false
+            }, {
+                field: 'carLoad',
+                title: '载重',
+//            visible: false
+            }, {
+                field: '',
+                title: '当前位置',
+//            visible: false
+            }, {
+                field: '',
+                title: '常跑城市',
+//            visible: false
+            }, {
+//                field: '',
+                title: '操作',
+                formatter: function (value, row, index) {
+                    return '<a class="push" href="javascript:void(0)">推送货源</a>'
+
+                },
+                events: operateEvents1
+            }]
+    });
+
+
+    function queryParams(params) {
+        params.startStation = $('#from_city').val();
+        params.endStation = $('#to_city').val();
+        params.carType = $('#carType').val();
+        params.carLen = $('#carLen').val();
+        params.carLoad = $('#carLoad').val();
+        return params
+    }
+
+</script>
