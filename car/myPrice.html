@@ -193,9 +193,10 @@
                 <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="renewPrice()">提 交</button>
                 <script>
                     function renewPrice() {
-                        $.post('{:U("renewPrice")}', {
+                        $.post('renewPrice.php', {
                             orderId: $('#order_id').val(),
-                            price: $('#renewprice').val()
+                            price: $('#renewprice').val(),
+                            session:sessionStorage.session
                         }, function (data) {
                             console.log(data)
                             if (data.result == 'success') {
@@ -272,7 +273,7 @@
                                         <td>{$mcr.type}</td>
                                         <td>{$mcr.load}</td>
                                         <td>{$mcr.len}</td>
-                                        <td><a onclick="order()">选车</a></td>
+                                        <td><a onclick="order(id)">选车</a></td>
                                     </tr>
                                 </volist>
                                 </tbody>
@@ -304,9 +305,10 @@
                     window.operateEvents = {
                         //让社会车辆去运输
                         'click .appointOrder': function (e, value, row, index) {
-                            $.post('{:U("appointOrder")}', {
+                            $.post('appointOrder.php', {
                                 rentalId: row.id,
-                                orderId: $('#orderId').val()
+                                orderId: $('#orderId').val(),
+                                session:sessionStorage.session
                             }, function (data) {
                                 console.log(data)
                                 if (data.result == 'success') {
@@ -329,7 +331,7 @@
                         }
                     }
                     $('#tableSocial').bootstrapTable({
-                        url: '{:U("rentalList")}',
+                        url: 'rentalList.php',
                         height: 300,
                         sidePagination: 'server',
                         pagination: true,

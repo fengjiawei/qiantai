@@ -6,3 +6,4 @@
  * Time: 9:03
  * describe:查看报价
  */
+$this->display();

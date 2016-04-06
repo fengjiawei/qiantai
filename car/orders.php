@@ -7,5 +7,6 @@
  * describe:接单
  */
 require_once "function.php";
+//echo  json_encode($_POST);
 $result = http_post_json(U."unite/selectCar.json", json_encode($_POST));
 echo $result;
