@@ -236,10 +236,6 @@
                     },
                     function (data) {
                         if (data.result == 'success') {
-//                            Lobibox.notify('success', {
-//                                size: 'mini',
-//                                width: 300,
-//                                msg: '通知司机，请尽快提货'
                             $('#chooseCar').modal('hide');
                             $('#table').bootstrapTable('refresh')
                             Messenger().post('通知司机，请尽快提货');
@@ -507,42 +503,5 @@
 
         }]
     });
-    function order(id) {
-        $.post(
-                "orders.php",
-                {
-                    orderId: $('#orderId').val(),
-                    carId: id,
-                    session:sessionStorage.session
-                },
-                function (data) {
-                    if (data.result == 'success') {
-                        Lobibox.notify('success', {
-                            size: 'mini',
-                            width: 300,
-                            msg: '通知司机，请尽快提货'
-                        });
-                        $('#chooseCar').modal('hide');
-                        $('#table').bootstrapTable('refresh')
-                    } else if (data.result === 'error') {
-                        Lobibox.notify('warning', {
-                            size: 'mini',
-                            width: 300,
-                            msg: data.describe
-                        });
-                        $('#table').bootstrapTable('refresh')
-                    } else {
-                        Lobibox.notify('error', {
-                            size: 'mini',
-                            width: 300,
-                            msg: '操作失败'
-                        });
-                        $('#table').bootstrapTable('refresh')
-                    }
-
-                },
-                'json'
-        )
-    }
 </script>
 
