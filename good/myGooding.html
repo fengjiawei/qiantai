@@ -353,34 +353,16 @@
                                                 },
                                                 function (data) {
                                                     if (data.result == 'success') {
-
-//                                                    alert('录入成功')
-                                                        Lobibox.notify('success', {
-                                                            size: 'mini',
-                                                            width: 300,
-                                                            msg: '录入成功，等待车主确认'
-                                                        });
+                                                        Messenger().post('录入成功，等待车主确认');
                                                         $('#extraInfo').modal('hide');
-//                                                    window.location.replace("{:U('myGooding')}")
                                                         $('#table').bootstrapTable('refresh')
-
                                                     } else if (data.result == 'error') {
-                                                        Lobibox.notify('warning', {
-                                                            size: 'mini',
-                                                            width: 300,
-                                                            msg: data.describe
-                                                        });
+                                                        Messenger().post('非操作阶段');
                                                         $('#extraInfo').modal('hide');
-//                                                    window.location.replace("{:U('myGooding')}")
                                                         $('#table').bootstrapTable('refresh')
                                                     } else {
-                                                        Lobibox.notify('error', {
-                                                            size: 'mini',
-                                                            width: 300,
-                                                            msg: '操作失败'
-                                                        });
+                                                        Messenger().post('操作失败');
                                                         $('#extraInfo').modal('hide');
-//                                                    window.location.replace("{:U('myGooding')}")
                                                         $('#table').bootstrapTable('refresh')
                                                     }
                                                 },
