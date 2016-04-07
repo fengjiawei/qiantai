@@ -655,10 +655,16 @@
                             Messenger().post('发货成功');
                             $('#table').bootstrapTable('refresh')
                         } else if (data.result == 'error') {
-                            Messenger().post('非操作阶段');
+                            Messenger().post({
+                                message: data.describe ,
+                                type: 'error'
+                            })
                             $('#table').bootstrapTable('refresh')
                         } else {
-                            Messenger().post('发货失败');
+                            Messenger().post({
+                                message: data,
+                                type: 'error'
+                            })
                             $('#table').bootstrapTable('refresh')
                         }
 
@@ -677,10 +683,16 @@
                             Messenger().post('货物已送达');
                             $('#table').bootstrapTable('refresh')
                         } else if (data.result == 'error') {
-                            Messenger().post('非操作阶段');
+                            Messenger().post({
+                                message: data.describe ,
+                                type: 'error'
+                            })
                             $('#table').bootstrapTable('refresh')
                         } else {
-                            Messenger().post('操作失败，请联系客服');
+                            Messenger().post({
+                                message: data,
+                                type: 'error'
+                            })
                             $('#table').bootstrapTable('refresh')
                         }
                     },
@@ -699,10 +711,16 @@
                             Messenger().post('货物已签收');
                             $('#table').bootstrapTable('refresh')
                         } else if (data.result == 'error') {
-                            Messenger().post('非操作阶段');
+                            Messenger().post({
+                                message: data.describe ,
+                                type: 'error'
+                            })
                             $('#table').bootstrapTable('refresh')
                         } else {
-                            Messenger().post('操作失败，请联系客服');
+                            Messenger().post({
+                                message: data,
+                                type: 'error'
+                            })
                             $('#table').bootstrapTable('refresh')
                         }
                     },

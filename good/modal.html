@@ -54,11 +54,16 @@
                             Messenger().post('已让车主重新报价');
                             $('#goodChildView').load("myGood.html");
                         } else if (data.result == 'error') {
-                            Messenger().post('回绝报价失败,非操作阶段');
+                            Messenger().post({
+                                message: data.describe ,
+                                type: 'error'
+                            })
                             $('#table').bootstrapTable('refresh')
                         } else {
-                            Messenger().post('操作失败！请联系客服');
-                            $('#table').bootstrapTable('refresh')
+                            Messenger().post({
+                                message: data,
+                                type: 'error'
+                            })
                         }
                     },
                     'json'

@@ -242,10 +242,16 @@
                             $('#goodChildView').load("myPrice.html");
                             }
                         else if (data.result === 'error') {
-                            Messenger().post('车辆状态不可报价!');
+                            Messenger().post({
+                                message: data.describe ,
+                                type: 'error'
+                            })
                             $('#table').bootstrapTable('refresh')
                         } else {
-                            Messenger().post('操作失败!');
+                            Messenger().post({
+                                message: data,
+                                type: 'error'
+                            })
                             $('#table').bootstrapTable('refresh')
                         }
 

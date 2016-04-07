@@ -8,5 +8,5 @@
  */
 require_once "function.php";
 returnJson(U."unite/rejectPrice.json",$_POST);
-echo json_encode($_POST);
+//echo json_encode($_POST);
 

@@ -174,10 +174,16 @@
                             Messenger().post('确认费用成功，等待发货');
                             $('#table').bootstrapTable('refresh')
                         } else if (data.result == 'error') {
-                            Messenger().post('非操作阶段');
+                            Messenger().post({
+                                message: data.describe ,
+                                type: 'error'
+                            })
                             $('#table').bootstrapTable('refresh')
                         } else {
-                            Messenger().post('操作失败，请联系客服');
+                            Messenger().post({
+                                message: data,
+                                type: 'error'
+                            })
                         }
                     },
                     'json'
@@ -196,10 +202,16 @@
                             Messenger().post('确认杂费成功，等待签收');
                             $('#table').bootstrapTable('refresh')
                         } else if (data.result == 'error') {
-                            Messenger().post('非操作阶段');
+                            Messenger().post({
+                                message: data.describe ,
+                                type: 'error'
+                            })
                             $('#table').bootstrapTable('refresh')
                         } else {
-                            Messenger().post('操作失败，请联系客服');
+                            Messenger().post({
+                                message: data,
+                                type: 'error'
+                            })
                         }
                     },
                     'json'
