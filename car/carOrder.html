@@ -171,25 +171,13 @@
                     function (data) {
                         console.log(data)
                         if (data.result == 'success') {
-                            Lobibox.notify('success', {
-                                size: 'mini',
-                                width: 300,
-                                msg: '确认费用成功，等待发货'
-                            });
+                            Messenger().post('确认费用成功，等待发货');
                             $('#table').bootstrapTable('refresh')
                         } else if (data.result == 'error') {
-                            Lobibox.notify('warning', {
-                                size: 'mini',
-                                width: 300,
-                                msg: data.describe
-                            });
+                            Messenger().post('非操作阶段');
                             $('#table').bootstrapTable('refresh')
                         } else {
-                            Lobibox.notify('error', {
-                                size: 'mini',
-                                width: 300,
-                                msg: '操作失败，请联系客服'
-                            });
+                            Messenger().post('操作失败，请联系客服');
                         }
                     },
                     'json'
@@ -205,25 +193,13 @@
                     function (data) {
                         console.log(data)
                         if (data.result == 'success') {
-                            Lobibox.notify('success', {
-                                size: 'mini',
-                                width: 300,
-                                msg: '确认杂费成功，等待签收'
-                            });
+                            Messenger().post('确认杂费成功，等待签收');
                             $('#table').bootstrapTable('refresh')
                         } else if (data.result == 'error') {
-                            Lobibox.notify('error', {
-                                size: 'mini',
-                                width: 300,
-                                msg: data.describe
-                            });
+                            Messenger().post('非操作阶段');
                             $('#table').bootstrapTable('refresh')
                         } else {
-                            Lobibox.notify('error', {
-                                size: 'mini',
-                                width: 300,
-                                msg: '操作失败，请联系客服'
-                            });
+                            Messenger().post('操作失败，请联系客服');
                         }
                     },
                     'json'
