@@ -240,24 +240,16 @@
 //                                size: 'mini',
 //                                width: 300,
 //                                msg: '通知司机，请尽快提货'
-                            $('#owncartable').modal('hide');
-                            $('#owncartable').bootstrapTable('refresh')
+                            $('#chooseCar').modal('hide');
+                            $('#table').bootstrapTable('refresh')
                             Messenger().post('通知司机，请尽快提货');
                             $('#goodChildView').load("myPrice.html");
                             }
                         else if (data.result === 'error') {
-                            Lobibox.notify('warning', {
-                                size: 'mini',
-                                width: 300,
-                                msg: data.describe
-                            });
+                            Messenger().post('车辆状态不可报价!');
                             $('#table').bootstrapTable('refresh')
                         } else {
-                            Lobibox.notify('error', {
-                                size: 'mini',
-                                width: 300,
-                                msg: '操作失败'
-                            });
+                            Messenger().post('操作失败!');
                             $('#table').bootstrapTable('refresh')
                         }
 

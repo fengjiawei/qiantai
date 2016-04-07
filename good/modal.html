@@ -33,7 +33,7 @@
                             Messenger().post('委托车主承运成功');
                             $('#goodChildView').load("myGood.html");
                         } else if (data.result == 'error') {
-                            Messenger().post('委托车主承运成功,请勿继续委托');
+                            Messenger().post('委托车主承运失败,非操作阶段');
                             $('#table').bootstrapTable('refresh')
                         } else {
                             Messenger().post('委托失败');
@@ -53,9 +53,8 @@
                         if (data.result == 'success') {
                             Messenger().post('已让车主重新报价');
                             $('#goodChildView').load("myGood.html");
-//                        $('#table').bootstrapTable('refresh')
                         } else if (data.result == 'error') {
-                            Messenger().post('已让车主重新报价，请勿继续点击');
+                            Messenger().post('回绝报价失败,非操作阶段');
                             $('#table').bootstrapTable('refresh')
                         } else {
                             Messenger().post('操作失败！请联系客服');
