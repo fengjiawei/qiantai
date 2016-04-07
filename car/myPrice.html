@@ -18,35 +18,7 @@
 
             </div>
             <div class="modal-footer">
-
                 <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="renewPrice()">提 交</button>
-                <script>
-                    function renewPrice() {
-                        $.post('renewPrice.php', {
-                            orderId: $('#order_id').val(),
-                            price: $('#renewprice').val(),
-                            session:sessionStorage.session
-                        }, function (data) {
-                            console.log(data)
-                            if (data.result == 'success') {
-                                Lobibox.notify('success', {
-                                    size: 'mini',
-                                    width: 300,
-                                    msg: '重新报价成功！'
-                                });
-                                $('#table').bootstrapTable('refresh')
-
-                            } else {
-                                Lobibox.notify('error', {
-                                    size: 'mini',
-                                    width: 300,
-                                    msg: data.describe
-                                });
-                                $('#table').bootstrapTable('refresh')
-                            }
-                        }, 'json')
-                    }
-                </script>
             </div>
         </div>
     </div>
@@ -99,6 +71,7 @@
         </div>
     </div>
 </div>
+
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
@@ -169,18 +142,39 @@
         $("#mytab a").click(function (e) {
             e.preventDefault();
             $(this).tab("show");
-        })
+        });
         showLocation();
         showLocation1();
         $('#serch').on('click', function () {
             $('#table').bootstrapTable('refresh')
-        })
+        });
 
         $('#reset').on('click', function () {
             $("input[name='res']").click();
             $('#table').bootstrapTable('refresh')
         })
-    })
+    });
+    //重新报价
+    function renewPrice() {
+        $.post('renewPrice.php', {
+            orderId: $('#order_id').val(),
+            price: $('#renewprice').val(),
+            session:sessionStorage.getItem('session')
+        }, function (data) {
+            console.log(data);
+            if (data.result == 'success') {
+                Messenger().post('重新报价成功');
+                $('#table').bootstrapTable('refresh')
+
+            } else {
+                Messenger().post({
+                    message:data.describe,
+                    type:'error'
+                });
+                $('#table').bootstrapTable('refresh')
+            }
+        }, 'json')
+    }
 
     //格式化详细内容
     function detailFormatter(index, row) {
@@ -211,9 +205,9 @@
                 orderId: $('#orderId').val(),
                 session:sessionStorage.session
             }, function (data) {
-                console.log(data)
+                console.log(data);
                 if (data.result == 'success') {
-                    $('#tableSocial').bootstrapTable('refresh')
+                    $('#tableSocial').bootstrapTable('refresh');
                     Lobibox.notify('success', {
                         size: 'mini',
                         width: 300,
@@ -247,7 +241,7 @@
                                 width: 300,
                                 msg: '通知司机，请尽快提货'
                             });
-                            $('#chooseCar').modal('hide')
+                            $('#chooseCar').modal('hide');
                             $('#table').bootstrapTable('refresh')
                         } else if (data.result === 'error') {
                             Lobibox.notify('warning', {
@@ -269,7 +263,7 @@
                     'json'
             )
         }
-    }
+    };
 
     $('#table').bootstrapTable({
         url: 'price.php',
@@ -374,7 +368,7 @@
                     orderId: id,reply:no,session:sessionStorage.session
                 },
                 function (data) {
-                    console.log(data)
+                    console.log(data);
                     if (data.result == 'success') {
                         Lobibox.notify('success', {
                             size: 'mini',
@@ -534,7 +528,7 @@
                             width: 300,
                             msg: '通知司机，请尽快提货'
                         });
-                        $('#chooseCar').modal('hide')
+                        $('#chooseCar').modal('hide');
                         $('#table').bootstrapTable('refresh')
                     } else if (data.result === 'error') {
                         Lobibox.notify('warning', {
