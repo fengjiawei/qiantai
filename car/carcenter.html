@@ -225,13 +225,13 @@
         }
 
         //查询
-        $('#goodlist').on('click', function () {
-            $('#table').bootstrapTable('refresh')
+        $('#serch').on('click', function () {
+            $('#goodlist').bootstrapTable('refresh')
         });
         //重置
-        $('#goodlist').on('click', function () {
+        $('#reset').on('click', function () {
             $("input[name='res']").click();
-            $('#table').bootstrapTable('refresh')
+            $('#goodlist').bootstrapTable('refresh')
         });
 
         $('#from').datetimepicker({
