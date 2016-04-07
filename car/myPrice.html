@@ -236,14 +236,16 @@
                     },
                     function (data) {
                         if (data.result == 'success') {
-                            Lobibox.notify('success', {
-                                size: 'mini',
-                                width: 300,
-                                msg: '通知司机，请尽快提货'
-                            });
-                            $('#chooseCar').modal('hide');
-                            $('#table').bootstrapTable('refresh')
-                        } else if (data.result === 'error') {
+//                            Lobibox.notify('success', {
+//                                size: 'mini',
+//                                width: 300,
+//                                msg: '通知司机，请尽快提货'
+                            $('#owncartable').modal('hide');
+                            $('#owncartable').bootstrapTable('refresh')
+                            Messenger().post('通知司机，请尽快提货');
+                            $('#goodChildView').load("myPrice.html");
+                            }
+                        else if (data.result === 'error') {
                             Lobibox.notify('warning', {
                                 size: 'mini',
                                 width: 300,
