@@ -532,7 +532,12 @@
                     success: function (data) {
                         console.log(data);
                         if (data.result == 'success') {
-                            Messenger().post("上传成功")
+                            Messenger().post("提交审核成功，等待客服人员审核")
+                        }else {
+                             Messenger().post({
+                                 message:data.describe,
+                                 type:'error'
+                             })
                         }
                     }
                 });
