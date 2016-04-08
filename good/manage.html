@@ -126,20 +126,15 @@
                 $('#contract').serialize(),
                 function (data) {
                     if (data.result == 'success') {
-                        Lobibox.notify('success', {
-                            size: 'mini',
-                            width: 300,
-                            msg: '修改成功'
-                        });
-                        $.get("manage.php", function (data) {
+                        Messenger().post('修改成功');
+                        $.get("manage.html", function (data) {
                             $('#carChildView').html(data);
                         });
                     } else {
-                        Lobibox.notify('error', {
-                            size: 'mini',
-                            width: 300,
-                            msg: data.describe
-                        });
+                        Messenger().post({
+                            message: data,
+                            type: 'error'
+                        })
                     }
                 }, 'json'
         )
