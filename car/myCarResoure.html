@@ -210,7 +210,7 @@
             showRefresh: true,
             clickToSelect: true,
             singleSelect: true,
-            //        queryParams: queryParams,//参数
+                    queryParams: queryParams_ohtercar,//参数
             //        onClickRow: function (row) {
             ////          console.log(row)
             //            track(row.posY,row.posX)
@@ -261,6 +261,11 @@
                 events: operateEvents
             }]
         });
+        function queryParams_ohtercar(params){
+            params.session = sessionStorage.getItem("session");
+            params.model="";
+            return params;
+        }
         //表格request
         function queryParams(params) {
             params.indexId = "";
