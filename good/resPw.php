@@ -8,4 +8,3 @@
  */
 require_once "function.php";
 returnJson(U."user/password.json",$_POST);
-echo json_encode($_POST);

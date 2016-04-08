@@ -64,9 +64,7 @@
                             function (data) {
                                 if (data.result == 'success') {
                                     Messenger().post('修改成功');
-                                    $.get("manage.html", function (data) {
-                                        $('#carChildView').html(data);
-                                    });
+                                    $('#carChildView').load("manage.html");
                                 }
                                 else {
                                     Messenger().post({
