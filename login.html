@@ -384,7 +384,7 @@
                     $.post('reg.php', $('#reg-from').serialize(), function (data) {
                         if (data.result == 'success') {
                             $.post(
-                                    'login.html',
+                                    'login.php',
                                     {
                                         type: "account",
                                         account: $('#account_2').val(),

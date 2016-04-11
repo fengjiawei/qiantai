@@ -114,6 +114,9 @@
                     $('#carChildView').html(data);
                 });
                 break;
+            case 'usedCar':
+                $('#carChildView').load("../usedCar.html");
+                break;
         }
 
     }
@@ -188,8 +191,16 @@
                 <li id="authentication" onclick="change(this)"><a href="javascript:void(0);">会员认证</a></li>
                 <li id="safety" onclick="change(this)"><a href="javascript:void(0);">安全设置</a></li>
                 <li id="message" onclick="change(this)"><a href="javascript:void(0);">消息中心</a></li>
-            </ul>
-        </div>
+                </ul>
+                <div class="page-header">
+                    <h4>二手交易</h4>
+                </div>
+                <ul class="nav nav-sidebar">
+                    <li id="usedCar" onclick="change(this)"><a href="javascript:void(0)">二手车发布</a></li>
+                    <!--<li id="authentication" onclick="change(this)"><a href="javascript:void(0)" >会员认证</a></li>-->
+                    <!--<li id="safety" onclick="change(this)"><a href="javascript:void(0)">安全设置</a></li>-->
+                </ul>
+           </div>
         <div class="col-md-10" style="float: right;background-color: #ffffff" id="carChildView">
         </div>
     </div>
