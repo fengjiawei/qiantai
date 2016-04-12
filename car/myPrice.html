@@ -208,18 +208,13 @@
                 console.log(data);
                 if (data.result == 'success') {
                     $('#tableSocial').bootstrapTable('refresh');
-                    Lobibox.notify('success', {
-                        size: 'mini',
-                        width: 300,
-                        msg: '通知司机提货运输！'
-                    });
+                    Messenger().post('通知司机提货运输！');
                     $('#chooseCar').modal('hide');
                 } else {
-                    Lobibox.notify('error', {
-                        size: 'mini',
-                        width: 300,
-                        msg: data.describe
-                    });
+                    Messenger().post({
+                        message: data.describe ,
+                        type: 'error'
+                    })
                     $('#chooseCar').modal('hide');
                 }
             }, 'json')
@@ -366,25 +361,19 @@
                 function (data) {
                     console.log(data);
                     if (data.result == 'success') {
-                        Lobibox.notify('success', {
-                            size: 'mini',
-                            width: 300,
-                            msg: '拒绝承运成功'
-                        });
+                        Messenger().post('拒绝承运成功');
                         $('#table').bootstrapTable('refresh')
                     } else if (data.result == 'error') {
-                        Lobibox.notify('warning', {
-                            size: 'mini',
-                            width: 300,
-                            msg: data.describe
-                        });
+                        Messenger().post({
+                            message: data.describe ,
+                            type: 'error'
+                        })
                         $('#table').bootstrapTable('refresh')
                     } else {
-                        Lobibox.notify('error', {
-                            size: 'mini',
-                            width: 300,
-                            msg: '操作失败'
-                        });
+                        Messenger().post({
+                            message: data,
+                            type: 'error'
+                        })
                         $('#table').bootstrapTable('refresh')
                     }
                 },
@@ -450,7 +439,7 @@
     $('#tableSocial').bootstrapTable({
         url: 'rentalList.php',
         height: 300,
-        sidePagination: 'server',
+        sidePagination:'server',
         pagination: true,
         pageSize: 10,
         search: true,
@@ -458,6 +447,7 @@
         showRefresh: true,
         clickToSelect: true,
         singleSelect: true,
+        queryParams: queryParams_owncar,
         columns: [{
             field: 'state',
             title: '状态',
