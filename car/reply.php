@@ -7,5 +7,5 @@
  * describe:拒绝承运
  */
 require_once "function.php";
-$result = http_post_json(U."unite/replyOrder.json", json_encode($_POST));
-echo $result;
+$_POST['reply'] = 'no';
+returnJson(U."unite/replyOrder.json",$_POST);
