@@ -37,21 +37,16 @@
         window.operateEvents = {
             //取消订车
             'click .cancelCar': function (e, value, row, index) {
-                $.post('cancelCar.php', {rentalId: row.id}, function (data) {
+                $.post('cancelCar.php', {rentalId: row.id,session:sessionStorage.session}, function (data) {
                     console.log(data);
                     if (data.result == 'success') {
                         $('#tableSocial').bootstrapTable('refresh');
-                        Lobibox.notify('success', {
-                            size: 'mini',
-                            width: 300,
-                            msg: '取消成功，可以查看其他车源'
-                        });
+                        Messenger().post("取消成功，可以查看其他车源");
                     } else {
-                        Lobibox.notify('error', {
-                            size: 'mini',
-                            width: 300,
-                            msg: data.describe
-                        });
+                        Messenger().post({
+                            message: data,
+                            type: 'error'
+                        })
                     }
                 }, 'json')
             },

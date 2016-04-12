@@ -203,7 +203,7 @@
             $.post('appointOrder.php', {
                 rentalId: row.id,
                 orderId: $('#orderId').val(),
-                session:sessionStorage.session
+                session:sessionStorage.getItem('session')
             }, function (data) {
                 console.log(data);
                 if (data.result == 'success') {
