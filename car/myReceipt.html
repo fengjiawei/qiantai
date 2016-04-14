@@ -17,11 +17,12 @@
         }
         window.operateEvents = {
             'click .picture': function (e, value, row, index) {
-                Lobibox.notify('warning', {
-//                size: 'mini',
-                    width: 300,
-                    msg: '此功能暂未开放，敬请期待！'
-                });
+                $.post('lookImage.php', {goodsId: row.goodsId, session: sessionStorage.session}, function (data) {
+                    if (data.result == 'success') {
+                        $('#img').attr('src', 'data:image/png;base64,' + data.image);
+                        $('#myModal').modal('show')
+                    }
+                }, 'json')
             }
         };
         $('#table').bootstrapTable({
@@ -139,7 +140,20 @@
             </div>
 
             <!--信息列表-->
-
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                            <img id="img" src="" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="panel panel-default">
                 <div class="panel-heading">回单列表</div>
                 <div class="panel-body">
